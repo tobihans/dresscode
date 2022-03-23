@@ -1,0 +1,20 @@
+image:
+  file: .gitpod.dockerfile
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: false
+    pullRequestsFromForks: false
+    addComment: false
+    addBadge: false
+    addLabel: false
+tasks:
+  - command: |
+      mkdir -p /home/gitpod/.android
+      touch /home/gitpod/.android/repositories.cfg
+      export PATH="${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/platform-tools-2:${ANDROID_HOME}/tools:$PATH"
+      yes | sdkmanager "platform-tools" "platforms;android-29" "build-tools;29.0.3"
+vscode:
+  extensions:
+    - Dart-Code.flutter
