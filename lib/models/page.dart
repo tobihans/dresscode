@@ -19,7 +19,10 @@ class Page<T extends Serializable> extends Serializable {
 
   @override
   Page.fromMap(final Map<String, dynamic> map)
-      : content = map['content'] as List<T>,
+      : content = (map['content'] as List)
+            .map((e) =>
+                SerializableFactory.fromMap<T>(e as Map<String, dynamic>))
+            .toList(growable: false),
         number = map['number'] as int,
         size = map['size'] as int,
         totalElements = map['totalElements'] as int,
@@ -29,7 +32,9 @@ class Page<T extends Serializable> extends Serializable {
   factory Page.fromJson(final String json) {
     final Map<String, dynamic> pageData = jsonDecode(json);
     return Page<T>(
-      content: pageData['content'] as List<T>,
+      content: (pageData['content'] as List)
+          .map((e) => SerializableFactory.fromMap<T>(e as Map<String, dynamic>))
+          .toList(growable: false),
       number: pageData['number'] as int,
       size: pageData['size'] as int,
       totalElements: pageData['totalElements'] as int,

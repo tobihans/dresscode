@@ -1,6 +1,18 @@
+import 'package:dresscode/api/services/product_service.dart';
+import 'package:dresscode/requests/page_request.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 
-void main() {
+Future<void> main() async {
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    print('${record.level.name}: ${record.time}: ${record.message}');
+  });
+  const token =
+      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhQGdtYWlsLmNvbSIsImV4cCI6MTY0ODE1NTQ4OSwiaWF0IjoxNjQ4MTI2Njg5fQ.vI_C6itFiSYfcuJlFrG-2zKdpWWoT3hQpJT1ZEYK2ck';
+  var res = await ProductService(token)
+      .getProducts(PageRequest(pageNumber: 0, pageSize: 10));
+  print(res.toJson());
   runApp(const MyApp());
 }
 

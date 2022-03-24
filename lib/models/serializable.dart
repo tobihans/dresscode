@@ -1,5 +1,10 @@
 import 'dart:convert';
 
+import 'package:dresscode/models/category.dart';
+import 'package:dresscode/models/image.dart';
+import 'package:dresscode/models/product.dart';
+import 'package:dresscode/models/user.dart';
+
 abstract class Serializable {
   Serializable();
   Serializable.fromMap(final Map<String,dynamic> map);
@@ -8,4 +13,17 @@ abstract class Serializable {
   }
   Map<String,dynamic> toMap();
   String toJson() => jsonEncode(toMap());
+}
+
+class SerializableFactory {
+  static final _serializableFactories = <Type,Function> {
+    Category: (final Map<String,dynamic> map) => Category.fromMap(map),
+    Product: (final Map<String,dynamic> map) => Product.fromMap(map),
+    Image: (final Map<String,dynamic> map) => Image.fromMap(map),
+    User: (final Map<String,dynamic> map) => User.fromMap(map),
+  };
+  
+  static T fromMap<T extends Serializable>(final Map<String,dynamic> map) {
+    return _serializableFactories[T]!(map);
+  }
 }
