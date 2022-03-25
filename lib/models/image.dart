@@ -6,7 +6,10 @@ class Image extends Serializable {
   final String? code;
   final String url;
 
-  Image({this.code, required this.url});
+  Image({
+    this.code,
+    required this.url,
+  });
 
   @override
   Image.fromMap(final Map<String, dynamic> map)

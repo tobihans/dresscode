@@ -7,7 +7,11 @@ class Category extends Serializable {
   final String name;
   final String description;
 
-  Category({this.code, required this.name, required this.description});
+  Category({
+    this.code,
+    required this.name,
+    required this.description,
+  });
 
   @override
   Category.fromMap(final Map<String, dynamic> map)
