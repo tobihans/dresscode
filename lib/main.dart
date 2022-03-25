@@ -1,5 +1,6 @@
 import 'package:dresscode/api/services/category_service.dart';
 import 'package:dresscode/requests/page_request.dart';
+import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
@@ -10,9 +11,11 @@ Future<void> main() async {
   });
   const token =
       'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhQGdtYWlsLmNvbSIsImV4cCI6MTY0ODE1NTQ4OSwiaWF0IjoxNjQ4MTI2Njg5fQ.vI_C6itFiSYfcuJlFrG-2zKdpWWoT3hQpJT1ZEYK2ck';
-  var res = await CategoryService(token)
-      .getCategories(PageRequest(pageNumber: 0, pageSize: 10));
-  Logger.root.info(res.toJson());
+  await TokenStorage.saveToken('rrr');
+  Logger.root.info('token: ${await TokenStorage.getToken()}');
+  TokenStorage.hasToken().then((hasToken) {
+    Logger.root.info('has token: $hasToken');
+  });
   runApp(const MyApp());
 }
 
