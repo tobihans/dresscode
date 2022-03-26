@@ -32,6 +32,7 @@ tasks:
 
       mkdir -p /home/gitpod/.android
             touch /home/gitpod/.android/repositories.cfg
+            export PATH="${FLUTTER_HOME}/bin:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/platform-tools-2:${ANDROID_HOME}/tools:$PATH"
             yes | sdkmanager "platform-tools" "platforms;android-29" "build-tools;29.0.3"
             export PATH="${FLUTTER_HOME}/bin:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/platform-tools-2:${ANDROID_HOME}/tools:$PATH"
 vscode:
