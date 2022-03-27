@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import './utils/colors.dart';
-import './screens/home.dart';
-import './screens/shop.dart';
-import './screens/item_details.dart';
+import 'package:dresscode/utils/colors.dart';
+import 'package:dresscode/screens/home.dart';
+import 'package:dresscode/screens/shop.dart';
+import 'package:dresscode/screens/item_details.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
