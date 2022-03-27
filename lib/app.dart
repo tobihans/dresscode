@@ -15,10 +15,19 @@ class App extends StatelessWidget {
       initialRoute: '/',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: primaryColor,
+        primarySwatch: CustomColors.material['primary'],
+        appBarTheme: AppBarTheme(
+            elevation: 0,
+            foregroundColor: CustomColors.material['primaryText'],
+            backgroundColor: Color(CustomColors.raw['primaryBg']!),
+            titleTextStyle:
+                TextStyle(color: Color(CustomColors.raw['primaryText']!))),
+        floatingActionButtonTheme: FloatingActionButtonThemeData(
+            elevation: 0,
+            backgroundColor: CustomColors.material['primary']!.withAlpha(220)),
       ),
-      routes: {
-        '/': (context) => const HomeScreen(title: ''),
+      routes: <String, Widget Function(BuildContext)>{
+        '/': (context) => const HomeScreen(),
         '/shop': (context) => const ShopScreen(),
         'details': (context) => const ItemDetailsScreen(),
       },
