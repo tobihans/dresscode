@@ -53,14 +53,14 @@ class Validator {
     };
   }
 
-  // TODO: Get a better understanding of how this is used
-  // SO that the currying can be well implemented
-  static String? validateSameValue<T>(
-      String name1, String name2, T? value1, T? value2) {
-    if (value1 != value2) {
-      return 'Les champs $name1 et $name2 doivent avoir la même valeur';
-    }
-    return null;
+  static String? Function(T? value) validateSameValue<T>(
+      String name1, String name2, T? value1) {
+    return (T? value2) {
+      if (value1 != value2) {
+        return 'Les champs $name1 et $name2 doivent avoir la même valeur';
+      }
+      return null;
+    };
   }
 
   static ValidatorFunc validatePassword() {
