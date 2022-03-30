@@ -1,3 +1,4 @@
+import 'package:dresscode/components/drawer_unauthenticated.dart';
 import 'package:flutter/material.dart';
 import 'package:dresscode/utils/colors.dart';
 
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: const Icon(Icons.notifications_none_outlined)))
         ],
       ),
+      drawer: const DrawerUnauthenticated(),
       body: const Scaffold(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
