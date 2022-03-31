@@ -9,7 +9,7 @@ class Page<T extends Serializable> extends Serializable {
   final int totalElements;
   final int totalPages;
 
-  Page({
+  const Page({
     required this.content,
     required this.number,
     required this.size,

@@ -13,7 +13,7 @@ class Product extends Serializable {
   final Category? category;
   final List<Image>? images;
 
-  Product({
+  const Product({
     this.code,
     required this.name,
     required this.description,
