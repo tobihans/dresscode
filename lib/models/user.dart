@@ -7,7 +7,11 @@ class User extends Serializable {
   final String email;
   final String phone;
 
-  User({required this.name, required this.email, required this.phone});
+  const User({
+    required this.name,
+    required this.email,
+    required this.phone,
+  });
 
   @override
   User.fromMap(final Map<String, dynamic> map)
