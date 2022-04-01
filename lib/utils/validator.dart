@@ -27,6 +27,15 @@ class Validator {
     };
   }
 
+  static ValidatorFunc validateSpaceInString(String name) {
+    return (String? value) {
+      if (value?.split(' ').isEmpty ?? true) {
+        return 'Le champ $name doit contenir au moins un espace';
+      }
+      return null;
+    };
+  }
+
   static ValidatorFunc validateLength(String name,
       {int min = 0, int max = _maxInt}) {
     return (String? value) {
