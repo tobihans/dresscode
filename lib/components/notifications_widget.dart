@@ -3,8 +3,6 @@ import 'package:dresscode/utils/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:dresscode/models/notification.dart' as notification;
 
-// TODO : fetch real data
-// TODO : show in overlay
 class NotificationsWidget extends StatefulWidget {
   const NotificationsWidget({Key? key}) : super(key: key);
 
@@ -13,18 +11,26 @@ class NotificationsWidget extends StatefulWidget {
 }
 
 class _NotificationsWidgetState extends State<NotificationsWidget> {
-  final Future<List<notification.Notification>> _notificationsFuture =
-      NotificationService.getAllNotifications();
+  late Future<List<notification.Notification>> _notificationsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationsFuture = NotificationService.getAllNotifications();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Center(
-          child: Text(
-            'Notifications',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        Container(
+          child: const Center(
+            child: Text(
+              'Notifications',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
           ),
+          margin: const EdgeInsets.only(top: 10),
         ),
         Container(
           child: const Center(
@@ -40,6 +46,14 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
             builder: (ctx, snapshot) {
               if (snapshot.hasData) {
                 final notifications = snapshot.data!;
+                if (notifications.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      'Aucune notification',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  );
+                }
                 return ListView.separated(
                   itemCount: notifications.length,
                   itemBuilder: (ctx, index) {
@@ -56,7 +70,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                         subtitle: Text(notifications[index].content),
                       ),
                       background: Container(
-                        color: Color(CustomColors.raw['primaryBg']!),
+                        color: Colors.red,
                         child: const Icon(
                           Icons.delete,
                           color: Colors.white,
@@ -73,7 +87,10 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                               content: Text('Notification deleted'),
                             ),
                           );
-                          setState(() {});
+                          setState(() {
+                            _notificationsFuture =
+                                NotificationService.getAllNotifications();
+                          });
                         }
                       },
                     );
@@ -92,7 +109,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
               } else {
                 return Center(
                   child: CircularProgressIndicator(
-                    color: Color(CustomColors.raw['primaryBg']!),
+                    color: Color(CustomColors.raw['primary']!),
                   ),
                 );
               }

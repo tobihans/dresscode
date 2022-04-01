@@ -2,15 +2,15 @@ import 'package:dresscode/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
-/// TODO : Get the real User account data
 /// TODO : connect the actions
 class DrawerUnauthenticated extends StatelessWidget {
-  static final logger = Logger('$DrawerUnauthenticated');
+  static final _logger = Logger('$DrawerUnauthenticated');
 
   const DrawerUnauthenticated({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    _logger.info(CustomColors.raw['primaryBg']);
     final size = MediaQuery.of(context).size;
     return Drawer(
       child: Column(
@@ -26,27 +26,24 @@ class DrawerUnauthenticated extends StatelessWidget {
             children: <Widget>[
               ElevatedButton(
                 onPressed: () {
-                  logger.info('Connexion');
+                  _logger.info('Connexion');
                 },
                 child: const Text('Connexion'),
-                style: ElevatedButton.styleFrom(
-                  primary: Color(CustomColors.raw['primaryBg']!),
-                ),
               ),
               ElevatedButton(
                 onPressed: () {
-                  logger.info('Inscription');
+                  _logger.info('Inscription');
                 },
                 child:  Text(
                   'Inscription',
-                  style: TextStyle(color: Color(CustomColors.raw['primaryBg']!)),
+                  style: TextStyle(color: Color(CustomColors.raw['primary']!)),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.white,
                   side: BorderSide(
                     width: 1.0,
-                    color: Color(CustomColors.raw['primaryBg']!),
+                    color: Color(CustomColors.raw['primary']!),
                   ),
+                  primary: Colors.white,
                 ),
               ),
             ],

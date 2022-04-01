@@ -17,7 +17,7 @@ abstract class ApiBase {
       final request = await httpClient.openUrl(httpMethod.name, uri);
       request.headers.contentType = ContentType.json;
       request.headers.add('Accept', 'application/json');
-      if (token.isNullOrBlank) {
+      if (!token.isNullOrBlank) {
         request.headers.add('Authorization', 'Bearer $token');
       }
       if (!data.isNullOrBlank) {
