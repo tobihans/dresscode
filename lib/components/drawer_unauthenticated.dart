@@ -34,13 +34,13 @@ class DrawerUnauthenticated extends StatelessWidget {
                 onPressed: () {
                   _logger.info('Inscription');
                 },
-                child:  Text(
+                child: Text(
                   'Inscription',
                   style: TextStyle(color: Color(CustomColors.raw['primary']!)),
                 ),
                 style: ElevatedButton.styleFrom(
                   side: BorderSide(
-                    width: 1.0,
+                    width: 1.5,
                     color: Color(CustomColors.raw['primary']!),
                   ),
                   primary: Colors.white,
