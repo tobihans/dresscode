@@ -5,23 +5,20 @@ class HomeHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FractionallySizedBox(
-      heightFactor: 0.25,
-      widthFactor: 1,
+    const url =
+        'https://source.unsplash.com/random/1600x900?mode&clothe&dress&style&beautiful&sig=1';
+    var size = MediaQuery.of(context).size;
+
+    return SizedBox(
+      height: size.height * 0.275,
       child: Container(
-        child: Align(
-          alignment: Alignment.bottomRight,
-          child: TextButton(
-              onPressed: _heroButtonPressed, child: const Text('Voir')),
-        ),
-        decoration: const BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                    'https://source.unsplash.com/random/1600x900?mode&clothe&dress&style&beautiful&sig=1'))),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            image: const DecorationImage(
+                image: NetworkImage(url), fit: BoxFit.cover)),
       ),
     );
   }
 
-  void _heroButtonPressed() {}
+  // void _heroButtonPressed() {}
 }
