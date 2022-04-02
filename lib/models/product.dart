@@ -53,4 +53,13 @@ class Product extends Serializable {
       'images': images?.map((e) => e.toMap()).toList(),
     };
   }
+
+  @override
+  int get hashCode => code.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    return (other is Product && other.runtimeType == runtimeType) &&
+        (other.code != null && code != null && other.code == code);
+  }
 }
