@@ -7,6 +7,7 @@ import 'package:logging/logging.dart';
 import 'package:dresscode/app.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await NotificationService.initDatabase();
   List.generate(10, (index) => index)
       .map(
