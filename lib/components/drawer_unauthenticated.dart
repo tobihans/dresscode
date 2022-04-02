@@ -10,7 +10,6 @@ class DrawerUnauthenticated extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _logger.info(CustomColors.raw['primaryBg']);
     final size = MediaQuery.of(context).size;
     return Drawer(
       child: Column(
