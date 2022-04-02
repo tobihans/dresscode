@@ -6,7 +6,7 @@ class CommentRequest extends BodyRequest {
   final String comment;
   final String productCode;
 
-  CommentRequest({
+  const CommentRequest({
     required this.comment,
     required this.productCode,
   });
