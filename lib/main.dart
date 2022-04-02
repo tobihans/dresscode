@@ -4,6 +4,7 @@ import 'package:logging/logging.dart';
 import 'package:dresscode/app.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
     print('${record.level.name}: ${record.time}: ${record.message}');

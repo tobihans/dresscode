@@ -18,7 +18,7 @@ class HomeHero extends StatelessWidget {
             image: DecorationImage(
                 fit: BoxFit.cover,
                 image: NetworkImage(
-                    'https://source.unsplash.com/random/1600x900?mode&dress&style&beautiful&sig=1'))),
+                    'https://source.unsplash.com/random/1600x900?mode&clothe&dress&style&beautiful&sig=1'))),
       ),
     );
   }
