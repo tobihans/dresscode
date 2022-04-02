@@ -27,7 +27,7 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   Future<User?> _initUserFuture() async {
-    var token = await TokenStorage.getToken();
+    final token = await TokenStorage.getToken();
     if(token.isNullOrBlank) {
       return null;
     }
