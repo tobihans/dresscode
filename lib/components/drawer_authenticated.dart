@@ -1,15 +1,16 @@
 import 'dart:math';
 
+import 'package:dresscode/models/user.dart';
 import 'package:dresscode/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
-/// TODO : Change the colors to match the app colors
-/// TODO : Get the real User account data
 /// TODO : connect the actions
 class DrawerAuthenticated extends StatelessWidget {
-  const DrawerAuthenticated({Key? key}) : super(key: key);
-  static final logger = Logger('$DrawerAuthenticated');
+  const DrawerAuthenticated({Key? key, required this.user}) : super(key: key);
+  final User user;
+
+  static final _logger = Logger('$DrawerAuthenticated');
 
   @override
   Widget build(BuildContext context) {
@@ -19,29 +20,29 @@ class DrawerAuthenticated extends StatelessWidget {
         children: <Widget>[
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(
-              color: Color(CustomColors.raw['primaryBg']!),
+              color: Color(CustomColors.raw['primary']!),
             ),
             currentAccountPicture: CircleAvatar(
               radius: 50.0,
               backgroundColor:
                   Colors.primaries[Random().nextInt(Colors.primaries.length)],
-              child: const Text(
-                'J',
-                style: TextStyle(fontSize: 20),
+              child: Text(
+                user.name.split(' ').map((e) => e[0].toUpperCase()).join(' '),
+                style: const TextStyle(fontSize: 20),
               ),
             ),
-            accountEmail: const Text('jess@coco.om'),
-            accountName: const Text('Jess Coco'),
+            accountEmail: Text(user.email),
+            accountName: Text(user.name),
           ),
           ListTile(
-            textColor: Color(CustomColors.raw['primaryBg']!),
+            textColor: Color(CustomColors.raw['primary']!),
             title: const Text('Editer le profil'),
             trailing: Icon(
               Icons.arrow_forward_ios,
-              color: Color(CustomColors.raw['primaryBg']!),
+              color: Color(CustomColors.raw['primary']!),
             ),
             onTap: () {
-              logger.info('Editer le profil');
+              _logger.info('Editer le profil');
             },
           ),
           Container(
@@ -52,7 +53,7 @@ class DrawerAuthenticated extends StatelessWidget {
                 Icons.list,
               ),
               onTap: () {
-                logger.info('liste de souhaits');
+                _logger.info('liste de souhaits');
               },
               tileColor: const Color(0x22222200),
             ),
@@ -65,7 +66,7 @@ class DrawerAuthenticated extends StatelessWidget {
                 Icons.history,
               ),
               onTap: () {
-                logger.info('Historique');
+                _logger.info('Historique');
               },
               tileColor: const Color(0x22222200),
             ),
@@ -78,7 +79,7 @@ class DrawerAuthenticated extends StatelessWidget {
                 Icons.payment,
               ),
               onTap: () {
-                logger.info('Méthodes de paiement');
+                _logger.info('Méthodes de paiement');
               },
               tileColor: const Color(0x22222200),
             ),
@@ -86,11 +87,11 @@ class DrawerAuthenticated extends StatelessWidget {
           const Spacer(),
           TextButton(
             onPressed: () {
-              logger.info('Déconnexion');
+              _logger.info('Déconnexion');
             },
             child: Text(
               'Déconnexion',
-              style: TextStyle(color: Color(CustomColors.raw['primaryBg']!)),
+              style: TextStyle(color: Color(CustomColors.raw['primary']!)),
             ),
           ),
           Container(

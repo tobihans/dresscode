@@ -8,7 +8,7 @@ class Comment extends Serializable {
   final String comment;
   final User? user;
 
-  Comment({
+  const Comment({
     this.code,
     required this.comment,
     this.user,

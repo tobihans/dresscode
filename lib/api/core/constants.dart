@@ -7,6 +7,7 @@ class Constants {
   static const String commentsUrl = '$apiUrl/comments';
   static const String wishlistUrl = '$apiUrl/wishlist';
   static const String cartUrl = '$apiUrl/cart';
+  static const String currentUserUrl = '$apiUrl/auth/current';
 
   static const httpCodes = {
     200: 'OK',

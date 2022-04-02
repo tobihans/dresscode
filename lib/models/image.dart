@@ -6,7 +6,7 @@ class Image extends Serializable {
   final String? code;
   final String url;
 
-  Image({
+  const Image({
     this.code,
     required this.url,
   });
