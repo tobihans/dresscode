@@ -1,5 +1,5 @@
 class Constants {
-  static const String apiUrl = 'https://bestkauf-back.herokuapp.com';
+  static const String apiUrl = 'https://dresscode-backend.herokuapp.com';
   static const String registerUrl = '$apiUrl/auth/user/register';
   static const String loginUrl = '$apiUrl/auth/login';
   static const String categoriesUrl = '$apiUrl/category';

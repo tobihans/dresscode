@@ -84,6 +84,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                               notifications[index]);
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
+                              duration: Duration(seconds: 3),
                               content: Text('Notification deleted'),
                             ),
                           );

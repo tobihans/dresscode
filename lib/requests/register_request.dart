@@ -8,7 +8,7 @@ class RegisterRequest extends BodyRequest {
   final String phone;
   final String password;
 
-  RegisterRequest({
+  const RegisterRequest({
     required this.email,
     required this.name,
     required this.phone,

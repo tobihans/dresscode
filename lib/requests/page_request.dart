@@ -2,7 +2,7 @@ class PageRequest {
   final int pageNumber;
   final int pageSize;
 
-  PageRequest({
+  const PageRequest({
     required this.pageNumber,
     required this.pageSize,
   });

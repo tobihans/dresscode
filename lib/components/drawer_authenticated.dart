@@ -12,6 +12,18 @@ class DrawerAuthenticated extends StatelessWidget {
 
   static final _logger = Logger('$DrawerAuthenticated');
 
+  String _getUserInitials() {
+    final initialsBuilder = StringBuffer();
+    var isSpace = true;
+    for(final character in user.name.characters) {
+      if(isSpace && character != ' ') {
+        initialsBuilder.write(character);
+      }
+      isSpace = character == ' ';
+    }
+    return initialsBuilder.toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -27,7 +39,7 @@ class DrawerAuthenticated extends StatelessWidget {
               backgroundColor:
                   Colors.primaries[Random().nextInt(Colors.primaries.length)],
               child: Text(
-                user.name.split(' ').map((e) => e[0].toUpperCase()).join(' '),
+                _getUserInitials(),
                 style: const TextStyle(fontSize: 20),
               ),
             ),

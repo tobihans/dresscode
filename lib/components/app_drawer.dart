@@ -27,7 +27,7 @@ class _AppDrawerState extends State<AppDrawer> {
   }
 
   Future<User?> _initUserFuture() async {
-    var token = await TokenStorage.getToken();
+    final token = await TokenStorage.getToken();
     if(token.isNullOrBlank) {
       return null;
     }
@@ -45,16 +45,20 @@ class _AppDrawerState extends State<AppDrawer> {
               ? const DrawerUnauthenticated()
               : DrawerAuthenticated(user: user);
         } else if (snapshot.hasError) {
-          return const Center(
-            child: Text(
-              'Une erreur s\'est produite 🥲',
-              style: TextStyle(fontSize: 18),
+          return const Drawer(
+            child: Center(
+              child: Text(
+                'Une erreur s\'est produite 🥲',
+                style: TextStyle(fontSize: 18),
+              ),
             ),
           );
         } else {
-          return Center(
-            child: CircularProgressIndicator(
-              color: Color(CustomColors.raw['primary']!),
+          return Drawer(
+            child: Center(
+              child: CircularProgressIndicator(
+                color: Color(CustomColors.raw['primary']!),
+              ),
             ),
           );
         }

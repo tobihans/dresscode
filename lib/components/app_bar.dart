@@ -39,7 +39,6 @@ class OwnAppBar extends StatelessWidget implements PreferredSizeWidget {
                   return const SafeArea(
                     child: Material(
                       child: NotificationsWidget(),
-                      elevation: 0.4,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(40),
                         topRight: Radius.circular(40),
