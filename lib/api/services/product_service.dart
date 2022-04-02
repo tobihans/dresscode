@@ -50,7 +50,7 @@ class ProductService extends ApiBase {
   Future<Page<Product>> findProductsByCategory(
       PageRequest pageRequest, Category category) async {
     final apiResponse = await get(
-      Uri.parse('${Constants.productsUrl}/findByCategory/${category.name}'),
+      Uri.parse('${Constants.productsUrl}/category/${category.name}'),
       pageRequest.toMap(),
       '',
       _token,
@@ -61,7 +61,7 @@ class ProductService extends ApiBase {
 
   Future<Product> getProduct(String code) async {
     final apiResponse = await get(
-      Uri.parse('${Constants.productsUrl}/findByCode/$code'),
+      Uri.parse('${Constants.productsUrl}/$code'),
       Constants.emptyMap,
       '',
       _token,

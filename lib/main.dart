@@ -27,6 +27,6 @@ Future<void> main() async {
     }
   });
   await TokenStorage.saveToken(
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFiaWplZEBnbWFpbC5jb20iLCJleHAiOjE2NDg4NDU0NjEsImlhdCI6MTY0ODgxNjY2MX0.NM95i_nqRGPuKkausJNZTfmBTrhM258M51F3eN5x5FM');
+      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFiaWplZEBnbWFpbC5jb20iLCJleHAiOi05MjIzMzcwMzg3OTUyNDY3LCJpYXQiOjE2NDg5MDIzMDd9.8K86bo4kpi6D-j8egopbNjj5Fz7P9iqmqenfWU9zPv4');
   runApp(const App());
 }

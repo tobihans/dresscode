@@ -2,7 +2,6 @@ import 'package:dresscode/models/product.dart';
 import 'package:dresscode/utils/transparent_image.dart';
 import 'package:flutter/material.dart';
 
-// TODO : test this component
 class ProductCartWidget extends StatelessWidget {
   const ProductCartWidget({
     Key? key,
@@ -16,15 +15,19 @@ class ProductCartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: SizedBox.fromSize(
-              size: const Size.fromRadius(40),
-              child: FadeInImage.memoryNetwork(
-                placeholder: transparentImage,
-                image: product.images?.first.url ?? '',
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: SizedBox.fromSize(
+                size: const Size.fromRadius(40),
+                child: FadeInImage.memoryNetwork(
+                  placeholder: transparentImage,
+                  image: product.images?.first.url ?? '',
+                ),
               ),
             ),
           ),
@@ -32,15 +35,22 @@ class ProductCartWidget extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  product.name,
-                  style: const TextStyle(fontSize: 17),
+                Container(
+                  child: Text(
+                    product.name,
+                    style: const TextStyle(
+                      fontSize: 17,
+                    ),
+                  ),
+                  alignment: Alignment.centerLeft,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text('Nbre : $number'),
-                    Text('Sous total : ${number * product.price} XOF')
+                    const Spacer(),
+                    Text('Sous total : ${number * product.price} XOF'),
+                    const Spacer()
                   ],
                 ),
               ],

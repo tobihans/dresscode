@@ -1,14 +1,16 @@
 import 'package:dresscode/api/services/cart_service.dart';
 import 'package:dresscode/components/product_cart_widget.dart';
+import 'package:dresscode/models/image.dart' as Img;
 import 'package:dresscode/models/product.dart';
 import 'package:dresscode/utils/colors.dart';
-import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 
-// TODO : test this component
-// TODO : connect with fab click
 class CartWidget extends StatefulWidget {
-  const CartWidget({Key? key}) : super(key: key);
+  final ScrollController scrollController;
+
+  const CartWidget({Key? key, required this.scrollController})
+      : super(key: key);
 
   @override
   State<CartWidget> createState() => _CartWidgetState();
@@ -25,8 +27,28 @@ class _CartWidgetState extends State<CartWidget> {
   }
 
   Future<List<MapEntry<Product, int>>> _initCartProducts() async {
-    _cartService ??= CartService(await TokenStorage.getToken());
-    final cart = await _cartService!.getCart();
+    // TODO : swap for the real one
+    // _cartService ??= CartService(await TokenStorage.getToken());
+    // final cart = await _cartService!.getCart();
+    final cart = [];
+    for (var i = 0; i < 10; ++i) {
+      cart.add(
+        Product(
+          code: i.toString(),
+          name: 'Product $i',
+          description: 'Ceci est le produit $i',
+          price: i * 1000,
+          images: [
+            Img.Image(
+              code: i.toString(),
+              url:
+                  'https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fencrypted-tbn0.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcSH9n3HloOF80XIFHqOXKlI_71fd313vGyKCRS71wOjT4095Qk6%26s&sp=1648911173T297040ad5602229c6a25ba6fa65928fa81a98643e60ac263cdbed6a0de9af39f',
+            )
+          ],
+        ),
+      );
+    }
+
     final cartProducts = <Product, int>{};
     for (var product in cart) {
       cartProducts[product] = cartProducts[product] ?? 0 + 1;
@@ -57,14 +79,25 @@ class _CartWidgetState extends State<CartWidget> {
           return Column(
             children: [
               Container(
-                child: Center(
-                  child: Text(
-                    'Panier ($cartTotal}) XOF',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Panier',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
+                    Container(
+                      child: Text(
+                        '$cartTotal XOF',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      alignment: Alignment.topRight,
+                    )
+                  ],
                 ),
                 margin: const EdgeInsets.only(top: 10),
               ),
@@ -74,10 +107,17 @@ class _CartWidgetState extends State<CartWidget> {
                     'Glisser vers la gauche pour retirer et vers la droite pour ajouter.',
                   ),
                 ),
-                margin: const EdgeInsets.only(top: 10, bottom: 35),
+                margin: const EdgeInsets.only(
+                  top: 10,
+                  bottom: 35,
+                  left: 10,
+                  right: 10,
+                ),
               ),
               Flexible(
                 child: ListView.separated(
+                  itemCount: cartProductsList.length,
+                  controller: widget.scrollController,
                   itemBuilder: (ctx, index) {
                     return Dismissible(
                       key: UniqueKey(),
@@ -87,15 +127,52 @@ class _CartWidgetState extends State<CartWidget> {
                       ),
                       onDismissed: (direction) async {
                         if (direction == DismissDirection.endToStart) {
-                          _cartService!.removeProductFromCart(
-                            cartProductsList[index].key,
-                          );
+                          try {
+                            _cartService!.removeProductFromCart(
+                              cartProductsList[index].key,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                duration: Duration(seconds: 3),
+                                content: Text(
+                                  'Produit retiré du panier',
+                                ),
+                              ),
+                            );
+                          } catch (_) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                duration: Duration(seconds: 3),
+                                content: Text(
+                                  'Échec du retrait du produit',
+                                ),
+                              ),
+                            );
+                          }
                         } else if (direction == DismissDirection.startToEnd) {
-                          _cartService!.addProductToCart(
-                            cartProductsList[index].key,
-                          );
+                          try {
+                            _cartService!.addProductToCart(
+                              cartProductsList[index].key,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                duration: Duration(seconds: 3),
+                                content: Text(
+                                  'Produit ajouté au panier',
+                                ),
+                              ),
+                            );
+                          } catch (_) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                duration: Duration(seconds: 3),
+                                content: Text(
+                                  'Échec de l\'ajout du produit',
+                                ),
+                              ),
+                            );
+                          }
                         }
-
                         setState(() {
                           _cartProductsFuture = _initCartProducts();
                         });
@@ -106,7 +183,7 @@ class _CartWidgetState extends State<CartWidget> {
                           Icons.add,
                           color: Colors.white,
                         ),
-                        alignment: Alignment.centerRight,
+                        alignment: Alignment.centerLeft,
                         padding: const EdgeInsets.only(left: 15),
                       ),
                       secondaryBackground: Container(
@@ -123,12 +200,12 @@ class _CartWidgetState extends State<CartWidget> {
                   separatorBuilder: (ctx, idx) {
                     return const Divider();
                   },
-                  itemCount: cartProductsList.length,
                 ),
               ),
             ],
           );
         } else if (snapshot.hasError) {
+          Logger.root.severe((snapshot.error as Error).stackTrace);
           return const Center(
             child: Text(
               'Une erreur s\'est produite 🥲',
