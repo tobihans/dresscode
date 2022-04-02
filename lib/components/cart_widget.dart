@@ -1,8 +1,8 @@
 import 'package:dresscode/api/services/cart_service.dart';
 import 'package:dresscode/components/product_cart_widget.dart';
-import 'package:dresscode/models/image.dart' as Img;
 import 'package:dresscode/models/product.dart';
 import 'package:dresscode/utils/colors.dart';
+import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
@@ -27,28 +27,8 @@ class _CartWidgetState extends State<CartWidget> {
   }
 
   Future<List<MapEntry<Product, int>>> _initCartProducts() async {
-    // TODO : swap for the real one
-    // _cartService ??= CartService(await TokenStorage.getToken());
-    // final cart = await _cartService!.getCart();
-    final cart = [];
-    for (var i = 0; i < 10; ++i) {
-      cart.add(
-        Product(
-          code: i.toString(),
-          name: 'Product $i',
-          description: 'Ceci est le produit $i',
-          price: i * 1000,
-          images: [
-            Img.Image(
-              code: i.toString(),
-              url:
-                  'https://www.startpage.com/av/proxy-image?piurl=https%3A%2F%2Fencrypted-tbn0.gstatic.com%2Fimages%3Fq%3Dtbn%3AANd9GcSH9n3HloOF80XIFHqOXKlI_71fd313vGyKCRS71wOjT4095Qk6%26s&sp=1648911173T297040ad5602229c6a25ba6fa65928fa81a98643e60ac263cdbed6a0de9af39f',
-            )
-          ],
-        ),
-      );
-    }
-
+    _cartService ??= CartService(await TokenStorage.getToken());
+    final cart = await _cartService!.getCart();
     final cartProducts = <Product, int>{};
     for (var product in cart) {
       cartProducts[product] = cartProducts[product] ?? 0 + 1;
@@ -66,7 +46,7 @@ class _CartWidgetState extends State<CartWidget> {
           if (cartProductsList.isEmpty) {
             return const Center(
               child: Text(
-                'Aucune notification',
+                'Aucun produit',
                 style: TextStyle(fontSize: 18),
               ),
             );
