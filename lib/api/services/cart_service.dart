@@ -17,8 +17,7 @@ class CartService extends ApiBase {
       '',
       _token,
     );
-    final content =
-        jsonEncode(jsonDecode(apiResponse)['content']) as Map<String, dynamic>;
+    final content = jsonDecode(apiResponse)['content'] as Map<String,dynamic>;
     return (content['products'] as List)
         .map((e) => Product.fromJson(e as String))
         .toList(growable: false);

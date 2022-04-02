@@ -26,7 +26,6 @@ Future<void> main() async {
       print('${record.level.name}: ${record.time}: ${record.message}');
     }
   });
-  await TokenStorage.saveToken(
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFiaWplZEBnbWFpbC5jb20iLCJleHAiOi05MjIzMzcwMzg3OTUyNDY3LCJpYXQiOjE2NDg5MDIzMDd9.8K86bo4kpi6D-j8egopbNjj5Fz7P9iqmqenfWU9zPv4');
+  await TokenStorage.saveToken('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFAZ21haWwuY29tIiwiZXhwIjoxNjUxNTIxOTM3LCJpYXQiOjE2NDg5Mjk5Mzd9.rQsTQh8n_kOuAm3KB3Ox_ZDM9PIS8NCSc-BbiiZay3Q');
   runApp(const App());
 }
