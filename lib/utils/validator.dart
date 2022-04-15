@@ -56,7 +56,7 @@ class Validator {
   static ValidatorFunc validateEmail() {
     return (String? value) {
       if (!RegExp(_emailRegex).hasMatch(value ?? '')) {
-        return '$value n\'est pas une addresse mail valide';
+        return '"$value" n\'est pas une addresse mail valide';
       }
       return null;
     };
@@ -75,7 +75,7 @@ class Validator {
   static ValidatorFunc validatePassword() {
     return (String? value) {
       if (!RegExp(_pwdRegex).hasMatch(value ?? '')) {
-        return 'Le mot de passe doit contenir au moins une lettre minuscule, une lettre majuscule, un chiffre et faire au moins 6 caractères';
+        return '6 caractères dont une minuscule, une majuscule et un chiffre.';
       }
       return null;
     };
