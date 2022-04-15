@@ -27,8 +27,8 @@ abstract class ApiBase {
       final response = await request.close();
       final responseContent = await response.transform(utf8.decoder).join('');
       final code = response.statusCode;
-      logger.info('${httpMethod.name} : [${uri.toString()}]');
-      logger.info('$code  : $responseContent');
+      logger.info(
+          '(${httpMethod.name}) : [${uri.toString()}] => $code  : $responseContent');
       if (code >= 400) {
         final message = jsonDecode(responseContent)['message'];
         logger.severe('$code : $message');
@@ -48,10 +48,8 @@ abstract class ApiBase {
     if (queryParams.isEmpty) {
       return callUrl(uri, HttpMethod.get, data, token);
     } else {
-      final queryString = queryParams
-          .entries
-          .map((e) => '${e.key}=${e.value}')
-          .join('&');
+      final queryString =
+          queryParams.entries.map((e) => '${e.key}=${e.value}').join('&');
       final uriToCall = Uri.parse(uri.toString() + '?$queryString');
       return callUrl(uriToCall, HttpMethod.get, data, token);
     }

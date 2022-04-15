@@ -8,6 +8,8 @@ class Validator {
   static const _emailRegex =
       r"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
   static const _pwdRegex = r"(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^a-zA-Z]).{6,}";
+  static const _phoneRegex = r"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$";
+
 
   static GenericValidatorFunc validateNotNull(String name) {
     return <T>(T? value) {
@@ -56,7 +58,16 @@ class Validator {
   static ValidatorFunc validateEmail() {
     return (String? value) {
       if (!RegExp(_emailRegex).hasMatch(value ?? '')) {
-        return '$value n\'est pas une addresse mail valide';
+        return '"$value" n\'est pas une addresse mail valide';
+      }
+      return null;
+    };
+  }
+
+  static ValidatorFunc validatePhone() {
+    return (String? value) {
+      if (!RegExp(_phoneRegex).hasMatch(value ?? '')) {
+        return '"$value" n\'est pas un numéro valide';
       }
       return null;
     };
@@ -75,7 +86,7 @@ class Validator {
   static ValidatorFunc validatePassword() {
     return (String? value) {
       if (!RegExp(_pwdRegex).hasMatch(value ?? '')) {
-        return 'Le mot de passe doit contenir au moins une lettre minuscule, une lettre majuscule, un chiffre et faire au moins 6 caractères';
+        return '6 caractères dont une minuscule, une majuscule et un chiffre.';
       }
       return null;
     };
