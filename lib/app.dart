@@ -15,7 +15,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DressCode',
-      initialRoute: Routes.register,
+      initialRoute: Routes.login,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: CustomColors.material['primary'],
