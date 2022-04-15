@@ -1,7 +1,10 @@
 import 'dart:math';
 
+import 'package:dresscode/api/services/auth_service.dart';
 import 'package:dresscode/models/user.dart';
 import 'package:dresscode/utils/colors.dart';
+import 'package:dresscode/utils/routes.dart';
+import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
@@ -98,8 +101,11 @@ class DrawerAuthenticated extends StatelessWidget {
           ),
           const Spacer(),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               _logger.info('Déconnexion');
+              await AuthService().logout();
+              await TokenStorage.removeToken();
+              Navigator.pushNamed(context, Routes.login);
             },
             child: Text(
               'Déconnexion',

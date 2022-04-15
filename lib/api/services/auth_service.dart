@@ -15,7 +15,8 @@ class AuthService extends ApiBase {
       Uri.parse(Constants.registerUrl),
       registerRequest.toJson(),
     );
-    return jsonDecode(registerResponse)['message'] == 'User created successfully';
+    return jsonDecode(registerResponse)['message'] ==
+        'User created successfully';
   }
 
   Future<String> login(LoginRequest loginRequest) async {
@@ -27,22 +28,21 @@ class AuthService extends ApiBase {
   }
 
   Future<User?> getCurrentUser(String token) async {
-    if(_currentUser == null) {
+    if (_currentUser == null) {
       try {
         final userData = await get(
-          Uri.parse(Constants.currentUserUrl),
-          Constants.emptyMap,
-          '',
-          token
-        );
+            Uri.parse(Constants.currentUserUrl), Constants.emptyMap, '', token);
         final userJson = jsonEncode(jsonDecode(userData)['content']);
         _currentUser = User.fromJson(userJson);
         return _currentUser;
-      }
-      on ApiHttpException {
+      } on ApiHttpException {
         return null;
       }
     }
     return _currentUser;
+  }
+
+  Future<void> logout() async {
+    _currentUser = null;
   }
 }
