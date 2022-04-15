@@ -1,11 +1,8 @@
 import 'package:dresscode/utils/colors.dart';
+import 'package:dresscode/utils/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
 
-/// TODO : connect the actions
 class DrawerUnauthenticated extends StatelessWidget {
-  static final _logger = Logger('$DrawerUnauthenticated');
-
   const DrawerUnauthenticated({Key? key}) : super(key: key);
 
   @override
@@ -25,15 +22,15 @@ class DrawerUnauthenticated extends StatelessWidget {
             children: <Widget>[
               ElevatedButton(
                 onPressed: () {
-                  _logger.info('Connexion');
+                  Navigator.pushNamed(context, Routes.login);
                 },
                 child: const Text('Connexion'),
               ),
               ElevatedButton(
                 onPressed: () {
-                  _logger.info('Inscription');
+                  Navigator.pushNamed(context, Routes.register);
                 },
-                child:  Text(
+                child: Text(
                   'Inscription',
                   style: TextStyle(color: Color(CustomColors.raw['primary']!)),
                 ),

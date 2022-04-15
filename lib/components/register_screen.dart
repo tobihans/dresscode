@@ -1,27 +1,42 @@
 import 'package:dresscode/api/services/auth_service.dart';
 import 'package:dresscode/requests/login_request.dart';
+import 'package:dresscode/requests/register_request.dart';
 import 'package:dresscode/utils/colors.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:dresscode/utils/validator.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _authService = AuthService();
   bool _isObscure = true;
   bool _isLoading = false;
 
-  Future<void> login() async {
+  Future<void> register() async {
+    final registerRequest = RegisterRequest(
+      email: _emailController.text,
+      firstName: _firstNameController.text,
+      lastName: _lastNameController.text,
+      phone: _phoneController.text,
+      password: _passwordController.text,
+    );
+    final loginSuccessful = await _authService.register(registerRequest);
+    if(!loginSuccessful) {
+      throw Exception();
+    }
     final loginRequest = LoginRequest(
       email: _emailController.text,
       password: _passwordController.text,
@@ -34,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final topMargin = MediaQuery.of(context).size.height / 5;
+    final topMargin = MediaQuery.of(context).size.height / 7;
     const allProperties = MaterialStateProperty.all;
 
     return Scaffold(
@@ -42,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
         key: _formKey,
         child: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.only(left: 15, right: 15,top: topMargin),
+            margin: EdgeInsets.only(left: 15, right: 15, top: topMargin),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -51,12 +66,165 @@ class _LoginScreenState extends State<LoginScreen> {
                   margin: const EdgeInsets.only(bottom: 50),
                   child: const Center(
                     child: Text(
-                      'Connexion',
+                      'Inscription',
                       style: TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 15, bottom: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        child: const Text(
+                          'Nom',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        margin: const EdgeInsets.only(left: 5, bottom: 5),
+                      ),
+                      TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: _firstNameController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 3,
+                              color: Colors.black,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Color(CustomColors.raw['primary']!),
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 3,
+                              color: Colors.red,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 3,
+                              color: Colors.red,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusColor: Colors.black,
+                        ),
+                        validator: Validator.validateNotEmpty('Nom'),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 15, bottom: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        child: const Text(
+                          'Prénom(s)',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        margin: const EdgeInsets.only(left: 5, bottom: 5),
+                      ),
+                      TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: _lastNameController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 3,
+                              color: Colors.black,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Color(CustomColors.raw['primary']!),
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 3,
+                              color: Colors.red,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 3,
+                              color: Colors.red,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusColor: Colors.black,
+                        ),
+                        validator: Validator.validateNotEmpty('Prénoms'),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 15, bottom: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        child: const Text(
+                          'Téléphone',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        margin: const EdgeInsets.only(left: 5, bottom: 5),
+                      ),
+                      TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: _phoneController,
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 3,
+                              color: Colors.black,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 3,
+                              color: Color(CustomColors.raw['primary']!),
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 3,
+                              color: Colors.red,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              width: 3,
+                              color: Colors.red,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          focusColor: Colors.black,
+                        ),
+                        validator: Validator.validatePhone(),
+                      )
+                    ],
                   ),
                 ),
                 Container(
@@ -198,12 +366,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 _isLoading = true;
                               });
                               try {
-                                await login();
+                                await register();
                                 Navigator.pushNamed(context, Routes.home);
                               } on Exception {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
-                                    content: Text('Identifiants invalides'),
+                                    content: Text('Une erreur s\'est produite'),
                                   ),
                                 );
                               } finally {
@@ -218,7 +386,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.white,
                           )
                         : const Text(
-                            'Connexion',
+                            'Inscription',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -231,9 +399,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Center(
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, Routes.register);
+                        Navigator.pushNamed(context, Routes.login);
                       },
-                      child: const Text('Pas de compte ? Inscrivez vous'),
+                      child: const Text('Déjà inscrit ? Connectez vous'),
                     ),
                   ),
                 ),

@@ -100,6 +100,7 @@ class DrawerAuthenticated extends StatelessWidget {
           TextButton(
             onPressed: () {
               _logger.info('Déconnexion');
+              // TODO: disconnect user
             },
             child: Text(
               'Déconnexion',

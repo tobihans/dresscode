@@ -1,4 +1,5 @@
 import 'package:dresscode/components/login_screen.dart';
+import 'package:dresscode/components/register_screen.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:dresscode/utils/colors.dart';
@@ -14,7 +15,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DressCode',
-      initialRoute: Routes.login,
+      initialRoute: Routes.register,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: CustomColors.material['primary'],
@@ -40,7 +41,8 @@ class App extends StatelessWidget {
         Routes.home: (context) => const HomeScreen(),
         Routes.shop: (context) => const ShopScreen(),
         Routes.details: (context) => const ItemDetailsScreen(),
-        Routes.login: (context) => const LoginScreen()
+        Routes.login: (context) => const LoginScreen(),
+        Routes.register: (context) => const RegisterScreen(),
       },
     );
   }
