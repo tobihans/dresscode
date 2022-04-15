@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        validator: Validator.validatePassword(),
+                        validator: Validator.validateNotEmpty('Mot de passe'),
                       ),
                     ],
                   ),
