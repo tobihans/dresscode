@@ -4,13 +4,15 @@ import 'package:dresscode/requests/body_request.dart';
 
 class RegisterRequest extends BodyRequest {
   final String email;
-  final String name;
+  final String firstName;
+  final String lastName;
   final String phone;
   final String password;
 
   const RegisterRequest({
     required this.email,
-    required this.name,
+    required this.firstName,
+    required this.lastName,
     required this.phone,
     required this.password,
   });
@@ -19,7 +21,8 @@ class RegisterRequest extends BodyRequest {
   String toJson() {
     final Map<String, String> registerData = {
       'email': email,
-      'name': name,
+      'firstName': firstName,
+      'lastName': lastName,
       'phone': phone,
       'password': password,
     };
