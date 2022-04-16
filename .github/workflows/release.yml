@@ -25,12 +25,12 @@ jobs:
           KEY_PWD: ${{ secrets.KEY_PWD }}
         run: |
           cat > upload-keystore.jks <<<$JKS_KEY; \
-          ls; \
           touch android/app/key.properties; \
           echo "storeFile=$(pwd)/upload-keystore.jks" >> android/app/key.properties; \
           echo "keyAlias=upload" >> android/app/key.properties; \
           echo "storePassword=${{ secrets.STORE_PWD }}" >> android/app/key.properties; \
-          echo "keyPassword=${{ secrets.KEY_PWD }}" >> android/app/key.properties
+          echo "keyPassword=${{ secrets.KEY_PWD }}" >> android/app/key.properties; \
+          cat android/app/key.properties
       - run: flutter pub get
       - run: flutter build apk --release
       - run: flutter build appbundle --release
