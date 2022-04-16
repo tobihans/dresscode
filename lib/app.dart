@@ -1,5 +1,5 @@
-import 'package:dresscode/components/login_screen.dart';
-import 'package:dresscode/components/register_screen.dart';
+import 'package:dresscode/screens/login_screen.dart';
+import 'package:dresscode/screens/register_screen.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:dresscode/utils/colors.dart';

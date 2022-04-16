@@ -18,6 +18,13 @@ jobs:
         with:
           flutter-version: '2.10.x'
           channel: 'stable'
+      - name: Cconfigure release signing
+        run: |
+          echo ${{ secrets.JKS_KEY }} > upload-keystore.jks && \
+          echo "storeFile=$(pwd)/upload-keystore.jks" >> android/app/key.properties && \
+          echo "keyAlias=upload" >> android/app/key.properties && \
+          echo "storePassword=${{ secrets.STORE_PWD }}" >> android/app/key.properties && \
+          echo "keyPassword=${{ secrets.KEY_PWD }}" >> android/app/key.properties
       - run: flutter pub get
       - run: flutter build apk --release
       - run: flutter build appbundle --release
