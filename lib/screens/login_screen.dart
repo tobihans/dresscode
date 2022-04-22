@@ -21,6 +21,13 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isObscure = true;
   bool _isLoading = false;
 
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   Future<void> login() async {
     final loginRequest = LoginRequest(
       email: _emailController.text,
@@ -204,6 +211,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Identifiants invalides'),
+                                    backgroundColor: Colors.red,
                                   ),
                                 );
                               } finally {

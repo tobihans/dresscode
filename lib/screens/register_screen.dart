@@ -25,6 +25,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isObscure = true;
   bool _isLoading = false;
 
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   Future<void> register() async {
     final registerRequest = RegisterRequest(
       email: _emailController.text,
@@ -372,6 +382,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Une erreur s\'est produite'),
+                                    backgroundColor: Colors.red,
                                   ),
                                 );
                               } finally {
