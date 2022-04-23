@@ -1,3 +1,4 @@
+import 'package:dresscode/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class Category extends StatelessWidget {
@@ -19,13 +20,22 @@ class Category extends StatelessWidget {
             child: ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                  elevation: 0, padding: EdgeInsets.zero),
+                  primary: Colors.transparent,
+                  elevation: 0,
+                  padding: EdgeInsets.zero),
               child: SizedBox.expand(
                 child: Container(
-                  child: Center(
-                    widthFactor: 0.25,
-                    child: Text(name),
-                  ),
+                  child: Stack(children: [
+                    Container(
+                      child: Center(
+                        widthFactor: 0.25,
+                        child: Text(name),
+                      ),
+                      decoration: BoxDecoration(
+                          color: Color(CustomColors.raw['primaryText']!)
+                              .withOpacity(0.75)),
+                    ),
+                  ]),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5.0),
                       image: DecorationImage(

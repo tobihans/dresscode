@@ -2,7 +2,9 @@ import 'package:dresscode/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class HomeHero extends StatelessWidget {
-  const HomeHero({Key? key}) : super(key: key);
+  final String text;
+
+  const HomeHero({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,26 +15,48 @@ class HomeHero extends StatelessWidget {
     return SizedBox(
       height: size.height * 0.275,
       child: Container(
-        padding: const EdgeInsets.only(right: 5.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              ElevatedButton(
-                onPressed: _heroButtonPressed,
-                child: Text('Voir',
-                    style: TextStyle(
-                        color: Color(CustomColors.raw['lightGreyBg']!))),
-                style: ButtonStyle(
-                    padding: MaterialStateProperty.all(
-                        const EdgeInsets.symmetric(
-                            vertical: 2.5, horizontal: 5.0)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)))),
-              )
-            ]),
-          ],
-        ),
+        child: Stack(children: [
+          Container(
+            decoration: BoxDecoration(
+                color:
+                    Color(CustomColors.raw['primaryText']!).withOpacity(0.75)),
+          ),
+          Container(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          text,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 25.0),
+                        )),
+                  ),
+                  Expanded(child: Container()),
+                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    ElevatedButton(
+                      onPressed: _heroButtonPressed,
+                      child: Text('Voir',
+                          style: TextStyle(
+                              color: Color(CustomColors.raw['lightGreyBg']!))),
+                      style: ButtonStyle(
+                          padding: MaterialStateProperty.all(
+                              const EdgeInsets.symmetric(
+                                  vertical: 2.5, horizontal: 5.0)),
+                          shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5)))),
+                    )
+                  ]),
+                ],
+              ))
+        ]),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             image: const DecorationImage(

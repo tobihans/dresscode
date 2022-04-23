@@ -4,7 +4,7 @@ class CustomColors {
   static final raw = <String, int>{
     'primary': 0xFFFF3800,
     'primaryBg': 0xFFF8F9FA,
-    'primaryText': 0xFF000000,
+    'primaryText': 0xFF111827,
     'lightGreyBg': 0xFFF1F5F8,
   };
 
