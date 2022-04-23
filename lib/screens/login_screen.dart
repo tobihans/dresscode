@@ -1,6 +1,5 @@
 import 'package:dresscode/api/services/auth_service.dart';
 import 'package:dresscode/requests/login_request.dart';
-import 'package:dresscode/utils/colors.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:dresscode/utils/validator.dart';
@@ -42,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final topMargin = MediaQuery.of(context).size.height / 5;
+    final primaryColor = Theme.of(context).colorScheme.primary;
     const allProperties = MaterialStateProperty.all;
 
     return Scaffold(
@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 3,
-                              color: Color(CustomColors.raw['primary']!),
+                              color: primaryColor,
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 3,
-                              color: Color(CustomColors.raw['primary']!),
+                              color: primaryColor,
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -185,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       backgroundColor: allProperties(
                         _isLoading
                             ? Colors.grey
-                            : Color(CustomColors.raw['primary']!),
+                            : primaryColor,
                       ),
                       shape: allProperties(
                         RoundedRectangleBorder(

@@ -20,15 +20,21 @@ class HomeHero extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               ElevatedButton(
                 onPressed: _heroButtonPressed,
-                child: Text('Voir',
-                    style: TextStyle(
-                        color: Color(CustomColors.raw['lightGreyBg']!))),
+                child: Text(
+                  'Voir',
+                  style: TextStyle(
+                    // color: Color(CustomColors.raw['lightGreyBg']!),
+                  ),
+                ),
                 style: ButtonStyle(
-                    padding: MaterialStateProperty.all(
-                        const EdgeInsets.symmetric(
-                            vertical: 2.5, horizontal: 5.0)),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)))),
+                  padding: MaterialStateProperty.all(const EdgeInsets.symmetric(
+                      vertical: 2.5, horizontal: 5.0)),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                ),
               )
             ]),
           ],

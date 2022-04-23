@@ -1,7 +1,6 @@
 import 'package:dresscode/api/services/auth_service.dart';
 import 'package:dresscode/requests/login_request.dart';
 import 'package:dresscode/requests/register_request.dart';
-import 'package:dresscode/utils/colors.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:dresscode/utils/validator.dart';
@@ -60,6 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final topMargin = MediaQuery.of(context).size.height / 7;
+    final primaryColor = Theme.of(context).colorScheme.primary;
     const allProperties = MaterialStateProperty.all;
 
     return Scaffold(
@@ -110,7 +110,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 3,
-                              color: Color(CustomColors.raw['primary']!),
+                              color: primaryColor,
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -161,7 +161,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 3,
-                              color: Color(CustomColors.raw['primary']!),
+                              color: primaryColor,
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -212,7 +212,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 3,
-                              color: Color(CustomColors.raw['primary']!),
+                              color: primaryColor,
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -263,7 +263,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 3,
-                              color: Color(CustomColors.raw['primary']!),
+                              color: primaryColor,
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -315,7 +315,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 3,
-                              color: Color(CustomColors.raw['primary']!),
+                              color: primaryColor,
                             ),
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -356,7 +356,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       backgroundColor: allProperties(
                         _isLoading
                             ? Colors.grey
-                            : Color(CustomColors.raw['primary']!),
+                            : primaryColor,
                       ),
                       shape: allProperties(
                         RoundedRectangleBorder(

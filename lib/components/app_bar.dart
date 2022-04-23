@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dresscode/components/notifications_widget.dart';
-import 'package:dresscode/utils/colors.dart';
 
 class OwnAppBar extends StatelessWidget implements PreferredSizeWidget {
   const OwnAppBar({Key? key}) : super(key: key);
@@ -11,13 +10,18 @@ class OwnAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return AppBar(
       elevation: 0.375,
+      backgroundColor: colorScheme.background,
       leading: Transform.translate(
         offset: const Offset(0, 10),
         child: IconButton(
           onPressed: () => Scaffold.of(context).openDrawer(),
-          icon: const Icon(Icons.menu),
+          icon: Icon(
+            Icons.menu,
+            color: colorScheme.onBackground,
+          ),
         ),
       ),
       actions: <Widget>[
@@ -48,8 +52,10 @@ class OwnAppBar extends StatelessWidget implements PreferredSizeWidget {
                 },
               );
             },
-            color: Color(CustomColors.raw['primaryText']!),
-            icon: const Icon(Icons.notifications_none_outlined),
+            icon: Icon(
+              Icons.notifications_none_outlined,
+              color: colorScheme.onBackground,
+            ),
           ),
         )
       ],

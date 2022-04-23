@@ -1,5 +1,4 @@
 import 'package:dresscode/models/product.dart';
-import 'package:dresscode/utils/transparent_image.dart';
 import 'package:flutter/material.dart';
 
 class ProductCartWidget extends StatelessWidget {
@@ -24,8 +23,8 @@ class ProductCartWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: SizedBox.fromSize(
                 size: const Size.fromRadius(40),
-                child: FadeInImage.memoryNetwork(
-                  placeholder: transparentImage,
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'asset/loading.gif',
                   image: product.images?.first.url ?? '',
                 ),
               ),

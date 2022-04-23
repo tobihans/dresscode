@@ -1,7 +1,6 @@
 import 'package:dresscode/api/services/cart_service.dart';
 import 'package:dresscode/components/product_cart_widget.dart';
 import 'package:dresscode/models/product.dart';
-import 'package:dresscode/utils/colors.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
@@ -9,8 +8,10 @@ import 'package:logging/logging.dart';
 class CartWidget extends StatefulWidget {
   final ScrollController scrollController;
 
-  const CartWidget({Key? key, required this.scrollController})
-      : super(key: key);
+  const CartWidget({
+    Key? key,
+    required this.scrollController,
+  }) : super(key: key);
 
   @override
   State<CartWidget> createState() => _CartWidgetState();
@@ -73,7 +74,9 @@ class _CartWidgetState extends State<CartWidget> {
                     Container(
                       child: Text(
                         '$cartTotal XOF',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       alignment: Alignment.topRight,
                     )
@@ -195,7 +198,7 @@ class _CartWidgetState extends State<CartWidget> {
         }
         return Center(
           child: CircularProgressIndicator(
-            color: Color(CustomColors.raw['primary']!),
+            color: Theme.of(context).colorScheme.primary,
           ),
         );
       },
