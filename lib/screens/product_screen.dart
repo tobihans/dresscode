@@ -10,10 +10,12 @@ import 'package:flutter/material.dart';
 /// TODO : Connect actions
 class ProductScreen extends StatefulWidget {
   final Product product;
+  final CartService cartService;
 
   const ProductScreen({
     Key? key,
     required this.product,
+    required this.cartService
   }) : super(key: key);
 
   @override
@@ -23,12 +25,18 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen> {
   late ProductService _productService;
   late CartService _cartService;
+  bool _isLoading = false;
 
-  Future<void> addToCart() async {
+
+  Future<void> addToCart(Product product) async {
     await _cartService.addProductToCart(widget.product);
   }
 
-
+  @override
+  void initState() {
+    _cartService = widget.cartService;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +74,36 @@ class _ProductScreenState extends State<ProductScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               ElevatedButton(
-                onPressed: () {},
-                child: const Text('Ajouter au panier'),
+                onPressed: () async {
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  try {
+                    await addToCart(widget.product);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Produit ajouté au panier'),
+                      ),
+                    );
+                  } on Exception {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Une erreur s\'est produite'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  } finally {
+                    setState(() {
+                      _isLoading = false;
+                    });
+                  }
+                },
+                child: _isLoading
+                    ? const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 2),
+                      child: CircularProgressIndicator(),
+                    )
+                    : const Text('Ajouter au panier'),
                 style: ElevatedButton.styleFrom(
                   primary: colorScheme.onSurface,
                   onPrimary: colorScheme.surface,

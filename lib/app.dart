@@ -1,3 +1,4 @@
+import 'package:dresscode/api/services/cart_service.dart';
 import 'package:dresscode/models/product.dart';
 import 'package:dresscode/models/image.dart' as img;
 import 'package:dresscode/screens/login_screen.dart';
@@ -20,7 +21,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DressCode',
-      initialRoute: isLoggedIn ? Routes.home : Routes.login,
+      // initialRoute: isLoggedIn ? Routes.home : Routes.login,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: lightColorScheme,
@@ -36,23 +37,28 @@ class App extends StatelessWidget {
       ),
       themeMode: ThemeMode.system,
       routes: <String, Widget Function(BuildContext)>{
-        Routes.home: (context) => const HomeScreen(),
+        // Routes.home: (context) => const HomeScreen(),
         Routes.shop: (context) => const ShopScreen(),
         Routes.details: (context) => const ItemDetailsScreen(),
         Routes.login: (context) => const LoginScreen(),
         Routes.register: (context) => const RegisterScreen(),
       },
+      home: prodScreen,
     );
   }
 }
 
-const prodScreen = ProductScreen(
-  product: Product(
+final prodScreen = ProductScreen(
+  product: const Product(
+    code: '52d08c08-1570-4da8-8c29-eac0aa704399',
     name: 'Product',
     description:
     'As always any app will always need a form screen like login, signup, edit profile, request form and many more … This article aim to be a simple reference for the common form fields components Let’s see how to make a form with Jetpack Compose 🚀 We will cover all of the following points :',
     price: 2500,
     images: [
+      img.Image(
+        url: ''
+      ),
       img.Image(
         url:
         'https://miro.medium.com/max/1400/1*6L3DNpJTJy-dHjLOlhLPyQ.jpeg',
@@ -74,4 +80,5 @@ const prodScreen = ProductScreen(
       ),
     ],
   ),
+  cartService: CartService('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFAZ21haWwuY29tIiwiZXhwIjoxNjUxNTIxOTM3LCJpYXQiOjE2NDg5Mjk5Mzd9.rQsTQh8n_kOuAm3KB3Ox_ZDM9PIS8NCSc-BbiiZay3Q'),
 );

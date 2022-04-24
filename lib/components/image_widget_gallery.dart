@@ -68,7 +68,7 @@ class _ImageWidgetGalleryState extends State<ImageWidgetGallery> {
               );
             },
           ),
-        )
+        ),
       ],
     );
   }
