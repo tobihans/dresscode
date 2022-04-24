@@ -27,7 +27,13 @@ class _ImageWidgetGalleryState extends State<ImageWidgetGallery> {
             width: double.infinity,
             fit: BoxFit.fill,
             imageErrorBuilder: (ctx, obj, stack) {
-              return Image.asset('assets/placeholder.png');
+              return Image.asset(
+                'assets/placeholder.png',
+                alignment: Alignment.center,
+                height: double.infinity,
+                width: double.infinity,
+                fit: BoxFit.fill,
+              );
             },
           ),
         ),
@@ -51,7 +57,11 @@ class _ImageWidgetGalleryState extends State<ImageWidgetGallery> {
                       width: size.width * 0.17,
                       fit: BoxFit.fill,
                       imageErrorBuilder: (ctx, obj, stack) {
-                        return Image.asset('assets/placeholder.png');
+                        return Image.asset(
+                          'assets/placeholder.png',
+                          width: size.width * 0.17,
+                          fit: BoxFit.fill,
+                        );
                       },
                     ),
                   ),

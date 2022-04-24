@@ -24,8 +24,14 @@ class ProductCartWidget extends StatelessWidget {
               child: SizedBox.fromSize(
                 size: const Size.fromRadius(40),
                 child: FadeInImage.assetNetwork(
-                  placeholder: 'asset/loading.gif',
+                  placeholder: 'assets/loading.gif',
                   image: product.images?.first.url ?? '',
+                  imageErrorBuilder: (ctx, obj, stack) {
+                    return Image.asset(
+                      'assets/placeholder.png',
+                      fit: BoxFit.fill,
+                    );
+                  },
                 ),
               ),
             ),
@@ -49,7 +55,7 @@ class ProductCartWidget extends StatelessWidget {
                     Text('Nbre : $number'),
                     const Spacer(),
                     Text('Sous total : ${number * product.price} XOF'),
-                    const Spacer()
+                    const Spacer(),
                   ],
                 ),
               ],
