@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dresscode/api/api_base.dart';
+import 'package:dresscode/api/core/api_base.dart';
 import 'package:dresscode/api/core/constants.dart';
 import 'package:dresscode/models/product.dart';
 
@@ -20,6 +20,16 @@ class WishlistService extends ApiBase {
     return content
         .map((e) => Product.fromJson(e as String))
         .toList(growable: false);
+  }
+
+  Future<bool> isInWishlist(Product product) async {
+    final apiResponse = await get(
+      Uri.parse('${Constants.wishlistUrl}/${product.code}'),
+      Constants.emptyMap,
+      '',
+      _token,
+    );
+    return (jsonDecode(apiResponse)['content']) as bool;
   }
 
   Future<void> addToWishlist(Product productToAdd) async {

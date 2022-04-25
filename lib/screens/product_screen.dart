@@ -1,21 +1,24 @@
+import 'package:dresscode/api/core/api_http_exception.dart';
 import 'package:dresscode/api/services/cart_service.dart';
-import 'package:dresscode/api/services/product_service.dart';
+import 'package:dresscode/api/services/wishlist_service.dart';
 import 'package:dresscode/components/app_bar.dart';
 import 'package:dresscode/components/app_drawer.dart';
 import 'package:dresscode/components/floating_btn.dart';
 import 'package:dresscode/components/image_widget_gallery.dart';
+import 'package:dresscode/components/wishlist_button.dart';
 import 'package:dresscode/models/product.dart';
 import 'package:flutter/material.dart';
 
-/// TODO : Connect actions
 class ProductScreen extends StatefulWidget {
   final Product product;
   final CartService cartService;
+  final WishlistService wishlistService;
 
   const ProductScreen({
     Key? key,
     required this.product,
-    required this.cartService
+    required this.cartService,
+    required this.wishlistService,
   }) : super(key: key);
 
   @override
@@ -23,18 +26,27 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  late ProductService _productService;
   late CartService _cartService;
+  late WishlistService _wishlistService;
+  late Future<bool> _isInWishlistFuture;
   bool _isLoading = false;
-
 
   Future<void> addToCart(Product product) async {
     await _cartService.addProductToCart(widget.product);
   }
 
+  void fresh() {
+    setState(() {
+      _isInWishlistFuture =
+          _wishlistService.isInWishlist(widget.product);
+    });
+  }
+
   @override
   void initState() {
     _cartService = widget.cartService;
+    _wishlistService = widget.wishlistService;
+    _isInWishlistFuture = _wishlistService.isInWishlist(widget.product);
     super.initState();
   }
 
@@ -68,7 +80,7 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
           SizedBox(
             height: size.height * 0.03,
-            child: Container(),
+            child: null,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -85,6 +97,23 @@ class _ProductScreenState extends State<ProductScreen> {
                         content: Text('Produit ajouté au panier'),
                       ),
                     );
+                  } on ApiHttpException catch (e) {
+                    if (e.isAuthException) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                              'Vous devez être authentifié pour réaliser cette action'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Une erreur s\'est produite'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   } on Exception {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -100,30 +129,85 @@ class _ProductScreenState extends State<ProductScreen> {
                 },
                 child: _isLoading
                     ? const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 2),
-                      child: CircularProgressIndicator(),
-                    )
+                        padding: EdgeInsets.symmetric(vertical: 2),
+                        child: CircularProgressIndicator(),
+                      )
                     : const Text('Ajouter au panier'),
                 style: ElevatedButton.styleFrom(
                   primary: colorScheme.onSurface,
                   onPrimary: colorScheme.surface,
                 ),
               ),
-              ElevatedButton(
-                onPressed: () {},
-                child: const Icon(Icons.bookmark_border),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  side: const BorderSide(
-                    width: 2.0,
-                    color: Colors.black,
-                  ),
-                  primary: colorScheme.surface,
-                  onPrimary: colorScheme.onSurface,
-                ),
-              ),
+              FutureBuilder<bool>(
+                future: _isInWishlistFuture,
+                initialData: false,
+                builder: (ctx, snapshot) {
+                  if (snapshot.hasData) {
+                    final data = snapshot.data!;
+                    // ignore: prefer_function_declarations_over_variables
+                    final actionFunc = () async {
+                      if (data) {
+                        await _wishlistService
+                            .removeFromWishlist(widget.product);
+                      } else {
+                        await _wishlistService.addToWishlist(widget.product);
+                      }
+                    };
+                    return WishlistButton(
+                      background: colorScheme.surface,
+                      foreground: colorScheme.onSurface,
+                      isInWishlist: data,
+                      onPressed: () async {
+                        try {
+                          await actionFunc();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                data
+                                    ? 'Produit retiré de la liste de souhaits'
+                                    : 'Produit ajouté à la liste de souhaits',
+                              ),
+                            ),
+                          );
+                        } on ApiHttpException catch (e) {
+                          if (e.isAuthException) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Vous devez être authentifié pour réaliser cette action',
+                                ),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Une erreur s\'est produite'),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                        } on Exception {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Une erreur s\'est produite'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        } finally {
+                          fresh();
+                        }
+                      },
+                    );
+                  }
+                  return WishlistButton(
+                    background: colorScheme.surface,
+                    foreground: colorScheme.onSurface,
+                    isInWishlist: false,
+                    onPressed: fresh,
+                  );
+                },
+              )
             ],
           ),
           const Padding(
@@ -134,7 +218,7 @@ class _ProductScreenState extends State<ProductScreen> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 10),
+            margin: const EdgeInsets.only(top: 10, bottom: 50),
             child: Text(
               widget.product.description,
               maxLines: null,

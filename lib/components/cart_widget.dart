@@ -32,7 +32,7 @@ class _CartWidgetState extends State<CartWidget> {
     final cart = await _cartService!.getCart();
     final cartProducts = <Product, int>{};
     for (var product in cart) {
-      cartProducts[product] = cartProducts[product] ?? 0 + 1;
+      cartProducts[product] = (cartProducts[product] ?? 0) + 1;
     }
     return cartProducts.keys.map((e) => MapEntry(e, cartProducts[e]!)).toList();
   }

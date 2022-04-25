@@ -29,9 +29,9 @@ Future<void> insertDummyNotifications() async {
       );
 }
 
-Future<bool> isAuthenticated() async {
+Future<void> initAuth() async {
   final token = await TokenStorage.getToken();
-  return (await AuthService().getCurrentUser(token)) != null;
+  await AuthService().getCurrentUser(token);
 }
 
 Future<void> main() async {
@@ -40,7 +40,8 @@ Future<void> main() async {
   configureLogger();
   await insertDummyNotifications();
   await TokenStorage.saveToken(
-      'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFAZ21haWwuY29tIiwiZXhwIjoxNjUxNTIxOTM3LCJpYXQiOjE2NDg5Mjk5Mzd9.rQsTQh8n_kOuAm3KB3Ox_ZDM9PIS8NCSc-BbiiZay3Q');
-  final isLoggedIn = await isAuthenticated();
-  runApp(App(isLoggedIn: isLoggedIn));
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFAZ21haWwuY29tIiwiZXhwIjoxNjUxNTIxOTM3LCJpYXQiOjE2NDg5Mjk5Mzd9.rQsTQh8n_kOuAm3KB3Ox_ZDM9PIS8NCSc-BbiiZay3Q',
+  );
+  await initAuth();
+  runApp(const App());
 }

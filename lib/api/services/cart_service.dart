@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dresscode/api/api_base.dart';
+import 'package:dresscode/api/core/api_base.dart';
 import 'package:dresscode/api/core/constants.dart';
 
 import 'package:dresscode/models/product.dart';
@@ -17,7 +17,7 @@ class CartService extends ApiBase {
       '',
       _token,
     );
-    final content = jsonDecode(apiResponse)['content'] as Map<String,dynamic>;
+    final content = jsonDecode(apiResponse)['content'] as Map<String, dynamic>;
     return (content['products'] as List)
         .map((e) => Product.fromMap(e))
         .toList(growable: false);

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dresscode/api/api_base.dart';
+import 'package:dresscode/api/core/api_base.dart';
 import 'package:dresscode/api/core/api_http_exception.dart';
 import 'package:dresscode/api/core/constants.dart';
 import 'package:dresscode/models/user.dart';

@@ -1,4 +1,5 @@
 import 'package:dresscode/api/services/cart_service.dart';
+import 'package:dresscode/api/services/wishlist_service.dart';
 import 'package:dresscode/models/product.dart';
 import 'package:dresscode/models/image.dart' as img;
 import 'package:dresscode/screens/login_screen.dart';
@@ -13,15 +14,13 @@ import 'package:dresscode/screens/item_details.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class App extends StatelessWidget {
-  final bool isLoggedIn;
-
-  const App({Key? key, required this.isLoggedIn}) : super(key: key);
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DressCode',
-      // initialRoute: isLoggedIn ? Routes.home : Routes.login,
+      // initialRoute: Routes.home,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: lightColorScheme,
@@ -81,4 +80,5 @@ final prodScreen = ProductScreen(
     ],
   ),
   cartService: CartService('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFAZ21haWwuY29tIiwiZXhwIjoxNjUxNTIxOTM3LCJpYXQiOjE2NDg5Mjk5Mzd9.rQsTQh8n_kOuAm3KB3Ox_ZDM9PIS8NCSc-BbiiZay3Q'),
+  wishlistService: WishlistService('eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFAZ21haWwuY29tIiwiZXhwIjoxNjUxNTIxOTM3LCJpYXQiOjE2NDg5Mjk5Mzd9.rQsTQh8n_kOuAm3KB3Ox_ZDM9PIS8NCSc-BbiiZay3Q'),
 );
