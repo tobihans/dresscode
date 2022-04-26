@@ -1,3 +1,4 @@
+import 'package:dresscode/api/core/api_http_exception.dart';
 import 'package:dresscode/api/services/cart_service.dart';
 import 'package:dresscode/components/product_cart_widget.dart';
 import 'package:dresscode/models/product.dart';
@@ -20,11 +21,19 @@ class CartWidget extends StatefulWidget {
 class _CartWidgetState extends State<CartWidget> {
   late Future<List<MapEntry<Product, int>>> _cartProductsFuture;
   CartService? _cartService;
+  bool _loading = false;
 
   @override
   void initState() {
     super.initState();
     _cartProductsFuture = _initCartProducts();
+  }
+
+  Future<void> clearCart() async {
+    await _cartService!.resetCart();
+    setState(() {
+      _cartProductsFuture = _initCartProducts();
+    });
   }
 
   Future<List<MapEntry<Product, int>>> _initCartProducts() async {
@@ -185,10 +194,51 @@ class _CartWidgetState extends State<CartWidget> {
                   },
                 ),
               ),
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    setState(() {
+                      _loading = true;
+                    });
+                    await clearCart();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        duration: Duration(seconds: 3),
+                        content: Text(
+                          'Panier vidé avec succès',
+                        ),
+                      ),
+                    );
+                  } on Exception {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        duration: Duration(seconds: 3),
+                        content: Text(
+                          'Une erreur s\'est produite',
+                        ),
+                      ),
+                    );
+                  } finally {
+                    setState(() {
+                      _loading = false;
+                    });
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  child: _loading
+                      ? const CircularProgressIndicator()
+                      : const Text(
+                    'Vider le panier',
+                  ),
+                )
+              ),
             ],
           );
         } else if (snapshot.hasError) {
-          Logger.root.severe((snapshot.error as Error).stackTrace);
+          if(snapshot is ApiHttpException) {
+            Logger.root.severe((snapshot.error as ApiHttpException).toString());
+          }
           return const Center(
             child: Text(
               'Une erreur s\'est produite 🥲',

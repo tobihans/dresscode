@@ -1,5 +1,4 @@
 import 'package:dresscode/api/services/auth_service.dart';
-import 'package:dresscode/models/notification.dart' as notification;
 import 'package:dresscode/utils/notification_service.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -16,19 +15,6 @@ void configureLogger() {
   });
 }
 
-Future<void> insertDummyNotifications() async {
-  List.generate(10, (index) => index)
-      .map(
-        (e) => notification.Notification(
-          title: 'Notification $e',
-          content: 'This is the $e notification',
-        ),
-      )
-      .forEach(
-        (element) async => await NotificationService.insert(element),
-      );
-}
-
 Future<void> initAuth() async {
   final token = await TokenStorage.getToken();
   await AuthService().getCurrentUser(token);
@@ -38,7 +24,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService.initDatabase();
   configureLogger();
-  await insertDummyNotifications();
   await TokenStorage.saveToken(
     'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFAZ21haWwuY29tIiwiZXhwIjoxNjUxNTIxOTM3LCJpYXQiOjE2NDg5Mjk5Mzd9.rQsTQh8n_kOuAm3KB3Ox_ZDM9PIS8NCSc-BbiiZay3Q',
   );
