@@ -20,7 +20,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DressCode',
-      // initialRoute: Routes.home,
+      initialRoute: Routes.home,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: lightColorScheme,
@@ -36,13 +36,13 @@ class App extends StatelessWidget {
       ),
       themeMode: ThemeMode.system,
       routes: <String, Widget Function(BuildContext)>{
-        // Routes.home: (context) => const HomeScreen(),
+        Routes.home: (context) => const HomeScreen(),
         Routes.shop: (context) => const ShopScreen(),
         Routes.details: (context) => const ItemDetailsScreen(),
         Routes.login: (context) => const LoginScreen(),
         Routes.register: (context) => const RegisterScreen(),
       },
-      home: prodScreen,
+      // home: prodScreen,
     );
   }
 }

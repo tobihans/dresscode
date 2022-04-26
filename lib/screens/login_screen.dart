@@ -1,4 +1,5 @@
 import 'package:dresscode/api/services/auth_service.dart';
+import 'package:dresscode/components/form_input_borders.dart' as fib;
 import 'package:dresscode/requests/login_request.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:dresscode/utils/token_storage.dart';
@@ -49,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
         key: _formKey,
         child: SingleChildScrollView(
           child: Container(
-            margin: EdgeInsets.only(left: 15, right: 15,top: topMargin),
+            margin: EdgeInsets.only(left: 15, right: 15, top: topMargin),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -82,36 +83,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _emailController,
                         decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: primaryColor,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                          enabledBorder: fib.enabledBorder(),
+                          focusedBorder: fib.focusedBorder(primaryColor),
+                          errorBorder: fib.errorBorder(),
+                          focusedErrorBorder: fib.focusedErrorBorder(),
                           focusColor: Colors.black,
                         ),
+                        keyboardType: TextInputType.emailAddress,
                         validator: Validator.validateEmail(),
                       )
                     ],
@@ -134,34 +112,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _passwordController,
                         decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: primaryColor,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                          enabledBorder: fib.enabledBorder(),
+                          focusedBorder: fib.focusedBorder(primaryColor),
+                          errorBorder: fib.errorBorder(),
+                          focusedErrorBorder: fib.focusedErrorBorder(),
                           suffixIcon: IconButton(
                             onPressed: () {
                               setState(() => _isObscure = !_isObscure);
@@ -173,6 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
+                        keyboardType: TextInputType.visiblePassword,
                         validator: Validator.validateNotEmpty('Mot de passe'),
                       ),
                     ],
@@ -183,9 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: allProperties(
-                        _isLoading
-                            ? Colors.grey
-                            : primaryColor,
+                        _isLoading ? Colors.grey : primaryColor,
                       ),
                       shape: allProperties(
                         RoundedRectangleBorder(
@@ -206,7 +159,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               });
                               try {
                                 await login();
-                                Navigator.pushNamed(context, Routes.home);
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  Routes.home,
+                                  (r) => false,
+                                );
                               } on Exception {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

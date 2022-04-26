@@ -98,10 +98,10 @@ class DrawerAuthenticated extends StatelessWidget {
           const Spacer(),
           TextButton(
             onPressed: () async {
-              _logger.info('Déconnexion');
               await AuthService().logout();
               await TokenStorage.removeToken();
-              Navigator.pushNamed(context, Routes.login);
+              Navigator.of(context).pop();
+              Navigator.pushReplacementNamed(context, Routes.login);
             },
             child: Text(
               'Déconnexion',

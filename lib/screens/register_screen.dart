@@ -1,4 +1,5 @@
 import 'package:dresscode/api/services/auth_service.dart';
+import 'package:dresscode/components/form_input_borders.dart' as fib;
 import 'package:dresscode/requests/login_request.dart';
 import 'package:dresscode/requests/register_request.dart';
 import 'package:dresscode/utils/routes.dart';
@@ -43,7 +44,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       password: _passwordController.text,
     );
     final loginSuccessful = await _authService.register(registerRequest);
-    if(!loginSuccessful) {
+    if (!loginSuccessful) {
       throw Exception();
     }
     final loginRequest = LoginRequest(
@@ -100,36 +101,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _firstNameController,
                         decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: primaryColor,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                          enabledBorder: fib.enabledBorder(),
+                          focusedBorder: fib.focusedBorder(primaryColor),
+                          errorBorder: fib.errorBorder(),
+                          focusedErrorBorder: fib.focusedErrorBorder(),
                           focusColor: Colors.black,
                         ),
+                        keyboardType: TextInputType.name,
                         validator: Validator.validateNotEmpty('Nom'),
                       )
                     ],
@@ -151,36 +129,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _lastNameController,
                         decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: primaryColor,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                          enabledBorder: fib.enabledBorder(),
+                          focusedBorder: fib.focusedBorder(primaryColor),
+                          errorBorder: fib.errorBorder(),
+                          focusedErrorBorder: fib.focusedErrorBorder(),
                           focusColor: Colors.black,
                         ),
+                        keyboardType: TextInputType.name,
                         validator: Validator.validateNotEmpty('Prénoms'),
                       )
                     ],
@@ -202,36 +157,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _phoneController,
                         decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: primaryColor,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                          enabledBorder: fib.enabledBorder(),
+                          focusedBorder: fib.focusedBorder(primaryColor),
+                          errorBorder: fib.errorBorder(),
+                          focusedErrorBorder: fib.focusedErrorBorder(),
                           focusColor: Colors.black,
                         ),
+                        keyboardType: TextInputType.phone,
                         validator: Validator.validatePhone(),
                       )
                     ],
@@ -253,36 +185,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _emailController,
                         decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: primaryColor,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                          enabledBorder: fib.enabledBorder(),
+                          focusedBorder: fib.focusedBorder(primaryColor),
+                          errorBorder: fib.errorBorder(),
+                          focusedErrorBorder: fib.focusedErrorBorder(),
                           focusColor: Colors.black,
                         ),
+                        keyboardType: TextInputType.emailAddress,
                         validator: Validator.validateEmail(),
                       )
                     ],
@@ -305,34 +214,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _passwordController,
                         decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.black,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 3,
-                              color: primaryColor,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 3,
-                              color: Colors.red,
-                            ),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
+                          enabledBorder: fib.enabledBorder(),
+                          focusedBorder: fib.focusedBorder(primaryColor),
+                          errorBorder: fib.errorBorder(),
+                          focusedErrorBorder: fib.focusedErrorBorder(),
                           suffixIcon: IconButton(
                             onPressed: () {
                               setState(() => _isObscure = !_isObscure);
@@ -344,6 +229,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                           ),
                         ),
+                        keyboardType: TextInputType.visiblePassword,
                         validator: Validator.validatePassword(),
                       ),
                     ],
@@ -354,9 +240,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: allProperties(
-                        _isLoading
-                            ? Colors.grey
-                            : primaryColor,
+                        _isLoading ? Colors.grey : primaryColor,
                       ),
                       shape: allProperties(
                         RoundedRectangleBorder(
@@ -377,7 +261,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               });
                               try {
                                 await register();
-                                Navigator.pushNamed(context, Routes.home);
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  Routes.home,
+                                  (r) => false,
+                                );
                               } on Exception {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
