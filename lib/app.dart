@@ -20,7 +20,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DressCode',
-      initialRoute: Routes.home,
+      // initialRoute: Routes.home,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: lightColorScheme,
@@ -36,13 +36,13 @@ class App extends StatelessWidget {
       ),
       themeMode: ThemeMode.system,
       routes: <String, Widget Function(BuildContext)>{
-        Routes.home: (context) => const HomeScreen(),
+        // Routes.home: (context) => const HomeScreen(),
         Routes.shop: (context) => const ShopScreen(),
         Routes.details: (context) => const ItemDetailsScreen(),
         Routes.login: (context) => const LoginScreen(),
         Routes.register: (context) => const RegisterScreen(),
       },
-      // home: prodScreen,
+      home: prodScreen,
     );
   }
 }
@@ -71,7 +71,7 @@ final prodScreen = ProductScreen(
           'https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/http://coursera-university-assets.s3.amazonaws.com/5c/6a4547134c4268aa28c539f15c7ff7/EPFL-Logo-300-300.png?auto=format%2Ccompress&dpr=1&w=56px&h=56px&auto=format%2Ccompress&dpr=1&w=&h='),
       img.Image(
         url:
-        'https://miro.medium.com/max/1400/1*wU442EfvB8z2qg6gvvgI4Q.gif',
+        'https://i.ytimg.com/vi/HTi9wvIG1lI/maxresdefault.jpg',
       ),
       img.Image(
         url:

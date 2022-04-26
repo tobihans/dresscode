@@ -59,27 +59,40 @@ class DrawerAuthenticated extends StatelessWidget {
           Container(
             margin: EdgeInsets.symmetric(vertical: size.height / 200),
             child: ListTile(
-              title: const Text('Liste de souhaits'),
+              title: const Text('Accueil'),
               leading: const Icon(
-                Icons.list,
+                Icons.home,
               ),
               onTap: () {
-                _logger.info('liste de souhaits');
+                Navigator.pushNamed(context, Routes.home);
               },
-              tileColor: const Color(0x22222200),
+              // tileColor: const Color(0x22222200),
             ),
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: size.height / 200),
             child: ListTile(
-              title: const Text('Historique'),
+              title: const Text('Voir la boutique'),
               leading: const Icon(
-                Icons.history,
+                Icons.shopping_bag,
               ),
               onTap: () {
-                _logger.info('Historique');
+                Navigator.pushNamed(context, Routes.shop);
               },
-              tileColor: const Color(0x22222200),
+              // tileColor: const Color(0x22222200),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: size.height / 200),
+            child: ListTile(
+              title: const Text('Liste de souhaits'),
+              leading: const Icon(
+                Icons.list,
+              ),
+              onTap: () {
+                _logger.info('Liste de souhaits');
+              },
+              // tileColor: const Color(0x22222200),
             ),
           ),
           Container(
@@ -92,7 +105,6 @@ class DrawerAuthenticated extends StatelessWidget {
               onTap: () {
                 _logger.info('Méthodes de paiement');
               },
-              tileColor: const Color(0x22222200),
             ),
           ),
           const Spacer(),
