@@ -36,7 +36,6 @@ class DrawerAuthenticated extends StatelessWidget {
             ),
             currentAccountPicture: CircleAvatar(
               radius: 50.0,
-              // backgroundColor: Theme.of(context).bottomAppBarColor,
               child: Text(
                 _getUserInitials(),
                 style: const TextStyle(fontSize: 20),
@@ -66,7 +65,6 @@ class DrawerAuthenticated extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(context, Routes.home);
               },
-              // tileColor: const Color(0x22222200),
             ),
           ),
           Container(
@@ -79,7 +77,6 @@ class DrawerAuthenticated extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(context, Routes.shop);
               },
-              // tileColor: const Color(0x22222200),
             ),
           ),
           Container(
@@ -92,7 +89,6 @@ class DrawerAuthenticated extends StatelessWidget {
               onTap: () {
                 _logger.info('Liste de souhaits');
               },
-              // tileColor: const Color(0x22222200),
             ),
           ),
           Container(
