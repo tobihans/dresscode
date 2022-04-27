@@ -1,16 +1,28 @@
+import 'package:dresscode/api/services/cart_service.dart';
+import 'package:dresscode/api/services/product_service.dart';
+import 'package:dresscode/api/services/wishlist_service.dart';
+import 'package:dresscode/models/product.dart';
 import 'package:flutter/material.dart';
 
+/// TODO
 class ProductCard extends StatelessWidget {
-  final String url;
-  final String name;
-  final double price;
+  final Product product;
+  final ProductService productService;
+  final CartService cartService;
+  final WishlistService wishlistService;
 
-  const ProductCard(
-      {Key? key, required this.name, required this.url, required this.price})
-      : super(key: key);
+  const ProductCard({
+    Key? key,
+    required this.product,
+    required this.productService,
+    required this.cartService,
+    required this.wishlistService,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(child: Scaffold());
+    return const Material(
+      child: Text('ProductCard'),
+    );
   }
 }

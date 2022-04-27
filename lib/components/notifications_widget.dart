@@ -1,4 +1,3 @@
-import 'package:dresscode/utils/colors.dart';
 import 'package:dresscode/utils/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:dresscode/models/notification.dart' as notification;
@@ -27,7 +26,10 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
           child: const Center(
             child: Text(
               'Notifications',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
             ),
           ),
           margin: const EdgeInsets.only(top: 10),
@@ -81,11 +83,12 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                       onDismissed: (direction) async {
                         if (direction == DismissDirection.endToStart) {
                           await NotificationService.deleteNotification(
-                              notifications[index]);
+                            notifications[index],
+                          );
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               duration: Duration(seconds: 3),
-                              content: Text('Notification deleted'),
+                              content: Text('Notification supprimée'),
                             ),
                           );
                           setState(() {
@@ -110,7 +113,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
               } else {
                 return Center(
                   child: CircularProgressIndicator(
-                    color: Color(CustomColors.raw['primary']!),
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 );
               }

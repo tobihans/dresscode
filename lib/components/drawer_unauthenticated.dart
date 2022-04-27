@@ -1,4 +1,3 @@
-import 'package:dresscode/utils/colors.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -32,12 +31,12 @@ class DrawerUnauthenticated extends StatelessWidget {
                 },
                 child: Text(
                   'Inscription',
-                  style: TextStyle(color: Color(CustomColors.raw['primary']!)),
+                  style: TextStyle(color: Theme.of(context).colorScheme.primary),
                 ),
                 style: ElevatedButton.styleFrom(
                   side: BorderSide(
                     width: 1.5,
-                    color: Color(CustomColors.raw['primary']!),
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                   primary: Colors.white,
                 ),
