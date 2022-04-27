@@ -14,9 +14,7 @@ class WishlistService extends ApiBase {
   Future<List<Product>> getWishlist() async {
     final apiResponse = await get(
       Uri.parse(Constants.wishlistUrl),
-      Constants.emptyMap,
-      '',
-      _token,
+      token: _token,
     );
     final content = jsonEncode(jsonDecode(apiResponse)['content']) as List;
     return content
@@ -27,9 +25,7 @@ class WishlistService extends ApiBase {
   Future<bool> isInWishlist(Product product) async {
     final apiResponse = await get(
       Uri.parse('${Constants.wishlistUrl}/${product.code}'),
-      Constants.emptyMap,
-      '',
-      _token,
+      token: _token,
     );
     return (jsonDecode(apiResponse)['content']) as bool;
   }
@@ -41,8 +37,7 @@ class WishlistService extends ApiBase {
     ));
     await post(
       Uri.parse('${Constants.wishlistUrl}/${productToAdd.code}'),
-      jsonEncode(Constants.emptyMap),
-      _token,
+      token: _token,
     );
   }
 
@@ -53,8 +48,7 @@ class WishlistService extends ApiBase {
     ));
     await delete(
       Uri.parse('${Constants.wishlistUrl}/${productToRemove.code}'),
-      jsonEncode(Constants.emptyMap),
-      _token,
+      token: _token,
     );
   }
 }

@@ -15,9 +15,7 @@ class CartService extends ApiBase {
   Future<List<Product>> getCart() async {
     final apiResponse = await get(
       Uri.parse(Constants.cartUrl),
-      Constants.emptyMap,
-      '',
-      _token,
+      token: _token,
     );
     final content = jsonDecode(apiResponse)['content'] as Map<String, dynamic>;
     return (content['products'] as List)
@@ -32,8 +30,8 @@ class CartService extends ApiBase {
     ));
     await post(
       Uri.parse('${Constants.cartUrl}/${product.code}/add'),
-      jsonEncode(Constants.emptyMap),
-      _token,
+      data: jsonEncode(Constants.emptyMap),
+      token: _token,
     );
   }
 
@@ -44,8 +42,7 @@ class CartService extends ApiBase {
     ));
     await delete(
       Uri.parse('${Constants.cartUrl}/${product.code}'),
-      jsonEncode(Constants.emptyMap),
-      _token,
+      token: _token,
     );
   }
 
@@ -56,8 +53,7 @@ class CartService extends ApiBase {
     ));
     await put(
       Uri.parse(Constants.cartUrl),
-      jsonEncode(Constants.emptyMap),
-      _token,
+      token: _token,
     );
   }
 }

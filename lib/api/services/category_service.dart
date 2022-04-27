@@ -14,9 +14,8 @@ class CategoryService extends ApiBase {
   Future<Page<Category>> getCategories(PageRequest pageRequest) async {
     final apiResponse = await get(
       Uri.parse(Constants.categoriesUrl),
-      pageRequest.toMap(),
-      '',
-      _token,
+      queryParams: pageRequest.toMap(),
+      token: _token,
     );
     final content = jsonEncode(jsonDecode(apiResponse)['content']);
     return Page<Category>.fromJson(content);
