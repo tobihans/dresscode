@@ -1,61 +1,33 @@
 import 'package:flutter/material.dart';
 
-class CustomColors {
-  static final raw = <String, int>{
-    'primary': 0xFFFF3800,
-    'primaryBg': 0xFFF8F9FA,
-    'primaryText': 0xFF000000,
-    'lightGreyBg': 0xFFF1F5F8,
-  };
+const ColorScheme lightColorScheme = ColorScheme(
+  brightness: Brightness.light,
+  primary: Color(0xFFFF3800),
+  onPrimary: Color(0xFFFFFFFF),
+  secondary: Color(0xFFFF3800),
+  onSecondary: Color(0xFFFFFFFF),
+  tertiary: Color(0xFFFF3800),
+  onTertiary: Color(0xFFFFFFFF),
+  error: Color(0xFFBF0F0F),
+  onError: Color(0xFFFFFFFF),
+  background: Color(0xFFF8F9FA),
+  onBackground: Color(0xFF151414),
+  surface: Color(0xFFFFFFFF),
+  onSurface: Color(0xFF111827),
+);
 
-  static final material = <String, MaterialColor>{
-    'primary': MaterialColor(raw['primary']!, const {
-      50: Color.fromRGBO(255, 56, 0, .1),
-      100: Color.fromRGBO(255, 56, 0, .2),
-      200: Color.fromRGBO(255, 56, 0, .3),
-      300: Color.fromRGBO(255, 56, 0, .4),
-      400: Color.fromRGBO(255, 56, 0, .5),
-      500: Color.fromRGBO(255, 56, 0, .6),
-      600: Color.fromRGBO(255, 56, 0, .7),
-      700: Color.fromRGBO(255, 56, 0, .8),
-      800: Color.fromRGBO(255, 56, 0, .9),
-      900: Color.fromRGBO(255, 56, 0, 1),
-    }),
-    'primaryBg': MaterialColor(raw['primaryBg']!, const {
-      50: Color.fromRGBO(248, 249, 250, .1),
-      100: Color.fromRGBO(248, 249, 250, .2),
-      200: Color.fromRGBO(248, 249, 250, .3),
-      300: Color.fromRGBO(248, 249, 250, .4),
-      400: Color.fromRGBO(248, 249, 250, .5),
-      500: Color.fromRGBO(248, 249, 250, .6),
-      600: Color.fromRGBO(248, 249, 250, .7),
-      700: Color.fromRGBO(248, 249, 250, .8),
-      800: Color.fromRGBO(248, 249, 250, .9),
-      900: Color.fromRGBO(248, 249, 250, 1),
-    }),
-    'primaryText': MaterialColor(raw['primaryText']!, const {
-      50: Color.fromRGBO(0, 0, 0, .1),
-      100: Color.fromRGBO(0, 0, 0, .2),
-      200: Color.fromRGBO(0, 0, 0, .3),
-      300: Color.fromRGBO(0, 0, 0, .4),
-      400: Color.fromRGBO(0, 0, 0, .5),
-      500: Color.fromRGBO(0, 0, 0, .6),
-      600: Color.fromRGBO(0, 0, 0, .7),
-      700: Color.fromRGBO(0, 0, 0, .8),
-      800: Color.fromRGBO(0, 0, 0, .9),
-      900: Color.fromRGBO(0, 0, 0, 1),
-    }),
-    'lightGreyBg': MaterialColor(raw['lightGreyBg']!, const {
-      50: Color.fromRGBO(17, 24, 39, .1),
-      100: Color.fromRGBO(17, 24, 39, .2),
-      200: Color.fromRGBO(17, 24, 39, .3),
-      300: Color.fromRGBO(17, 24, 39, .4),
-      400: Color.fromRGBO(17, 24, 39, .5),
-      500: Color.fromRGBO(17, 24, 39, .6),
-      600: Color.fromRGBO(17, 24, 39, .7),
-      700: Color.fromRGBO(17, 24, 39, .8),
-      800: Color.fromRGBO(17, 24, 39, .9),
-      900: Color.fromRGBO(17, 24, 39, 1),
-    }),
-  };
-}
+const ColorScheme darkColorScheme = ColorScheme(
+  brightness: Brightness.dark,
+  primary: Color(0xFFFF3800),
+  onPrimary: Color(0xFFFFFFFF),
+  secondary: Color(0xFFFF3800),
+  onSecondary: Color(0xFFFFFFFF),
+  tertiary: Color(0xFFFF3800),
+  onTertiary: Color(0xFFFFFFFF),
+  error: Color(0xFFBF0F0F),
+  onError: Color(0xFFFFFFFF),
+  background: Color(0xFF232324),
+  onBackground: Color(0xFFFFFFFF),
+  surface: Color(0xFF111827),
+  onSurface: Color(0xFFFFFFFF),
+);

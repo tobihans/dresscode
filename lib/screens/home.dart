@@ -24,7 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
         children: <Widget>[
           Container(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
-              child: const HomeHero()),
+              child: const HomeHero(
+                text: "Collection d'été 2021",
+              )),
           Container(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               child: const Text('Categories')),

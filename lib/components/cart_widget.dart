@@ -1,7 +1,7 @@
+import 'package:dresscode/api/core/api_http_exception.dart';
 import 'package:dresscode/api/services/cart_service.dart';
 import 'package:dresscode/components/product_cart_widget.dart';
 import 'package:dresscode/models/product.dart';
-import 'package:dresscode/utils/colors.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
@@ -9,8 +9,10 @@ import 'package:logging/logging.dart';
 class CartWidget extends StatefulWidget {
   final ScrollController scrollController;
 
-  const CartWidget({Key? key, required this.scrollController})
-      : super(key: key);
+  const CartWidget({
+    Key? key,
+    required this.scrollController,
+  }) : super(key: key);
 
   @override
   State<CartWidget> createState() => _CartWidgetState();
@@ -19,6 +21,7 @@ class CartWidget extends StatefulWidget {
 class _CartWidgetState extends State<CartWidget> {
   late Future<List<MapEntry<Product, int>>> _cartProductsFuture;
   CartService? _cartService;
+  bool _loading = false;
 
   @override
   void initState() {
@@ -26,12 +29,19 @@ class _CartWidgetState extends State<CartWidget> {
     _cartProductsFuture = _initCartProducts();
   }
 
+  Future<void> clearCart() async {
+    await _cartService!.resetCart();
+    setState(() {
+      _cartProductsFuture = _initCartProducts();
+    });
+  }
+
   Future<List<MapEntry<Product, int>>> _initCartProducts() async {
     _cartService ??= CartService(await TokenStorage.getToken());
     final cart = await _cartService!.getCart();
     final cartProducts = <Product, int>{};
     for (var product in cart) {
-      cartProducts[product] = cartProducts[product] ?? 0 + 1;
+      cartProducts[product] = (cartProducts[product] ?? 0) + 1;
     }
     return cartProducts.keys.map((e) => MapEntry(e, cartProducts[e]!)).toList();
   }
@@ -73,7 +83,9 @@ class _CartWidgetState extends State<CartWidget> {
                     Container(
                       child: Text(
                         '$cartTotal XOF',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       alignment: Alignment.topRight,
                     )
@@ -182,10 +194,51 @@ class _CartWidgetState extends State<CartWidget> {
                   },
                 ),
               ),
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    setState(() {
+                      _loading = true;
+                    });
+                    await clearCart();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        duration: Duration(seconds: 3),
+                        content: Text(
+                          'Panier vidé avec succès',
+                        ),
+                      ),
+                    );
+                  } on Exception {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        duration: Duration(seconds: 3),
+                        content: Text(
+                          'Une erreur s\'est produite',
+                        ),
+                      ),
+                    );
+                  } finally {
+                    setState(() {
+                      _loading = false;
+                    });
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(5),
+                  child: _loading
+                      ? const CircularProgressIndicator()
+                      : const Text(
+                    'Vider le panier',
+                  ),
+                )
+              ),
             ],
           );
         } else if (snapshot.hasError) {
-          Logger.root.severe((snapshot.error as Error).stackTrace);
+          if(snapshot is ApiHttpException) {
+            Logger.root.severe((snapshot.error as ApiHttpException).toString());
+          }
           return const Center(
             child: Text(
               'Une erreur s\'est produite 🥲',
@@ -195,7 +248,7 @@ class _CartWidgetState extends State<CartWidget> {
         }
         return Center(
           child: CircularProgressIndicator(
-            color: Color(CustomColors.raw['primary']!),
+            color: Theme.of(context).colorScheme.primary,
           ),
         );
       },

@@ -2,7 +2,6 @@ import 'package:dresscode/api/services/auth_service.dart';
 import 'package:dresscode/components/drawer_authenticated.dart';
 import 'package:dresscode/components/drawer_unauthenticated.dart';
 import 'package:dresscode/models/user.dart';
-import 'package:dresscode/utils/colors.dart';
 import 'package:dresscode/utils/string_extensions.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +56,7 @@ class _AppDrawerState extends State<AppDrawer> {
           return Drawer(
             child: Center(
               child: CircularProgressIndicator(
-                color: Color(CustomColors.raw['primary']!),
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
           );
