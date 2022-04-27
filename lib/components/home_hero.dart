@@ -16,11 +16,7 @@ class HomeHero extends StatelessWidget {
       height: size.height * 0.275,
       child: Container(
         child: Stack(children: [
-          Container(
-            decoration: BoxDecoration(
-                color:
-                    Color(CustomColors.raw['primaryText']!).withOpacity(0.75)),
-          ),
+          Container(),
           Container(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -42,9 +38,7 @@ class HomeHero extends StatelessWidget {
                   Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                     ElevatedButton(
                       onPressed: _heroButtonPressed,
-                      child: Text('Voir',
-                          style: TextStyle(
-                              color: Color(CustomColors.raw['lightGreyBg']!))),
+                      child: const Text('Voir'),
                       style: ButtonStyle(
                           padding: MaterialStateProperty.all(
                               const EdgeInsets.symmetric(
