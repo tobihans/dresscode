@@ -1,22 +1,26 @@
 import 'package:dresscode/api/core/api_http_exception.dart';
 import 'package:dresscode/api/services/cart_service.dart';
+import 'package:dresscode/api/services/product_service.dart';
 import 'package:dresscode/api/services/wishlist_service.dart';
 import 'package:dresscode/components/app_bar.dart';
 import 'package:dresscode/components/app_drawer.dart';
 import 'package:dresscode/components/floating_btn.dart';
 import 'package:dresscode/components/image_widget_gallery.dart';
+import 'package:dresscode/components/products_horizontal_list.dart';
 import 'package:dresscode/components/wishlist_button.dart';
 import 'package:dresscode/models/product.dart';
 import 'package:flutter/material.dart';
 
 class ProductScreen extends StatefulWidget {
   final Product product;
+  final ProductService productService;
   final CartService cartService;
   final WishlistService wishlistService;
 
   const ProductScreen({
     Key? key,
     required this.product,
+    required this.productService,
     required this.cartService,
     required this.wishlistService,
   }) : super(key: key);
@@ -26,6 +30,7 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
+  late ProductService _productService;
   late CartService _cartService;
   late WishlistService _wishlistService;
   late Future<bool> _isInWishlistFuture;
@@ -37,13 +42,13 @@ class _ProductScreenState extends State<ProductScreen> {
 
   void fresh() {
     setState(() {
-      _isInWishlistFuture =
-          _wishlistService.isInWishlist(widget.product);
+      _isInWishlistFuture = _wishlistService.isInWishlist(widget.product);
     });
   }
 
   @override
   void initState() {
+    _productService = widget.productService;
     _cartService = widget.cartService;
     _wishlistService = widget.wishlistService;
     _isInWishlistFuture = _wishlistService.isInWishlist(widget.product);
@@ -211,21 +216,52 @@ class _ProductScreenState extends State<ProductScreen> {
             ],
           ),
           const Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.0),
+            padding: EdgeInsets.symmetric(vertical: 10),
             child: Text(
               'Description',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(top: 10, bottom: 50),
+            margin: const EdgeInsets.symmetric(vertical: 10),
             child: Text(
               widget.product.description,
               maxLines: null,
               textAlign: TextAlign.justify,
               style: const TextStyle(fontSize: 16),
             ),
-          )
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 15),
+            child: Text(
+              'Produits similaires',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(bottom: 30),
+            child: SizedBox(
+              height: size.height * 0.3,
+              child: ProductsHorizontalList(
+                onProductSelected: (Product product) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ProductScreen(
+                        product: product,
+                        productService: _productService,
+                        cartService: _cartService,
+                        wishlistService: _wishlistService,
+                      ),
+                    ),
+                  );
+                },
+                products: List.filled(10, widget.product),
+                productService: _productService,
+                cartService: _cartService,
+                wishlistService: _wishlistService,
+              ),
+            ),
+          ),
         ],
       ),
     );
