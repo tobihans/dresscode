@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dresscode/components/notifications_widget.dart';
+import 'package:dresscode/components/search_page.dart';
 
 class OwnAppBar extends StatelessWidget implements PreferredSizeWidget {
   const OwnAppBar({Key? key}) : super(key: key);
+
+  //TODO: THIS LIST HAVE TO BE PASSED DYNAMICALLY BASED ON PAGE THAT USER SEARCH BAR
+  static final List<dynamic> _journalsForSearch = [
+    {'code':'#0', 'name':'Coco', 'description':'Coco desc', 'price':150, 'image':null},
+    {'code':'#1', 'name':'Polo', 'description':'Polo desc', 'price':200, 'image':null},
+    {'code':'#2', 'name':'Coco', 'description':'Coco desc', 'price':350, 'image':null},
+    {'code':'#3', 'name':'Polo', 'description':'Polo desc', 'price':400, 'image':null},
+    {'code':'#4', 'name':'Coco', 'description':'Coco desc', 'price':550, 'image':null},
+    {'code':'#5', 'name':'Polo', 'description':'Polo desc', 'price':600, 'image':null},
+    {'code':'#6', 'name':'Coco', 'description':'Coco desc', 'price':750, 'image':null},
+    {'code':'#7', 'name':'Polo', 'description':'Polo desc', 'price':800, 'image':null}];
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -25,6 +37,25 @@ class OwnAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: <Widget>[
+        // Research Button Icon
+        Transform.translate(
+          offset: const Offset(0, 10),
+          child: IconButton(
+            onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) {
+                      return SearchPage(journals: _journalsForSearch);
+                    }
+                )
+            ),
+            icon: Icon(
+              Icons.search,
+              color: colorScheme.onBackground,
+            ),
+          ),
+        ),
+
         // It's too complicated to get a dot on top of this when there are notifications
         // As a workaround, we'll change the icon and its color just
         Transform.translate(
