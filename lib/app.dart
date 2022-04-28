@@ -5,6 +5,7 @@ import 'package:dresscode/models/image.dart' as img;
 import 'package:dresscode/screens/login_screen.dart';
 import 'package:dresscode/screens/product_screen.dart';
 import 'package:dresscode/screens/register_screen.dart';
+import 'package:dresscode/screens/wishlist.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:dresscode/utils/colors.dart';
@@ -43,6 +44,7 @@ class App extends StatelessWidget {
         Routes.details: (context) => const ItemDetailsScreen(),
         Routes.login: (context) => const LoginScreen(),
         Routes.register: (context) => const RegisterScreen(),
+        Routes.wishlist: (context) => Wishlist(wishlistService: prodScreen.wishlistService)
       },
       home: prodScreen,
     );
