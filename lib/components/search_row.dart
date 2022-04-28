@@ -21,10 +21,10 @@ class SearchRow extends StatelessWidget {
         //TODO: REDIRECT BASED ON PAGE ACTION
       },
 
-      leading: (product.images == null) ? Padding(
+      /*leading:  ? Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0),
           child: Image(image: imageFromBase64String(product.images![0]).image)
-      ) : const SizedBox(height: 1),
+      ) : const SizedBox(height: 1),*/
 
       contentPadding: const EdgeInsets.only(top: 0, left: 10, bottom: 0),
 

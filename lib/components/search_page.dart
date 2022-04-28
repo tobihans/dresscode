@@ -71,7 +71,7 @@ class _SearchPage extends State<SearchPage> {
           height: 40,
 
           decoration: BoxDecoration(
-              color: Colors.grey,
+              color: Colors.white,
               borderRadius: BorderRadius.circular(5)
           ),
 
@@ -82,9 +82,9 @@ class _SearchPage extends State<SearchPage> {
             controller: _searchController,
             decoration: InputDecoration(
                 hintText: 'Recherche ...',
-                prefixIcon: const Icon(Icons.search, color: Colors.white,),
+                prefixIcon: const Icon(Icons.search, color: Colors.black,),
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.clear, color: Colors.white,),
+                  icon: const Icon(Icons.clear, color: Colors.black,),
                   onPressed: () {
                     /* Clear the research field */
                     _searchController.clear();
@@ -110,6 +110,7 @@ class _SearchPage extends State<SearchPage> {
               'image':journals[index]['image'],
             });
 
+            //return  const SizedBox(height: 1);
             return SearchRow(product:_thisProduct);
           }
       ),

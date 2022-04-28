@@ -8,14 +8,14 @@ class OwnAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   //TODO: THIS LIST HAVE TO BE PASSED DYNAMICALLY BASED ON PAGE THAT USER SEARCH BAR
   static final List<dynamic> _journalsForSearch = [
-    {'code':'#0', 'name':'Coco', 'description':'Coco desc', 'price':150, 'image':null},
-    {'code':'#1', 'name':'Polo', 'description':'Polo desc', 'price':200, 'image':null},
-    {'code':'#2', 'name':'Coco', 'description':'Coco desc', 'price':350, 'image':null},
-    {'code':'#3', 'name':'Polo', 'description':'Polo desc', 'price':400, 'image':null},
-    {'code':'#4', 'name':'Coco', 'description':'Coco desc', 'price':550, 'image':null},
-    {'code':'#5', 'name':'Polo', 'description':'Polo desc', 'price':600, 'image':null},
-    {'code':'#6', 'name':'Coco', 'description':'Coco desc', 'price':750, 'image':null},
-    {'code':'#7', 'name':'Polo', 'description':'Polo desc', 'price':800, 'image':null}];
+    {'code':'#0', 'name':'Coco', 'description':'Coco desc', 'price':150, 'image':[]},
+    {'code':'#1', 'name':'Polo', 'description':'Polo desc', 'price':200, 'image':[]},
+    {'code':'#2', 'name':'Coco', 'description':'Coco desc', 'price':350, 'image':[]},
+    {'code':'#3', 'name':'Polo', 'description':'Polo desc', 'price':400, 'image':[]},
+    {'code':'#4', 'name':'Coco', 'description':'Coco desc', 'price':550, 'image':[]},
+    {'code':'#5', 'name':'Polo', 'description':'Polo desc', 'price':600, 'image':[]},
+    {'code':'#6', 'name':'Coco', 'description':'Coco desc', 'price':750, 'image':[]},
+    {'code':'#7', 'name':'Polo', 'description':'Polo desc', 'price':800, 'image':[]}];
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
