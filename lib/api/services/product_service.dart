@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dresscode/api/api_base.dart';
+import 'package:dresscode/api/core/api_base.dart';
 import 'package:dresscode/api/core/constants.dart';
 import 'package:dresscode/models/category.dart';
 import 'package:dresscode/models/page.dart';
@@ -15,9 +15,8 @@ class ProductService extends ApiBase {
   Future<Page<Product>> getProducts(PageRequest pageRequest) async {
     final apiResponse = await get(
       Uri.parse(Constants.productsUrl),
-      pageRequest.toMap(),
-      '',
-      _token,
+      queryParams: pageRequest.toMap(),
+      token: _token,
     );
     final content = jsonEncode(jsonDecode(apiResponse)['content']);
     return Page<Product>.fromJson(content);
@@ -27,9 +26,8 @@ class ProductService extends ApiBase {
       PageRequest pageRequest, Product product) async {
     final apiResponse = await get(
       Uri.parse('${Constants.productsUrl}/${product.code}/related'),
-      pageRequest.toMap(),
-      '',
-      _token,
+      queryParams: pageRequest.toMap(),
+      token: _token,
     );
     final content = jsonEncode(jsonDecode(apiResponse)['content']);
     return Page<Product>.fromJson(content);
@@ -39,9 +37,8 @@ class ProductService extends ApiBase {
       PageRequest pageRequest, String name) async {
     final apiResponse = await get(
       Uri.parse('${Constants.productsUrl}/search/$name'),
-      pageRequest.toMap(),
-      '',
-      _token,
+      queryParams: pageRequest.toMap(),
+      token: _token,
     );
     final content = jsonEncode(jsonDecode(apiResponse)['content']);
     return Page<Product>.fromJson(content);
@@ -51,9 +48,8 @@ class ProductService extends ApiBase {
       PageRequest pageRequest, Category category) async {
     final apiResponse = await get(
       Uri.parse('${Constants.productsUrl}/category/${category.name}'),
-      pageRequest.toMap(),
-      '',
-      _token,
+      queryParams: pageRequest.toMap(),
+      token: _token,
     );
     final content = jsonEncode(jsonDecode(apiResponse)['content']);
     return Page<Product>.fromJson(content);
@@ -62,9 +58,7 @@ class ProductService extends ApiBase {
   Future<Product> getProduct(String code) async {
     final apiResponse = await get(
       Uri.parse('${Constants.productsUrl}/$code'),
-      Constants.emptyMap,
-      '',
-      _token,
+      token: _token,
     );
     final content = jsonEncode(jsonDecode(apiResponse)['content']);
     return Product.fromJson(content);

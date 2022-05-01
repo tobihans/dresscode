@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:dresscode/api/services/auth_service.dart';
 import 'package:dresscode/models/user.dart';
-import 'package:dresscode/utils/colors.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +15,8 @@ class DrawerAuthenticated extends StatelessWidget {
   String _getUserInitials() {
     final initialsBuilder = StringBuffer();
     var isSpace = true;
-    for(final character in user.name.characters) {
-      if(isSpace && character != ' ') {
+    for (final character in user.name.characters) {
+      if (isSpace && character != ' ') {
         initialsBuilder.write(character);
       }
       isSpace = character == ' ';
@@ -35,12 +32,10 @@ class DrawerAuthenticated extends StatelessWidget {
         children: <Widget>[
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(
-              color: Color(CustomColors.raw['primary']!),
+              color: Theme.of(context).colorScheme.primary,
             ),
             currentAccountPicture: CircleAvatar(
               radius: 50.0,
-              backgroundColor:
-                  Colors.primaries[Random().nextInt(Colors.primaries.length)],
               child: Text(
                 _getUserInitials(),
                 style: const TextStyle(fontSize: 20),
@@ -50,15 +45,39 @@ class DrawerAuthenticated extends StatelessWidget {
             accountName: Text(user.name),
           ),
           ListTile(
-            textColor: Color(CustomColors.raw['primary']!),
+            textColor: Theme.of(context).colorScheme.primary,
             title: const Text('Editer le profil'),
             trailing: Icon(
               Icons.arrow_forward_ios,
-              color: Color(CustomColors.raw['primary']!),
+              color: Theme.of(context).colorScheme.primary,
             ),
             onTap: () {
               _logger.info('Editer le profil');
             },
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: size.height / 200),
+            child: ListTile(
+              title: const Text('Accueil'),
+              leading: const Icon(
+                Icons.home,
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, Routes.home);
+              },
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.symmetric(vertical: size.height / 200),
+            child: ListTile(
+              title: const Text('Voir la boutique'),
+              leading: const Icon(
+                Icons.shopping_bag,
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, Routes.shop);
+              },
+            ),
           ),
           Container(
             margin: EdgeInsets.symmetric(vertical: size.height / 200),
@@ -68,22 +87,8 @@ class DrawerAuthenticated extends StatelessWidget {
                 Icons.list,
               ),
               onTap: () {
-                _logger.info('liste de souhaits');
+                _logger.info('Liste de souhaits');
               },
-              tileColor: const Color(0x22222200),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: size.height / 200),
-            child: ListTile(
-              title: const Text('Historique'),
-              leading: const Icon(
-                Icons.history,
-              ),
-              onTap: () {
-                _logger.info('Historique');
-              },
-              tileColor: const Color(0x22222200),
             ),
           ),
           Container(
@@ -96,20 +101,21 @@ class DrawerAuthenticated extends StatelessWidget {
               onTap: () {
                 _logger.info('Méthodes de paiement');
               },
-              tileColor: const Color(0x22222200),
             ),
           ),
           const Spacer(),
           TextButton(
             onPressed: () async {
-              _logger.info('Déconnexion');
               await AuthService().logout();
               await TokenStorage.removeToken();
-              Navigator.pushNamed(context, Routes.login);
+              Navigator.of(context).pop();
+              Navigator.pushReplacementNamed(context, Routes.login);
             },
             child: Text(
               'Déconnexion',
-              style: TextStyle(color: Color(CustomColors.raw['primary']!)),
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
           ),
           Container(

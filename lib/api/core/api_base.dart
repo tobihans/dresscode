@@ -42,9 +42,9 @@ abstract class ApiBase {
   }
 
   Future<String> get(final Uri uri,
-      [final Map<String, String> queryParams = Constants.emptyMap,
+      {final Map<String, String> queryParams = Constants.emptyMap,
       final String data = '',
-      String token = '']) {
+      String token = ''}) {
     if (queryParams.isEmpty) {
       return callUrl(uri, HttpMethod.get, data, token);
     } else {
@@ -55,15 +55,15 @@ abstract class ApiBase {
     }
   }
 
-  Future<String> post(Uri uri, [String data = '', String token = '']) async {
+  Future<String> post(Uri uri, {String data = '', String token = ''}) async {
     return callUrl(uri, HttpMethod.post, data, token);
   }
 
-  Future<String> put(Uri uri, [String data = '', String token = '']) async {
+  Future<String> put(Uri uri, {String data = '', String token = ''}) async {
     return callUrl(uri, HttpMethod.put, data, token);
   }
 
-  Future<String> delete(Uri uri, [String data = '', String token = '']) async {
+  Future<String> delete(Uri uri, {String data = '', String token = ''}) async {
     return callUrl(uri, HttpMethod.delete, data, token);
   }
 }

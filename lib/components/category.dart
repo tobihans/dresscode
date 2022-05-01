@@ -31,9 +31,6 @@ class Category extends StatelessWidget {
                         widthFactor: 0.25,
                         child: Text(name),
                       ),
-                      decoration: BoxDecoration(
-                          color: Color(CustomColors.raw['primaryText']!)
-                              .withOpacity(0.75)),
                     ),
                   ]),
                   decoration: BoxDecoration(
