@@ -1,8 +1,10 @@
 name: APK Release
 on:
   push:
+    branches:
+      - main
     tags:
-      - '*'
+      - 'v*'
 
 jobs:
   build-apk:
@@ -30,9 +32,8 @@ jobs:
           echo "keyPassword=${{ secrets.KEY_PWD }}" >> android/key.properties; \
       - run: flutter pub get
       - run: flutter build apk --release
-      - run: flutter build appbundle --release
-      - uses: actions/upload-artifact@v3
+        # - run: flutter build appbundle --release
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
-          name: build-output
-          path: 'build/**/*.apk'
-          retention-days: 2
+          files: build/app/outputs/apk/release/app-release.apk
