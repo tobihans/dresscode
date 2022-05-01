@@ -1,9 +1,8 @@
 name: APK Release
 on:
   push:
-    branches:
-      - main
-  pull_request:
+    tags:
+      - '*'
 
 jobs:
   build-apk:
