@@ -87,19 +87,7 @@ class DrawerAuthenticated extends StatelessWidget {
                 Icons.list,
               ),
               onTap: () {
-                _logger.info('Liste de souhaits');
-              },
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: size.height / 200),
-            child: ListTile(
-              title: const Text('Méthodes de paiement'),
-              leading: const Icon(
-                Icons.payment,
-              ),
-              onTap: () {
-                _logger.info('Méthodes de paiement');
+                Navigator.pushNamed(context, Routes.wishlist);
               },
             ),
           ),

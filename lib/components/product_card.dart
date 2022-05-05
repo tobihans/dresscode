@@ -6,17 +6,19 @@ import 'package:flutter/material.dart';
 
 /// TODO
 class ProductCard extends StatelessWidget {
-  // final Product product;
-  // final ProductService productService;
-  // final CartService cartService;
-  // final WishlistService wishlistService;
+  final Product product;
+  final ProductService productService;
+  final CartService cartService;
+  final WishlistService wishlistService;
+  final Widget? trailing;
 
   const ProductCard({
     Key? key,
-    // required this.product,
-    // required this.productService,
-    // required this.cartService,
-    // required this.wishlistService,
+    required this.product,
+    required this.productService,
+    required this.cartService,
+    required this.wishlistService,
+    this.trailing,
   }) : super(key: key);
 
   @override
