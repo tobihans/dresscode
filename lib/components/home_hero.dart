@@ -16,7 +16,9 @@ class HomeHero extends StatelessWidget {
       height: size.height * 0.275,
       child: Container(
         child: Stack(children: [
-          Container(),
+          Container(
+              decoration: BoxDecoration(
+                  color: const Color(0XFF000000).withOpacity(0.75))),
           Container(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -52,7 +54,7 @@ class HomeHero extends StatelessWidget {
               ))
         ]),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.0),
+            borderRadius: BorderRadius.circular(15.0),
             image: const DecorationImage(
                 image: NetworkImage(url), fit: BoxFit.cover)),
       ),

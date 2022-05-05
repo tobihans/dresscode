@@ -1,4 +1,3 @@
-import 'package:dresscode/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class Category extends StatelessWidget {
@@ -27,10 +26,11 @@ class Category extends StatelessWidget {
                 child: Container(
                   child: Stack(children: [
                     Container(
-                      child: Center(
-                        widthFactor: 0.25,
-                        child: Text(name),
-                      ),
+                      decoration: BoxDecoration(
+                          color: const Color(0XFF000000).withOpacity(0.75)),
+                    ),
+                    Center(
+                      child: Text(name),
                     ),
                   ]),
                   decoration: BoxDecoration(
