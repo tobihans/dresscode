@@ -16,9 +16,9 @@ class WishlistService extends ApiBase {
       Uri.parse(Constants.wishlistUrl),
       token: _token,
     );
-    final content = jsonEncode(jsonDecode(apiResponse)['content']) as List;
+    final content = jsonDecode(apiResponse)['content'] as List;
     return content
-        .map((e) => Product.fromJson(e as String))
+        .map((e) => Product.fromMap(e))
         .toList(growable: false);
   }
 

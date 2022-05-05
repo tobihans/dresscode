@@ -17,7 +17,11 @@ void configureLogger() {
 
 Future<void> initAuth() async {
   final token = await TokenStorage.getToken();
-  await AuthService().getCurrentUser(token);
+  try {
+    await AuthService().getCurrentUser(token);
+  } on Exception {
+    // Nothing because we just wanted to load the user if there was one
+  }
 }
 
 Future<void> main() async {
@@ -25,7 +29,7 @@ Future<void> main() async {
   await NotificationService.initDatabase();
   configureLogger();
   await TokenStorage.saveToken(
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFAZ21haWwuY29tIiwiZXhwIjoxNjUxNTIxOTM3LCJpYXQiOjE2NDg5Mjk5Mzd9.rQsTQh8n_kOuAm3KB3Ox_ZDM9PIS8NCSc-BbiiZay3Q',
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFiaWplZEBnbWFpbC5jb20iLCJleHAiOjE2NTQzMzM2MzIsImlhdCI6MTY1MTc0MTYzMn0.OakUIxCMkL2qX0tAIri5LarsnKIw15uNFzHwEiShXME',
   );
   await initAuth();
   runApp(const App());
