@@ -10,6 +10,7 @@ class ProductCard extends StatelessWidget {
   final ProductService productService;
   final CartService cartService;
   final WishlistService wishlistService;
+  final Widget? trailing;
 
   const ProductCard({
     Key? key,
@@ -17,6 +18,7 @@ class ProductCard extends StatelessWidget {
     required this.productService,
     required this.cartService,
     required this.wishlistService,
+    this.trailing,
   }) : super(key: key);
 
   @override
