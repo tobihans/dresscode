@@ -91,18 +91,6 @@ class DrawerAuthenticated extends StatelessWidget {
               },
             ),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: size.height / 200),
-            child: ListTile(
-              title: const Text('Méthodes de paiement'),
-              leading: const Icon(
-                Icons.payment,
-              ),
-              onTap: () {
-                _logger.info('Méthodes de paiement');
-              },
-            ),
-          ),
           const Spacer(),
           TextButton(
             onPressed: () async {
