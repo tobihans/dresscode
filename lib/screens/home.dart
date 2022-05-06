@@ -5,7 +5,6 @@ import 'package:dresscode/components/floating_btn.dart';
 import 'package:dresscode/components/home_hero.dart';
 import 'package:dresscode/components/category.dart';
 import 'package:dresscode/components/top_model.dart';
-import 'package:dresscode/components/product_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -65,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: List.generate(9, (i) => i)
-                    .map((e) => const ProductCard())
+                    .map((e) => const Material())
                     .toList(),
               ))
         ],

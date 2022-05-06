@@ -27,14 +27,14 @@ class ProductsHorizontalList extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       itemCount: products.length,
       itemBuilder: (ctx, index) {
-        return const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: ProductCard(
-              // productService: productService,
-              // cartService: cartService,
-              // wishlistService: wishlistService,
-              // product: products[index],
-              ),
+            productService: productService,
+            cartService: cartService,
+            wishlistService: wishlistService,
+            product: products[index],
+          ),
         );
       },
     );
