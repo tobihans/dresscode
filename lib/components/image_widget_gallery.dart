@@ -19,19 +19,14 @@ class _ImageWidgetGalleryState extends State<ImageWidgetGallery> {
       children: <Widget>[
         Flexible(
           flex: 7,
-          child: FadeInImage.assetNetwork(
-            placeholder: 'assets/loading.gif',
-            image: widget.images[currentIndex],
-            alignment: Alignment.center,
-            height: double.infinity,
-            width: double.infinity,
+          child: Image.network(
+            currentIndex < widget.images.length && widget.images.isNotEmpty
+                ? widget.images[currentIndex]
+                : '',
             fit: BoxFit.fill,
-            imageErrorBuilder: (ctx, obj, stack) {
+            errorBuilder: (ctx, obj, stack) {
               return Image.asset(
                 'assets/placeholder.png',
-                alignment: Alignment.center,
-                height: double.infinity,
-                width: double.infinity,
                 fit: BoxFit.fill,
               );
             },

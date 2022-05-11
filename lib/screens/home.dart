@@ -1,9 +1,10 @@
 import 'package:dresscode/components/app_drawer.dart';
+import 'package:dresscode/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:dresscode/components/app_bar.dart';
 import 'package:dresscode/components/floating_btn.dart';
 import 'package:dresscode/components/home_hero.dart';
-import 'package:dresscode/components/category.dart';
+import 'package:dresscode/components/category_widget.dart';
 import 'package:dresscode/components/top_model.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -20,54 +21,66 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: const OwnAppBar(),
       drawer: const AppDrawer(),
       floatingActionButton: const FloatingBtn(),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
-        children: <Widget>[
-          Container(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {});
+        },
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
+          children: <Widget>[
+            Container(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               child: const HomeHero(
                 text: "Collection d'été 2021",
-              )),
-          Container(
-              padding: const EdgeInsets.symmetric(vertical: 6.0),
-              child: const Text('Categories')),
-          SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(vertical: 6.0),
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(12, (i) => i)
-                    .map((e) => Category(
-                        name: "Categorie $e",
-                        url:
-                            "https://source.unsplash.com/random/1600x900?mode&clothe&dress&style&beautiful&sig=10$e"))
-                    .toList(),
-              )),
-          Container(
-              padding: const EdgeInsets.symmetric(vertical: 6.0),
-              child: const Text('Les top modèles')),
-          SingleChildScrollView(
+              ),
+            ),
+            Container(
+                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                child: const Text('Categories')),
+            SingleChildScrollView(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: List.generate(9, (i) => i)
-                    .map((e) => TopModel(
-                        name: "Jan$e",
-                        url:
-                            "https://source.unsplash.com/random/1600x900?mode&clothe&dress&style&beautiful&sig=10$e"))
-                    .toList(),
-              )),
-          Container(
-              padding: const EdgeInsets.symmetric(vertical: 6.0),
-              child: const Text('Les top modèles')),
-          SingleChildScrollView(
+                children: List.generate(
+                  12,
+                  (i) => CategoryWidget(
+                    category: Category(
+                      name: 'Category $i',
+                      description: 'This is a description',
+                    ),
+                  ),
+                ).toList(),
+              ),
+            ),
+            Container(
+                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                child: const Text('Les top modèles')),
+            SingleChildScrollView(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               scrollDirection: Axis.horizontal,
               child: Row(
-                children: List.generate(9, (i) => i)
-                    .map((e) => const Material())
-                    .toList(),
-              ))
-        ],
+                children: List.generate(
+                  9,
+                  (e) => TopModel(
+                    name: "Jan$e",
+                    url:
+                        "https://source.unsplash.com/random/1600x900?mode&clothe&dress&style&beautiful&sig=10$e",
+                  ),
+                ).toList(),
+              ),
+            ),
+            Container(
+                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                child: const Text('Les top modèles')),
+            SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: List.generate(9, (_) => const Material()).toList(),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

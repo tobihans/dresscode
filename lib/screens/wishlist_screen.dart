@@ -44,87 +44,102 @@ class _WishlistScreenState extends State<WishlistScreen> {
       appBar: const OwnAppBar(),
       drawer: const AppDrawer(),
       floatingActionButton: const FloatingBtn(),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            child: const Text(
-              'Mes souhaits',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {});
+        },
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              child: const Text(
+                'Mes souhaits',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
               ),
             ),
-          ),
-          FutureBuilder<WishlistScreenViewModel>(
-            future: _initData(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final viewModel = snapshot.data!;
-                return GridView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: viewModel.wishlist.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 3 / 4,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                  itemBuilder: (context, index) {
-                    final product = viewModel.wishlist[index];
-                    return ProductCard(
-                      product: product,
-                      productService: viewModel.productService,
-                      cartService: viewModel.cartService,
-                      wishlistService: viewModel.wishlistService,
-                      trailing: IconButton(
-                        onPressed: () async {
-                          try {
-                            await viewModel.wishlistService
-                                .removeFromWishlist(product);
-                            setState(() {});
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                  'Produit retiré de la liste de souhaits',
-                                ),
-                              ),
-                            );
-                          } on Exception {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content:
-                                    const Text('Une erreur s\'est produite'),
-                                backgroundColor: Theme.of(context).errorColor,
-                              ),
-                            );
-                          }
-                        },
-                        icon: const Icon(Icons.delete),
+            FutureBuilder<WishlistScreenViewModel>(
+              future: _initData(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final viewModel = snapshot.data!;
+                  if (viewModel.wishlist.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        'Aucun produit',
+                        style: TextStyle(fontSize: 17),
                       ),
                     );
-                  },
-                );
-              } else if (snapshot.hasError) {
-                return const Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Text(
-                      'Une erreur est survenue',
-                      style: TextStyle(fontSize: 17),
+                  }
+
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: viewModel.wishlist.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 3 / 4,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
                     ),
-                  ),
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
-          ),
-        ],
+                    itemBuilder: (context, index) {
+                      final product = viewModel.wishlist[index];
+                      return ProductCard(
+                        product: product,
+                        productService: viewModel.productService,
+                        cartService: viewModel.cartService,
+                        wishlistService: viewModel.wishlistService,
+                        trailing: IconButton(
+                          onPressed: () async {
+                            try {
+                              await viewModel.wishlistService
+                                  .removeFromWishlist(product);
+                              setState(() {});
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Produit retiré de la liste de souhaits',
+                                  ),
+                                ),
+                              );
+                            } on Exception {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      const Text('Une erreur s\'est produite'),
+                                  backgroundColor: Theme.of(context).errorColor,
+                                ),
+                              );
+                            }
+                          },
+                          icon: const Icon(Icons.delete),
+                        ),
+                      );
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 20),
+                      child: Text(
+                        'Une erreur est survenue',
+                        style: TextStyle(fontSize: 17),
+                      ),
+                    ),
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

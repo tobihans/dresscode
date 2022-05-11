@@ -17,9 +17,7 @@ class WishlistService extends ApiBase {
       token: _token,
     );
     final content = jsonDecode(apiResponse)['content'] as List;
-    return content
-        .map((e) => Product.fromMap(e))
-        .toList(growable: false);
+    return content.map((e) => Product.fromMap(e)).toList(growable: false);
   }
 
   Future<bool> isInWishlist(Product product) async {

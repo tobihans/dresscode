@@ -9,6 +9,7 @@ import 'package:dresscode/components/image_widget_gallery.dart';
 import 'package:dresscode/components/products_horizontal_list.dart';
 import 'package:dresscode/components/wishlist_button.dart';
 import 'package:dresscode/models/product.dart';
+import 'package:dresscode/utils/models_extensions.dart';
 import 'package:flutter/material.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -57,9 +58,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final productImages =
-        widget.product.images?.map((img) => img.url).toList(growable: false) ??
-            [];
+    final productImages = widget.product.imageUrls;
     final size = MediaQuery.of(context).size;
     final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
@@ -241,7 +240,7 @@ class _ProductScreenState extends State<ProductScreen> {
           Container(
             margin: const EdgeInsets.only(bottom: 30),
             child: SizedBox(
-              height: size.height * 0.3,
+              height: size.height * 0.2,
               child: ProductsHorizontalList(
                 onProductSelected: (Product product) {
                   Navigator.of(context).push(

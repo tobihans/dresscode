@@ -87,7 +87,7 @@ class DrawerAuthenticated extends StatelessWidget {
                 Icons.list,
               ),
               onTap: () {
-                _logger.info('Liste de souhaits');
+                Navigator.pushNamed(context,Routes.wishlist);
               },
             ),
           ),
