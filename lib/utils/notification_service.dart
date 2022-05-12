@@ -11,9 +11,12 @@ class NotificationService {
     _database ??= await openDatabase(
       join(await getDatabasesPath(), _dbFile),
       version: 1,
-      onCreate: (Database db, int version) async {
+      onCreate: (Database db, _) async {
+        await db.execute(
+          'CREATE TABLE $_tableName (id INTEGER PRIMARY KEY, title TEXT, content TEXT,userCode TEXT);',
+        );
         return db.execute(
-          'CREATE TABLE $_tableName (id INTEGER PRIMARY KEY, title TEXT, content TEXT)',
+          'CREATE INDEX user_code_idx ON $_tableName (userCode)',
         );
       },
     );
@@ -27,8 +30,13 @@ class NotificationService {
     );
   }
 
-  static Future<List<Notification>> getAllNotifications() async {
-    final data = await _database?.query(_tableName, orderBy: 'id');
+  static Future<List<Notification>> getAllNotifications(String userCode) async {
+    final data = await _database?.query(
+      _tableName,
+      orderBy: 'id',
+      where: 'userCode = ?',
+      whereArgs: [userCode],
+    );
     return data?.map(Notification.fromMap).toList() ?? [];
   }
 

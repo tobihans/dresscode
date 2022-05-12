@@ -28,9 +28,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService.initDatabase();
   configureLogger();
-  await TokenStorage.saveToken(
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFiaWplZEBnbWFpbC5jb20iLCJleHAiOjE2NTQzMzM2MzIsImlhdCI6MTY1MTc0MTYzMn0.OakUIxCMkL2qX0tAIri5LarsnKIw15uNFzHwEiShXME',
-  );
   await initAuth();
   runApp(const App());
 }
