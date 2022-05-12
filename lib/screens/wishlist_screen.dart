@@ -21,7 +21,7 @@ class WishlistScreen extends StatefulWidget {
 class _WishlistScreenState extends State<WishlistScreen> {
   Future<WishlistScreenViewModel> _initData() async {
     final token = await TokenStorage.getToken();
-    final productService = ProductService(token);
+    final productService = ProductService();
     final wishlistService = WishlistService(token);
     final cartService = CartService(token);
     final wishlist = await wishlistService.getWishlist();
