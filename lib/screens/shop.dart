@@ -8,7 +8,6 @@ import 'package:dresscode/components/product_card.dart';
 import 'package:dresscode/requests/page_request.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
-
 import '../models/product.dart';
 
 class ShopScreen extends StatefulWidget {
@@ -96,8 +95,7 @@ class ShopViewModel {
   ShopViewModel({
     required this.productService,
     required this.cartService,
-    required this.wishlistService
-    }){
+    required this.wishlistService}){
       pageRequest = PageRequest(pageNumber: 0, pageSize: 20);
       getProducts();
     }
