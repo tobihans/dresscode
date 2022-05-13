@@ -44,7 +44,7 @@ class _ShopScreenState extends State<ShopScreen> {
       drawer: const AppDrawer(),
       floatingActionButton: const FloatingBtn(),
       body: FutureBuilder(
-          builder: (context,AsyncSnapshot<ShopViewModel> snapshot) {
+          builder: (context, AsyncSnapshot<ShopViewModel> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),
@@ -52,32 +52,31 @@ class _ShopScreenState extends State<ShopScreen> {
             }
             if (snapshot.hasError) {
               return const Center(
-                child: Text('Error Something went wrong'),
+                child: Text('Une erreur est survenue'),
               );
             }
             return Container(
               padding: const EdgeInsets.all(10),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-
-                children: [
-                  if(snapshot.data?.products.isNotEmpty ?? false)
-                    ListView.builder(itemBuilder: (context,index) {
-                      final product = snapshot.data!.products[index];
-                      return ProductCard(
-                            product: product,
-                            productService: snapshot.data!.productService,
-                            cartService: snapshot.data!.cartService,
-                            wishlistService: snapshot.data!.wishlistService,
-                          );
-                    }, itemCount: snapshot.data!.products.length
-                    )
-                  else
-                    const Center(
-                      child: Text('No products found'),
-                    ),
-                ]
-              ),
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (snapshot.data?.products.isNotEmpty ?? false)
+                      ListView.builder(
+                          itemBuilder: (context, index) {
+                            final product = snapshot.data!.products[index];
+                            return ProductCard(
+                              product: product,
+                              productService: snapshot.data!.productService,
+                              cartService: snapshot.data!.cartService,
+                              wishlistService: snapshot.data!.wishlistService,
+                            );
+                          },
+                          itemCount: snapshot.data!.products.length)
+                    else
+                      const Center(
+                        child: Text('Aucun produit'),
+                      ),
+                  ]),
             );
           },
           future: _initData()),
@@ -92,17 +91,16 @@ class ShopViewModel {
   late PageRequest pageRequest;
   List<Product> products = [];
 
-  ShopViewModel({
-    required this.productService,
-    required this.cartService,
-    required this.wishlistService}){
-      pageRequest = PageRequest(pageNumber: 0, pageSize: 20);
-      getProducts();
-    }
+  ShopViewModel(
+      {required this.productService,
+      required this.cartService,
+      required this.wishlistService}) {
+    pageRequest = PageRequest(pageNumber: 0, pageSize: 20);
+    getProducts();
+  }
 
-  
   getProducts() async {
-    var response =  await productService.getProducts(pageRequest);
+    var response = await productService.getProducts(pageRequest);
     products.addAll(response.content);
   }
 
