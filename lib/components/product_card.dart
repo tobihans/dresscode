@@ -29,7 +29,9 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width ?? MediaQuery.of(context).size.width / 8,
-      margin: const EdgeInsets.symmetric(horizontal: 5.0),
+      margin: const EdgeInsets.symmetric(horizontal: 0.0),
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,83 +50,53 @@ class ProductCard extends StatelessWidget {
                 ),
               );
             },
-            child: FadeInImage(
-              placeholder: Image.asset(
-                'assets/loading.gif',
-                fit: BoxFit.fill,
-              ).image,
-              imageErrorBuilder: (_, __, ___) {
-                return Image.asset(
-                  'assets/placeholder.png',
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: FadeInImage(
+                placeholder: Image.asset(
+                  'assets/loading.gif',
                   fit: BoxFit.fill,
-                  scale: 40.0,
-                );
-              },
-              image: Image.network(
-                product.images.firstOrDefaultAndApply(
-                  const img.Image(url: ''),
-                  (i) => i.url,
-                ),
-                fit: BoxFit.fill,
-                errorBuilder: (ctx, obj, stack) {
+                ).image,
+                imageErrorBuilder: (_, __, ___) {
                   return Image.asset(
                     'assets/placeholder.png',
                     fit: BoxFit.fill,
+                    scale: 40.0,
                   );
                 },
-              ).image,
+                image: Image.network(
+                  product.images.firstOrDefaultAndApply(
+                    const img.Image(url: ''),
+                    (i) => i.url,
+                  ),
+                  fit: BoxFit.fill,
+                  errorBuilder: (ctx, obj, stack) {
+                    return Image.asset(
+                      'assets/placeholder.png',
+                      fit: BoxFit.fill,
+                    );
+                  },
+                ).image,
+              ),
             ),
           ),
-          trailing == null
-              ? Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.only(top: 2.5, left: 2.5),
-                      child: Text(
-                        product.name,
-                        style: const TextStyle(fontWeight: FontWeight.w700),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(top: 2.5, left: 2.5),
-                      child: Text(
-                        '${product.price} XOF',
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Container(
-                          margin: const EdgeInsets.only(top: 2.5, left: 2.5),
-                          child: Text(
-                            product.name,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(top: 2.5, left: 2.5),
-                          child: Text(
-                            '${product.price} XOF',
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    trailing ?? Container()
-                  ],
-                ),
+          Container(
+            margin: const EdgeInsets.all(8),
+            width: double.infinity,
+            child: Text(
+              product.name,
+              style: const TextStyle(fontWeight: FontWeight.w700),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.fromLTRB(8, 2, 8, 8),
+            width: double.infinity,
+            child: Text(
+              '${product.price} XOF',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
         ],
       ),
     );

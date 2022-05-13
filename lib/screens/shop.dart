@@ -8,6 +8,7 @@ import 'package:dresscode/components/product_card.dart';
 import 'package:dresscode/requests/page_request.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../models/product.dart';
 
 class ShopScreen extends StatefulWidget {
@@ -58,20 +59,34 @@ class _ShopScreenState extends State<ShopScreen> {
               );
             }
             if (snapshot.connectionState == ConnectionState.done) {
-              return Container(
+              return SingleChildScrollView(
                 padding: const EdgeInsets.all(10),
                 child: (snapshot.data?.products.isNotEmpty ?? false)
-                    ? ListView.builder(
-                        itemBuilder: (context, index) {
-                          final product = snapshot.data!.products[index];
-                          return ProductCard(
-                            product: product,
-                            productService: snapshot.data!.productService,
-                            cartService: snapshot.data!.cartService,
-                            wishlistService: snapshot.data!.wishlistService,
-                          );
-                        },
-                        itemCount: snapshot.data!.products.length)
+                    ? StaggeredGrid.count(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        children: [
+                          for (Product p in snapshot.data!.products)
+                            Card(
+                              elevation: 10,
+                              borderOnForeground: true,
+                              child: Wrap(
+                                children: [
+                                  ProductCard(
+                                    product: p,
+                                    productService:
+                                        snapshot.data!.productService,
+                                    cartService: snapshot.data!.cartService,
+                                    wishlistService:
+                                        snapshot.data!.wishlistService,
+                                    width: double.infinity,
+                                  )
+                                ],
+                              ),
+                            )
+                        ],
+                      )
                     : const Center(
                         child: Text('Aucun produit'),
                       ),
