@@ -49,12 +49,12 @@ class _ImageWidgetGalleryState extends State<ImageWidgetGallery> {
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/loading.gif',
                       image: widget.images[idx],
-                      width: size.width * 0.17,
+                      width: size.width * 0.20,
                       fit: BoxFit.fill,
                       imageErrorBuilder: (ctx, obj, stack) {
                         return Image.asset(
                           'assets/placeholder.png',
-                          width: size.width * 0.17,
+                          width: size.width * 0.20,
                           fit: BoxFit.fill,
                         );
                       },

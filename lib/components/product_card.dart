@@ -57,6 +57,7 @@ class ProductCard extends StatelessWidget {
                 return Image.asset(
                   'assets/placeholder.png',
                   fit: BoxFit.fill,
+                  scale: 40.0,
                 );
               },
               image: Image.network(

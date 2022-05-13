@@ -23,11 +23,13 @@ class _ShopScreenState extends State<ShopScreen> {
     final productService = ProductService();
     final wishlistService = WishlistService(token);
     final cartService = CartService(token);
-    return ShopViewModel(
+    final viewModel = ShopViewModel(
       productService: productService,
       cartService: cartService,
       wishlistService: wishlistService,
     );
+    await viewModel.getProducts();
+    return viewModel;
   }
 
   @override
@@ -55,29 +57,27 @@ class _ShopScreenState extends State<ShopScreen> {
                 child: Text('Une erreur est survenue'),
               );
             }
-            return Container(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (snapshot.data?.products.isNotEmpty ?? false)
-                      ListView.builder(
-                          itemBuilder: (context, index) {
-                            final product = snapshot.data!.products[index];
-                            return ProductCard(
-                              product: product,
-                              productService: snapshot.data!.productService,
-                              cartService: snapshot.data!.cartService,
-                              wishlistService: snapshot.data!.wishlistService,
-                            );
-                          },
-                          itemCount: snapshot.data!.products.length)
-                    else
-                      const Center(
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Container(
+                padding: const EdgeInsets.all(10),
+                child: (snapshot.data?.products.isNotEmpty ?? false)
+                    ? ListView.builder(
+                        itemBuilder: (context, index) {
+                          final product = snapshot.data!.products[index];
+                          return ProductCard(
+                            product: product,
+                            productService: snapshot.data!.productService,
+                            cartService: snapshot.data!.cartService,
+                            wishlistService: snapshot.data!.wishlistService,
+                          );
+                        },
+                        itemCount: snapshot.data!.products.length)
+                    : const Center(
                         child: Text('Aucun produit'),
                       ),
-                  ]),
-            );
+              );
+            }
+            return Container();
           },
           future: _initData()),
     );
@@ -96,16 +96,15 @@ class ShopViewModel {
       required this.cartService,
       required this.wishlistService}) {
     pageRequest = PageRequest(pageNumber: 0, pageSize: 20);
-    getProducts();
   }
 
-  getProducts() async {
+  Future<void> getProducts() async {
     var response = await productService.getProducts(pageRequest);
     products.addAll(response.content);
   }
 
   viewMore() async {
     pageRequest.pageNumber++;
-    getProducts();
+    await getProducts();
   }
 }
