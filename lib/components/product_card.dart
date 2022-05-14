@@ -33,7 +33,10 @@ class ProductCard extends StatelessWidget {
           width: width ?? MediaQuery.of(context).size.width / 8,
           margin: const EdgeInsets.symmetric(horizontal: 0.0),
           decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            ),
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
