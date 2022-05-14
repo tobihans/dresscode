@@ -27,78 +27,95 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width ?? MediaQuery.of(context).size.width / 8,
-      margin: const EdgeInsets.symmetric(horizontal: 0.0),
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(20))),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          InkWell(
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ProductScreen(
-                    product: product,
-                    productService: productService,
-                    wishlistService: wishlistService,
-                    cartService: cartService,
-                  ),
-                ),
-              );
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: FadeInImage(
-                placeholder: Image.asset(
-                  'assets/loading.gif',
-                  fit: BoxFit.fill,
-                ).image,
-                imageErrorBuilder: (_, __, ___) {
-                  return Image.asset(
-                    'assets/placeholder.png',
-                    fit: BoxFit.fill,
-                    scale: 40.0,
+    return Stack(
+      children: [
+        Container(
+          width: width ?? MediaQuery.of(context).size.width / 8,
+          margin: const EdgeInsets.symmetric(horizontal: 0.0),
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ProductScreen(
+                        product: product,
+                        productService: productService,
+                        wishlistService: wishlistService,
+                        cartService: cartService,
+                      ),
+                    ),
                   );
                 },
-                image: Image.network(
-                  product.images.firstOrDefaultAndApply(
-                    const img.Image(url: ''),
-                    (i) => i.url,
-                  ),
-                  fit: BoxFit.fill,
-                  errorBuilder: (ctx, obj, stack) {
-                    return Image.asset(
-                      'assets/placeholder.png',
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: FadeInImage(
+                    placeholder: Image.asset(
+                      'assets/loading.gif',
                       fit: BoxFit.fill,
-                    );
-                  },
-                ).image,
+                    ).image,
+                    imageErrorBuilder: (_, __, ___) {
+                      return Image.asset(
+                        'assets/placeholder.png',
+                        fit: BoxFit.fill,
+                        scale: 40.0,
+                      );
+                    },
+                    image: Image.network(
+                      product.images.firstOrDefaultAndApply(
+                        const img.Image(url: ''),
+                        (i) => i.url,
+                      ),
+                      fit: BoxFit.fill,
+                      errorBuilder: (ctx, obj, stack) {
+                        return Image.asset(
+                          'assets/placeholder.png',
+                          fit: BoxFit.fill,
+                        );
+                      },
+                    ).image,
+                  ),
+                ),
               ),
+              Container(
+                margin: const EdgeInsets.all(8),
+                width: double.infinity,
+                child: Text(
+                  product.name,
+                  style: const TextStyle(fontWeight: FontWeight.w700),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(8, 2, 8, 8),
+                width: double.infinity,
+                child: Text(
+                  '${product.price} XOF',
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+        if (trailing != null)
+          Positioned(
+            top: 10,
+            right: 10,
+            child: Container(
+              padding: const EdgeInsets.all(0),
+              decoration: BoxDecoration(
+                color: Theme.of(context).backgroundColor.withAlpha(50),
+                borderRadius: const BorderRadius.all(Radius.circular(40)),
+              ),
+              child: trailing!,
             ),
           ),
-          Container(
-            margin: const EdgeInsets.all(8),
-            width: double.infinity,
-            child: Text(
-              product.name,
-              style: const TextStyle(fontWeight: FontWeight.w700),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.fromLTRB(8, 2, 8, 8),
-            width: double.infinity,
-            child: Text(
-              '${product.price} XOF',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ),
+      ],
     );
   }
 }

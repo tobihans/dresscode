@@ -5,6 +5,7 @@ import 'package:dresscode/components/app_bar.dart';
 import 'package:dresscode/components/app_drawer.dart';
 import 'package:dresscode/components/floating_btn.dart';
 import 'package:dresscode/components/product_card.dart';
+import 'package:dresscode/models/page.dart' as page;
 import 'package:dresscode/requests/page_request.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,11 @@ class _ShopScreenState extends State<ShopScreen> {
       appBar: const OwnAppBar(),
       drawer: const AppDrawer(),
       floatingActionButton: const FloatingBtn(),
-      body: FutureBuilder(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {});
+        },
+        child: FutureBuilder(
           builder: (context, AsyncSnapshot<ShopViewModel> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -81,10 +86,10 @@ class _ShopScreenState extends State<ShopScreen> {
                                     wishlistService:
                                         snapshot.data!.wishlistService,
                                     width: double.infinity,
-                                  )
+                                  ),
                                 ],
                               ),
-                            )
+                            ),
                         ],
                       )
                     : const Center(
@@ -94,7 +99,9 @@ class _ShopScreenState extends State<ShopScreen> {
             }
             return Container();
           },
-          future: _initData()),
+          future: _initData(),
+        ),
+      ),
     );
   }
 }
@@ -118,8 +125,12 @@ class ShopViewModel {
     products.addAll(response.content);
   }
 
-  viewMore() async {
+  Future<page.Page<Product>> execute() async {
+    return await productService.getProducts(pageRequest);
+  }
+
+  Future<List<Product>> viewMore() async {
     pageRequest.pageNumber++;
-    await getProducts();
+    return (await execute()).content;
   }
 }
