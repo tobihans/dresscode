@@ -40,59 +40,66 @@ class _ShopScreenState extends State<ShopScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: const OwnAppBar(),
       drawer: const AppDrawer(),
       floatingActionButton: const FloatingBtn(),
-      body: FutureBuilder(
-        builder: (context, AsyncSnapshot<ShopViewModel> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasError) {
-            return const Center(
-              child: Text('Une erreur est survenue'),
-            );
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
-            final shopViewModel = snapshot.data!;
-            return SingleChildScrollView(
-              padding: const EdgeInsets.all(10),
-              child: (shopViewModel.products.isNotEmpty)
-                  ? StaggeredGrid.count(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      children: [
-                        for (Product p in snapshot.data!.products)
-                          Card(
-                            elevation: 10,
-                            borderOnForeground: true,
-                            child: Wrap(
-                              children: [
-                                ProductCard(
-                                  product: p,
-                                  productService: shopViewModel.productService,
-                                  cartService: shopViewModel.cartService,
-                                  wishlistService:
-                                      shopViewModel.wishlistService,
-                                  width: double.infinity,
-                                ),
-                              ],
-                            ),
-                          ),
-                      ],
-                    )
-                  : const Center(
-                      child: Text('Aucun produit'),
-                    ),
-            );
-          }
-          return Container();
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {});
         },
-        future: _initData(),
+        child: FutureBuilder(
+          builder: (context, AsyncSnapshot<ShopViewModel> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasError) {
+              return const Center(
+                child: Text('Une erreur est survenue'),
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.done) {
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(10),
+                child: (snapshot.data?.products.isNotEmpty ?? false)
+                    ? StaggeredGrid.count(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        children: [
+                          for (Product p in snapshot.data!.products)
+                            Card(
+                              elevation: 10,
+                              borderOnForeground: true,
+                              child: Wrap(
+                                children: [
+                                  ProductCard(
+                                    product: p,
+                                    productService:
+                                        snapshot.data!.productService,
+                                    cartService: snapshot.data!.cartService,
+                                    wishlistService:
+                                        snapshot.data!.wishlistService,
+                                    width: double.infinity,
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      )
+                    : const Center(
+                        child: Text('Aucun produit'),
+                      ),
+              );
+            }
+            return Container();
+          },
+          future: _initData(),
+        ),
       ),
     );
   }
@@ -105,20 +112,19 @@ class ShopViewModel {
   late PageRequest pageRequest;
   List<Product> products = [];
 
-  ShopViewModel({
-    required this.productService,
-    required this.cartService,
-    required this.wishlistService,
-  }) {
+  ShopViewModel(
+      {required this.productService,
+      required this.cartService,
+      required this.wishlistService}) {
     pageRequest = PageRequest(pageNumber: 0, pageSize: 20);
   }
 
   Future<void> getProducts() async {
-    final response = await productService.getProducts(pageRequest);
+    var response = await productService.getProducts(pageRequest);
     products.addAll(response.content);
   }
 
-  Future<void> viewMore() async {
+  viewMore() async {
     pageRequest.pageNumber++;
     await getProducts();
   }

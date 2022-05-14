@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:dresscode/components/app_bar.dart';
 import 'package:dresscode/components/app_drawer.dart';
 import 'package:dresscode/api/services/wishlist_service.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class WishlistScreen extends StatefulWidget {
   const WishlistScreen({
@@ -48,97 +49,86 @@ class _WishlistScreenState extends State<WishlistScreen> {
         onRefresh: () async {
           setState(() {});
         },
-        child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              child: const Text(
-                'Mes souhaits',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            FutureBuilder<WishlistScreenViewModel>(
-              future: _initData(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  final viewModel = snapshot.data!;
-                  if (viewModel.wishlist.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        'Aucun produit',
-                        style: TextStyle(fontSize: 17),
-                      ),
-                    );
-                  }
-
-                  return GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: viewModel.wishlist.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 3 / 4,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                    ),
-                    itemBuilder: (context, index) {
-                      final product = viewModel.wishlist[index];
-                      return ProductCard(
-                        product: product,
-                        productService: viewModel.productService,
-                        cartService: viewModel.cartService,
-                        wishlistService: viewModel.wishlistService,
-                        trailing: IconButton(
-                          onPressed: () async {
-                            try {
-                              await viewModel.wishlistService
-                                  .removeFromWishlist(product);
-                              setState(() {});
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                    'Produit retiré de la liste de souhaits',
+        child: FutureBuilder(
+          builder: (context, AsyncSnapshot<WishlistScreenViewModel> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasError) {
+              return const Center(
+                child: Text('Une erreur est survenue'),
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.done) {
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(10),
+                child: (snapshot.data?.wishlist.isNotEmpty ?? false)
+                    ? StaggeredGrid.count(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        children: [
+                          for (Product p in snapshot.data!.wishlist)
+                            Card(
+                              elevation: 10,
+                              borderOnForeground: true,
+                              child: Wrap(
+                                children: [
+                                  ProductCard(
+                                    product: p,
+                                    productService:
+                                        snapshot.data!.productService,
+                                    cartService: snapshot.data!.cartService,
+                                    wishlistService:
+                                        snapshot.data!.wishlistService,
+                                    width: double.infinity,
+                                    trailing: IconButton(
+                                      onPressed: () async {
+                                        try {
+                                          await snapshot.data!.wishlistService
+                                              .removeFromWishlist(p);
+                                          setState(() {});
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                'Produit retiré de la liste de souhaits',
+                                              ),
+                                            ),
+                                          );
+                                        } on Exception {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: const Text(
+                                                  'Une erreur s\'est produite'),
+                                              backgroundColor:
+                                                  Theme.of(context).errorColor,
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      icon: Icon(
+                                        Icons.delete,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              );
-                            } on Exception {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content:
-                                      const Text('Une erreur s\'est produite'),
-                                  backgroundColor: Theme.of(context).errorColor,
-                                ),
-                              );
-                            }
-                          },
-                          icon: const Icon(Icons.delete),
-                        ),
-                      );
-                    },
-                  );
-                } else if (snapshot.hasError) {
-                  return const Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20),
-                      child: Text(
-                        'Une erreur est survenue',
-                        style: TextStyle(fontSize: 17),
+                                ],
+                              ),
+                            ),
+                        ],
+                      )
+                    : const Center(
+                        child: Text('Aucun produit'),
                       ),
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
-          ],
+              );
+            }
+            return Container();
+          },
+          future: _initData(),
         ),
       ),
     );

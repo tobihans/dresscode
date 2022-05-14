@@ -70,25 +70,70 @@ class _CartWidgetState extends State<CartWidget> {
             children: [
               Container(
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Panier',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
+                      child: Row(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                            child: Text(
+                              'Panier',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child: Text(
+                              '$cartTotal XOF',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            alignment: Alignment.topRight,
+                          )
+                        ],
                       ),
                     ),
-                    Container(
-                      child: Text(
-                        '$cartTotal XOF',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: IconButton(
+                        onPressed: () async {
+                          try {
+                            setState(() {
+                              _loading = true;
+                            });
+                            await clearCart();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                duration: Duration(seconds: 3),
+                                content: Text(
+                                  'Panier vidé avec succès',
+                                ),
+                              ),
+                            );
+                          } on Exception {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                duration: Duration(seconds: 3),
+                                content: Text(
+                                  'Une erreur s\'est produite',
+                                ),
+                              ),
+                            );
+                          } finally {
+                            setState(() {
+                              _loading = false;
+                            });
+                          }
+                        },
+                        icon: const Icon(Icons.delete_forever),
                       ),
-                      alignment: Alignment.topRight,
-                    )
+                    ),
                   ],
                 ),
                 margin: const EdgeInsets.only(top: 10),
@@ -194,49 +239,10 @@ class _CartWidgetState extends State<CartWidget> {
                   },
                 ),
               ),
-              ElevatedButton(
-                onPressed: () async {
-                  try {
-                    setState(() {
-                      _loading = true;
-                    });
-                    await clearCart();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        duration: Duration(seconds: 3),
-                        content: Text(
-                          'Panier vidé avec succès',
-                        ),
-                      ),
-                    );
-                  } on Exception {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        duration: Duration(seconds: 3),
-                        content: Text(
-                          'Une erreur s\'est produite',
-                        ),
-                      ),
-                    );
-                  } finally {
-                    setState(() {
-                      _loading = false;
-                    });
-                  }
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(5),
-                  child: _loading
-                      ? const CircularProgressIndicator()
-                      : const Text(
-                    'Vider le panier',
-                  ),
-                )
-              ),
             ],
           );
         } else if (snapshot.hasError) {
-          if(snapshot is ApiHttpException) {
+          if (snapshot is ApiHttpException) {
             Logger.root.severe((snapshot.error as ApiHttpException).toString());
           }
           return const Center(
