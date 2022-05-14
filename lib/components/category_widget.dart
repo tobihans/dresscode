@@ -38,9 +38,9 @@ class CategoryWidget extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5.0),
-                image: const DecorationImage(
+                image: DecorationImage(
                   image: NetworkImage(
-                    'https://source.unsplash.com/random/1600x900?mode&clothe&dress&style&beautiful&sig=10',
+                    category.url,
                   ),
                   fit: BoxFit.cover,
                 ),

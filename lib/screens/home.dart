@@ -47,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     category: Category(
                       name: 'Category $i',
                       description: 'This is a description',
+                      url: "https://source.unsplash.com/random/1600x900?mode&clothe&dress&style&beautiful&sig=10",
                     ),
                   ),
                 ).toList(),
