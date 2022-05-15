@@ -266,6 +266,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   Routes.home,
                                   (r) => false,
                                 );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Inscription réussie',
+                                    ),
+                                  ),
+                                );
                               } on Exception {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(

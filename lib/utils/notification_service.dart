@@ -1,5 +1,4 @@
 import 'package:dresscode/models/notification.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class NotificationService {
@@ -9,7 +8,7 @@ class NotificationService {
 
   static Future<void> initDatabase() async {
     _database ??= await openDatabase(
-      join(await getDatabasesPath(), _dbFile),
+      _join(await getDatabasesPath(), _dbFile),
       version: 1,
       onCreate: (Database db, _) async {
         await db.execute(
@@ -46,5 +45,12 @@ class NotificationService {
       where: 'id = ?',
       whereArgs: [notification.id],
     );
+  }
+
+  static String _join(String path1, String path2) {
+    if (path1.endsWith('/')) {
+      return '$path1$path2';
+    }
+    return '$path1/$path2';
   }
 }

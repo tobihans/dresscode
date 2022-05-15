@@ -35,6 +35,7 @@ class _ImageWidgetGalleryState extends State<ImageWidgetGallery> {
         Flexible(
           flex: 2,
           child: ListView.builder(
+            shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemCount: widget.images.length,
             itemBuilder: (ctx, idx) {
@@ -45,7 +46,7 @@ class _ImageWidgetGalleryState extends State<ImageWidgetGallery> {
                 child: Container(
                   margin: const EdgeInsets.all(5),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(10),
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/loading.gif',
                       image: widget.images[idx],

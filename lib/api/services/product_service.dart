@@ -19,14 +19,14 @@ class ProductService extends ApiBase {
     return Page<Product>.fromJson(content);
   }
 
-  Future<Page<Product>> getRelatedProducts(
+  Future<List<Product>> getRelatedProducts(
       PageRequest pageRequest, Product product) async {
     final apiResponse = await get(
       Uri.parse('${Constants.productsUrl}/${product.code}/related'),
       queryParams: pageRequest.toMap(),
     );
     final content = jsonEncode(jsonDecode(apiResponse)['content']);
-    return Page<Product>.fromJson(content);
+    return Page<Product>.fromJson(content).content;
   }
 
   Future<Page<Product>> findProductsByName(

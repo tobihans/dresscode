@@ -1,5 +1,6 @@
 import 'package:dresscode/screens/home.dart';
 import 'package:dresscode/screens/login_screen.dart';
+import 'package:dresscode/screens/profile_screen.dart';
 import 'package:dresscode/screens/register_screen.dart';
 import 'package:dresscode/screens/shop.dart';
 import 'package:dresscode/screens/wishlist_screen.dart';
@@ -35,6 +36,7 @@ class App extends StatelessWidget {
         Routes.login: (context) => const LoginScreen(),
         Routes.register: (context) => const RegisterScreen(),
         Routes.wishlist: (context) => const WishlistScreen(),
+        Routes.profile: (context) => const ProfileScreen(),
       },
     );
   }

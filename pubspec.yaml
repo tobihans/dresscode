@@ -13,9 +13,6 @@ dependencies:
     sdk: flutter
   logging: ^1.0.2
   sqflite:
-  path:
-
-  cupertino_icons: ^1.0.2
   flutter_secure_storage: ^5.0.2
   bottom_sheet: ^2.1.0
   google_fonts: ^2.3.1

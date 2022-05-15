@@ -9,6 +9,7 @@ import 'package:dresscode/components/image_widget_gallery.dart';
 import 'package:dresscode/components/products_horizontal_list.dart';
 import 'package:dresscode/components/wishlist_button.dart';
 import 'package:dresscode/models/product.dart';
+import 'package:dresscode/requests/page_request.dart';
 import 'package:dresscode/utils/models_extensions.dart';
 import 'package:flutter/material.dart';
 
@@ -39,6 +40,13 @@ class _ProductScreenState extends State<ProductScreen> {
 
   Future<void> addToCart(Product product) async {
     await _cartService.addProductToCart(widget.product);
+  }
+
+  Future<List<Product>> getRelatedProducts() async {
+    return await _productService.getRelatedProducts(
+      PageRequest(pageNumber: 0, pageSize: 10),
+      widget.product,
+    );
   }
 
   void fresh() {
@@ -239,26 +247,40 @@ class _ProductScreenState extends State<ProductScreen> {
           ),
           Container(
             margin: const EdgeInsets.only(bottom: 30),
-            child: SizedBox(
-              height: size.height * 0.2,
-              child: ProductsHorizontalList(
-                onProductSelected: (Product product) {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => ProductScreen(
-                        product: product,
-                        productService: _productService,
-                        cartService: _cartService,
-                        wishlistService: _wishlistService,
-                      ),
+            child: FutureBuilder<List<Product>>(
+              future: getRelatedProducts(),
+              builder: (ctx, snapshot) {
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: Text('Une erreur s\'est produite'),
+                  );
+                } else if (snapshot.hasData) {
+                  return SizedBox(
+                    height: size.height * 0.3,
+                    child: ProductsHorizontalList(
+                      onProductSelected: (Product product) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ProductScreen(
+                              product: product,
+                              productService: _productService,
+                              cartService: _cartService,
+                              wishlistService: _wishlistService,
+                            ),
+                          ),
+                        );
+                      },
+                      products: snapshot.data!,
+                      productService: _productService,
+                      cartService: _cartService,
+                      wishlistService: _wishlistService,
                     ),
                   );
-                },
-                products: List.filled(10, widget.product),
-                productService: _productService,
-                cartService: _cartService,
-                wishlistService: _wishlistService,
-              ),
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
             ),
           ),
         ],

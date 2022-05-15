@@ -131,7 +131,9 @@ class _CartWidgetState extends State<CartWidget> {
                             });
                           }
                         },
-                        icon: const Icon(Icons.delete_forever),
+                        icon: _loading
+                            ? const CircularProgressIndicator()
+                            : const Icon(Icons.delete_forever),
                       ),
                     ),
                   ],

@@ -12,6 +12,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPage extends State<SearchPage> {
   _SearchPage({Key? key, required this.journals});
+
   List<dynamic> journals;
   late List<dynamic> duplicatedJournals1 = [];
   late List<dynamic> duplicatedJournals = [];
@@ -23,30 +24,33 @@ class _SearchPage extends State<SearchPage> {
     duplicatedJournals1.addAll(journals);
     duplicatedJournals.addAll(journals);
     for (var element in duplicatedJournals) {
-      duplicatedJournalsToString.add(element['name'].toString().toLowerCase() + ' ' + element['description'].toString().toLowerCase() + ' ' + element['price'].toString().toLowerCase());
+      duplicatedJournalsToString.add(element['name'].toString().toLowerCase() +
+          ' ' +
+          element['description'].toString().toLowerCase() +
+          ' ' +
+          element['price'].toString().toLowerCase());
     }
   }
 
   void filterSearchResults(String query) {
     List<String> dummySearchList = [];
     dummySearchList.addAll(duplicatedJournalsToString);
-    if(query.isNotEmpty) {
+    if (query.isNotEmpty) {
       List<int> dummySearchListDataIndex = [];
-      dummySearchList.forEach((element) {
-        if(element.contains(query.toLowerCase())) {
+      for (var element in dummySearchList) {
+        if (element.contains(query.toLowerCase())) {
           dummySearchListDataIndex.add(dummySearchList.indexOf(element));
         }
-      });
+      }
       setState(() {
         journals.clear();
-        for (var i = 0; i<duplicatedJournals.length; i++) {
-          if(dummySearchListDataIndex.contains(i)) {
+        for (var i = 0; i < duplicatedJournals.length; i++) {
+          if (dummySearchListDataIndex.contains(i)) {
             journals.add(duplicatedJournals[i]);
           }
         }
       });
-    }
-    else {
+    } else {
       setState(() {
         journals.clear();
         journals.addAll(duplicatedJournals);
@@ -69,52 +73,48 @@ class _SearchPage extends State<SearchPage> {
         title: Container(
           width: double.infinity,
           height: 40,
-
           decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5)
-          ),
-
+              color: Colors.white, borderRadius: BorderRadius.circular(5)),
           child: TextField(
             onChanged: (value) {
               filterSearchResults(value);
             },
             controller: _searchController,
             decoration: InputDecoration(
-                hintText: 'Recherche ...',
-                prefixIcon: const Icon(Icons.search, color: Colors.black,),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.clear, color: Colors.black,),
-                  onPressed: () {
-                    /* Clear the research field */
-                    _searchController.clear();
-                  },
+              hintText: 'Recherche ...',
+              prefixIcon: const Icon(
+                Icons.search,
+                color: Colors.black,
+              ),
+              suffixIcon: IconButton(
+                icon: const Icon(
+                  Icons.clear,
+                  color: Colors.black,
                 ),
-                border: InputBorder.none
+                onPressed: () {
+                  _searchController.clear();
+                },
+              ),
+              border: InputBorder.none,
             ),
           ),
         ),
       ),
-
       body: ListView.builder(
-          shrinkWrap: true,
-          itemCount: journals.length,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (BuildContext context, int index) {
-
-            Product _thisProduct = Product.fromMap({
-              'code':journals[index]['code'],
-              'name':journals[index]['name'],
-              'description':journals[index]['description'],
-              'price':journals[index]['price'],
-              'image':journals[index]['image'],
-            });
-
-            //return  const SizedBox(height: 1);
-            return SearchRow(product:_thisProduct);
-          }
+        shrinkWrap: true,
+        itemCount: journals.length,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          Product _thisProduct = Product.fromMap({
+            'code': journals[index]['code'],
+            'name': journals[index]['name'],
+            'description': journals[index]['description'],
+            'price': journals[index]['price'],
+            'image': journals[index]['image'],
+          });
+          return SearchRow(product: _thisProduct);
+        },
       ),
-
     );
   }
 }
