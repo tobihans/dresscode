@@ -1,6 +1,8 @@
 import 'package:dresscode/utils/colors.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/routes.dart';
+
 class HomeHero extends StatelessWidget {
   final String text;
 
@@ -17,46 +19,49 @@ class HomeHero extends StatelessWidget {
       child: Container(
         child: Stack(children: [
           Container(
-              decoration: BoxDecoration(
-                  color: const Color(0XFF000000).withOpacity(0.75))),
+            decoration: BoxDecoration(
+              color: const Color(0XFF000000).withOpacity(0.55),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+          ),
           Container(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Align(
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          text,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25.0),
-                        )),
-                  ),
-                  Expanded(child: Container()),
-                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                    ElevatedButton(
-                      onPressed: _heroButtonPressed,
-                      child: const Text('Voir'),
-                      style: ButtonStyle(
-                          padding: MaterialStateProperty.all(
-                              const EdgeInsets.symmetric(
-                                  vertical: 2.5, horizontal: 5.0)),
-                          shape: MaterialStateProperty.all(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(5)))),
-                    )
-                  ]),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                text,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25.0),
+                              )),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, Routes.shop);
+                          },
+                          icon: const Icon(Icons.arrow_circle_right_outlined),
+                          color: Theme.of(context).colorScheme.primary,
+                        )
+                      ]),
                 ],
               ))
         ]),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15.0),
-            image: const DecorationImage(
-                image: NetworkImage(url), fit: BoxFit.cover)),
+          borderRadius: BorderRadius.circular(15.0),
+          image: const DecorationImage(
+            image: NetworkImage(url),
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
     );
   }

@@ -11,41 +11,31 @@ class CategoryWidget extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return SizedBox(
-      height: size.height * 0.137,
+      height: size.height * 0.100,
       width: size.width * 0.375,
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 5.0),
-        child: ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            primary: Colors.transparent,
-            elevation: 0,
-            padding: EdgeInsets.zero,
-          ),
-          child: SizedBox.expand(
-            child: Container(
-              child: Stack(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0XFF000000).withOpacity(0.75),
-                    ),
-                  ),
-                  Center(
-                    child: Text(category.name),
-                  ),
-                ],
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5.0),
-                image: DecorationImage(
-                  image: NetworkImage(
-                    category.url,
-                  ),
-                  fit: BoxFit.cover,
+      child: SizedBox.expand(
+        child: Container(
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: const Color(0XFF000000).withOpacity(0.65),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                 ),
               ),
+              Center(
+                child: Text(category.name),
+              ),
+            ],
+          ),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                category.url,
+              ),
+              fit: BoxFit.cover,
             ),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
         ),
       ),
