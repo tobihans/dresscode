@@ -7,6 +7,8 @@ import 'package:dresscode/models/notification.dart';
 import 'package:dresscode/models/product.dart';
 import 'package:dresscode/utils/notification_service.dart';
 
+import 'auth_service.dart';
+
 class CartService extends ApiBase {
   final String _token;
 
@@ -27,6 +29,7 @@ class CartService extends ApiBase {
     NotificationService.insert(Notification(
       title: 'Panier',
       content: 'Produit ${product.name} ajouté au panier',
+      userCode: (await AuthService.getUserFromTokenStorage())?.code ?? '',
     ));
     await post(
       Uri.parse('${Constants.cartUrl}/${product.code}/add'),
@@ -39,6 +42,7 @@ class CartService extends ApiBase {
     NotificationService.insert(Notification(
       title: 'Panier',
       content: 'Produit ${product.name} retiré du panier',
+      userCode: (await AuthService.getUserFromTokenStorage())?.code ?? '',
     ));
     await delete(
       Uri.parse('${Constants.cartUrl}/${product.code}'),
@@ -47,9 +51,10 @@ class CartService extends ApiBase {
   }
 
   Future<void> resetCart() async {
-    NotificationService.insert(const Notification(
+    NotificationService.insert(Notification(
       title: 'Panier',
       content: 'Panier réinitialisé',
+      userCode: (await AuthService.getUserFromTokenStorage())?.code ?? '',
     ));
     await put(
       Uri.parse(Constants.cartUrl),

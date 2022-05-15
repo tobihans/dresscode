@@ -1,10 +1,10 @@
 class PageRequest {
-  final int pageNumber;
-  final int pageSize;
+   int pageNumber = 0;
+   int pageSize = 20;
 
-  const PageRequest({
-    required this.pageNumber,
-    required this.pageSize,
+   PageRequest({
+     required this.pageNumber,
+     required this.pageSize,
   });
 
   Map<String, String> toMap() {

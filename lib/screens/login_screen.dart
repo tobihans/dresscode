@@ -164,6 +164,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Routes.home,
                                   (r) => false,
                                 );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Connexion réussie',
+                                    ),
+                                  ),
+                                );
                               } on Exception {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -192,7 +199,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 20),
+                  margin: const EdgeInsets.only(top: 10),
+                  child: Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.home);
+                      },
+                      child: const Text('Continuer sans compte'),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 10),
                   child: Center(
                     child: TextButton(
                       onPressed: () {

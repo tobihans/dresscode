@@ -17,16 +17,17 @@ void configureLogger() {
 
 Future<void> initAuth() async {
   final token = await TokenStorage.getToken();
-  await AuthService().getCurrentUser(token);
+  try {
+    await AuthService().getCurrentUser(token);
+  } on Exception {
+    // Nothing because we just wanted to load the user if there was one
+  }
 }
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService.initDatabase();
   configureLogger();
-  await TokenStorage.saveToken(
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJvbGFAZ21haWwuY29tIiwiZXhwIjoxNjUxNTIxOTM3LCJpYXQiOjE2NDg5Mjk5Mzd9.rQsTQh8n_kOuAm3KB3Ox_ZDM9PIS8NCSc-BbiiZay3Q',
-  );
   await initAuth();
   runApp(const App());
 }

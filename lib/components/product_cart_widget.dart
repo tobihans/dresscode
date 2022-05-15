@@ -1,4 +1,6 @@
 import 'package:dresscode/models/product.dart';
+import 'package:dresscode/models/image.dart' as img;
+import 'package:dresscode/utils/list_extensions.dart';
 import 'package:flutter/material.dart';
 
 class ProductCartWidget extends StatelessWidget {
@@ -23,15 +25,30 @@ class ProductCartWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: SizedBox.fromSize(
                 size: const Size.fromRadius(40),
-                child: FadeInImage.assetNetwork(
-                  placeholder: 'assets/loading.gif',
-                  image: product.images?.first.url ?? '',
-                  imageErrorBuilder: (ctx, obj, stack) {
+                child: FadeInImage(
+                  placeholder: Image.asset(
+                    'assets/loading.gif',
+                    fit: BoxFit.fill,
+                  ).image,
+                  imageErrorBuilder: (_, __, ___) {
                     return Image.asset(
                       'assets/placeholder.png',
                       fit: BoxFit.fill,
                     );
                   },
+                  image: Image.network(
+                    product.images.firstOrDefaultAndApply(
+                      const img.Image(url: ''),
+                      (i) => i.url,
+                    ),
+                    fit: BoxFit.fill,
+                    errorBuilder: (ctx, obj, stack) {
+                      return Image.asset(
+                        'assets/placeholder.png',
+                        fit: BoxFit.fill,
+                      );
+                    },
+                  ).image,
                 ),
               ),
             ),

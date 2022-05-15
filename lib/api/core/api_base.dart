@@ -21,22 +21,22 @@ abstract class ApiBase {
         request.headers.add('Authorization', 'Bearer $token');
       }
       if (!data.isNullOrBlank) {
-        request.contentLength = data.length;
+        request.contentLength = utf8.encode(data).length;
         request.write(data);
       }
       final response = await request.close();
       final responseContent = await response.transform(utf8.decoder).join('');
       final code = response.statusCode;
       logger.info(
-          '(${httpMethod.name}) : [${uri.toString()}] => $code  : $responseContent');
+        '(${httpMethod.name}) : [${uri.toString()}] => $code  : $responseContent',
+      );
       if (code >= 400) {
-        final message = jsonDecode(responseContent)['message'];
-        logger.severe('$code : $message');
-        throw ApiHttpException(httpCode: code, message: message);
+        logger.severe(responseContent);
+        throw ApiHttpException(httpCode: code, message: Constants.httpCodes[code]!);
       }
       return responseContent;
-    } on Exception catch (e) {
-      logger.severe('Exception of type : ${e.runtimeType.toString()}');
+    } on Exception catch (e,s) {
+      logger.severe('Exception of type : ${e.runtimeType.toString()}\n Stacktrace : ($s)');
       rethrow;
     }
   }

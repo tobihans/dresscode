@@ -1,3 +1,4 @@
+import 'package:dresscode/api/services/auth_service.dart';
 import 'package:dresscode/utils/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:dresscode/models/notification.dart' as notification;
@@ -15,7 +16,11 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
   @override
   void initState() {
     super.initState();
-    _notificationsFuture = NotificationService.getAllNotifications();
+    _notificationsFuture = (() async {
+      final userCode =
+          (await AuthService.getUserFromTokenStorage())?.code ?? '';
+      return await NotificationService.getAllNotifications(userCode);
+    })();
   }
 
   @override
@@ -58,7 +63,7 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                 }
                 return ListView.separated(
                   itemCount: notifications.length,
-                  itemBuilder: (ctx, index) {
+                  itemBuilder: (_, index) {
                     return Dismissible(
                       key: UniqueKey(),
                       direction: DismissDirection.endToStart,
@@ -92,14 +97,20 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
                             ),
                           );
                           setState(() {
-                            _notificationsFuture =
-                                NotificationService.getAllNotifications();
+                            _notificationsFuture = (() async {
+                              final userCode =
+                                  (await AuthService.getUserFromTokenStorage())
+                                          ?.code ??
+                                      '';
+                              return await NotificationService
+                                  .getAllNotifications(userCode);
+                            })();
                           });
                         }
                       },
                     );
                   },
-                  separatorBuilder: (ctx, idx) {
+                  separatorBuilder: (_, __) {
                     return const Divider();
                   },
                 );

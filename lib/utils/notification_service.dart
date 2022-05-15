@@ -1,5 +1,4 @@
 import 'package:dresscode/models/notification.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class NotificationService {
@@ -9,11 +8,14 @@ class NotificationService {
 
   static Future<void> initDatabase() async {
     _database ??= await openDatabase(
-      join(await getDatabasesPath(), _dbFile),
+      _join(await getDatabasesPath(), _dbFile),
       version: 1,
-      onCreate: (Database db, int version) async {
+      onCreate: (Database db, _) async {
+        await db.execute(
+          'CREATE TABLE $_tableName (id INTEGER PRIMARY KEY, title TEXT, content TEXT,userCode TEXT);',
+        );
         return db.execute(
-          'CREATE TABLE $_tableName (id INTEGER PRIMARY KEY, title TEXT, content TEXT)',
+          'CREATE INDEX user_code_idx ON $_tableName (userCode)',
         );
       },
     );
@@ -27,8 +29,13 @@ class NotificationService {
     );
   }
 
-  static Future<List<Notification>> getAllNotifications() async {
-    final data = await _database?.query(_tableName, orderBy: 'id');
+  static Future<List<Notification>> getAllNotifications(String userCode) async {
+    final data = await _database?.query(
+      _tableName,
+      orderBy: 'id',
+      where: 'userCode = ?',
+      whereArgs: [userCode],
+    );
     return data?.map(Notification.fromMap).toList() ?? [];
   }
 
@@ -38,5 +45,12 @@ class NotificationService {
       where: 'id = ?',
       whereArgs: [notification.id],
     );
+  }
+
+  static String _join(String path1, String path2) {
+    if (path1.endsWith('/')) {
+      return '$path1$path2';
+    }
+    return '$path1/$path2';
   }
 }

@@ -3,14 +3,14 @@ import 'package:dresscode/models/user.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
 
-/// TODO : connect the actions
 class DrawerAuthenticated extends StatelessWidget {
-  const DrawerAuthenticated({Key? key, required this.user}) : super(key: key);
   final User user;
 
-  static final _logger = Logger('$DrawerAuthenticated');
+  const DrawerAuthenticated({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   String _getUserInitials() {
     final initialsBuilder = StringBuffer();
@@ -52,7 +52,7 @@ class DrawerAuthenticated extends StatelessWidget {
               color: Theme.of(context).colorScheme.primary,
             ),
             onTap: () {
-              _logger.info('Editer le profil');
+              Navigator.pushNamed(context, Routes.profile);
             },
           ),
           Container(
@@ -87,19 +87,7 @@ class DrawerAuthenticated extends StatelessWidget {
                 Icons.list,
               ),
               onTap: () {
-                _logger.info('Liste de souhaits');
-              },
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: size.height / 200),
-            child: ListTile(
-              title: const Text('Méthodes de paiement'),
-              leading: const Icon(
-                Icons.payment,
-              ),
-              onTap: () {
-                _logger.info('Méthodes de paiement');
+                Navigator.pushNamed(context, Routes.wishlist);
               },
             ),
           ),

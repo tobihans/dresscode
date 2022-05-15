@@ -6,6 +6,7 @@ import 'package:dresscode/api/core/constants.dart';
 import 'package:dresscode/models/user.dart';
 import 'package:dresscode/requests/login_request.dart';
 import 'package:dresscode/requests/register_request.dart';
+import 'package:dresscode/utils/token_storage.dart';
 
 class AuthService extends ApiBase {
   static User? _currentUser;
@@ -46,5 +47,9 @@ class AuthService extends ApiBase {
 
   Future<void> logout() async {
     _currentUser = null;
+  }
+
+  static Future<User?> getUserFromTokenStorage() async {
+    return await (AuthService().getCurrentUser(await TokenStorage.getToken()));
   }
 }

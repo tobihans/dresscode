@@ -19,19 +19,14 @@ class _ImageWidgetGalleryState extends State<ImageWidgetGallery> {
       children: <Widget>[
         Flexible(
           flex: 7,
-          child: FadeInImage.assetNetwork(
-            placeholder: 'assets/loading.gif',
-            image: widget.images[currentIndex],
-            alignment: Alignment.center,
-            height: double.infinity,
-            width: double.infinity,
+          child: Image.network(
+            currentIndex < widget.images.length && widget.images.isNotEmpty
+                ? widget.images[currentIndex]
+                : '',
             fit: BoxFit.fill,
-            imageErrorBuilder: (ctx, obj, stack) {
+            errorBuilder: (ctx, obj, stack) {
               return Image.asset(
                 'assets/placeholder.png',
-                alignment: Alignment.center,
-                height: double.infinity,
-                width: double.infinity,
                 fit: BoxFit.fill,
               );
             },
@@ -40,6 +35,7 @@ class _ImageWidgetGalleryState extends State<ImageWidgetGallery> {
         Flexible(
           flex: 2,
           child: ListView.builder(
+            shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemCount: widget.images.length,
             itemBuilder: (ctx, idx) {
@@ -50,16 +46,16 @@ class _ImageWidgetGalleryState extends State<ImageWidgetGallery> {
                 child: Container(
                   margin: const EdgeInsets.all(5),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5),
+                    borderRadius: BorderRadius.circular(10),
                     child: FadeInImage.assetNetwork(
                       placeholder: 'assets/loading.gif',
                       image: widget.images[idx],
-                      width: size.width * 0.17,
+                      width: size.width * 0.20,
                       fit: BoxFit.fill,
                       imageErrorBuilder: (ctx, obj, stack) {
                         return Image.asset(
                           'assets/placeholder.png',
-                          width: size.width * 0.17,
+                          width: size.width * 0.20,
                           fit: BoxFit.fill,
                         );
                       },
