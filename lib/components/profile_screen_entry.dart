@@ -74,10 +74,6 @@ class ProfileScreenEntry extends StatelessWidget {
                                                 decoration: InputDecoration(
                                                     label: Text(
                                                         "Editer $label")))),
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(40),
-                                          topRight: Radius.circular(40),
-                                        ),
                                       ),
                                     );
                                   },
