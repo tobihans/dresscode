@@ -19,6 +19,10 @@ class ShopScreen extends StatefulWidget {
 }
 
 class _ShopScreenState extends State<ShopScreen> {
+  List<Product> product = [];
+  ShopViewModel? shopViewModel;
+  bool loading = false;
+
   Future<ShopViewModel> _initData() async {
     final token = await TokenStorage.getToken();
     final productService = ProductService();
@@ -32,10 +36,6 @@ class _ShopScreenState extends State<ShopScreen> {
     await viewModel.getProducts();
     return viewModel;
   }
-
-  List<Product> product = [];
-  ShopViewModel? shopViewModel;
-  bool loading = false;
 
   @override
   void initState() {

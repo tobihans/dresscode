@@ -155,20 +155,22 @@ class _SearchPage extends State<SearchScreen> {
                         );
                       },
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        // if (productPage.number > 0)
-                        IconButton(
-                          onPressed: previous,
-                          icon: const Icon(Icons.arrow_back),
-                        ),
-                        IconButton(
-                          onPressed: next,
-                          icon: const Icon(Icons.arrow_forward),
-                        ),
-                      ],
-                    ),
+                    if (productPage.number < productPage.totalPages - 1)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          if (productPage.number > 0)
+                            IconButton(
+                              onPressed: previous,
+                              icon: const Icon(Icons.arrow_back),
+                            ),
+                          if (productPage.number < productPage.totalPages - 1)
+                            IconButton(
+                              onPressed: next,
+                              icon: const Icon(Icons.arrow_forward),
+                            ),
+                        ],
+                      ),
                   ],
                 );
               }
