@@ -43,3 +43,13 @@ class Page<T extends Serializable> extends Serializable {
         'totalPages': totalPages,
       };
 }
+
+Page<T> emptyPage<T extends Serializable>() {
+  return const Page(
+    content: [],
+    number: 0,
+    size: 0,
+    totalElements: 0,
+    totalPages: 0,
+  );
+}
