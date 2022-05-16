@@ -50,6 +50,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
           setState(() {});
         },
         child: FutureBuilder(
+          future: _initData(),
           builder: (context, AsyncSnapshot<WishlistScreenViewModel> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -103,7 +104,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
                                               .showSnackBar(
                                             SnackBar(
                                               content: const Text(
-                                                  'Une erreur s\'est produite'),
+                                                'Une erreur s\'est produite',
+                                              ),
                                               backgroundColor:
                                                   Theme.of(context).errorColor,
                                             ),
@@ -122,13 +124,15 @@ class _WishlistScreenState extends State<WishlistScreen> {
                         ],
                       )
                     : const Center(
-                        child: Text('Aucun produit'),
+                        child: Text(
+                          'Aucun produit',
+                          style: TextStyle(fontSize: 17),
+                        ),
                       ),
               );
             }
             return Container();
           },
-          future: _initData(),
         ),
       ),
     );
