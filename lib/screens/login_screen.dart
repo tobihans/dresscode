@@ -203,9 +203,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Center(
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, Routes.home);
+                        Navigator.pushNamed(context, Routes.register);
                       },
-                      child: const Text('Continuer sans compte'),
+                      child: const Text('Pas de compte ? Inscrivez vous'),
                     ),
                   ),
                 ),
@@ -214,9 +214,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Center(
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, Routes.register);
+                        Navigator.pushNamed(context, Routes.home);
                       },
-                      child: const Text('Pas de compte ? Inscrivez vous'),
+                      child: const Text('Continuer sans compte'),
                     ),
                   ),
                 ),

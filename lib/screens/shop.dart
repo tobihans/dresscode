@@ -6,10 +6,10 @@ import 'package:dresscode/components/app_drawer.dart';
 import 'package:dresscode/components/floating_btn.dart';
 import 'package:dresscode/components/product_card.dart';
 import 'package:dresscode/requests/page_request.dart';
+import 'package:dresscode/models/product.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import '../models/product.dart';
 
 class ShopScreen extends StatefulWidget {
   const ShopScreen({Key? key}) : super(key: key);
@@ -39,9 +39,11 @@ class _ShopScreenState extends State<ShopScreen> {
 
   @override
   void initState() {
-    _initData().then((value) => setState(() {
-          shopViewModel = value;
-        }));
+    _initData().then(
+      (value) => setState(() {
+        shopViewModel = value;
+      }),
+    );
     super.initState();
   }
 
@@ -158,7 +160,7 @@ class ShopViewModel {
   }
 
   Future<void> getProducts() async {
-    var response = await productService.getProducts(pageRequest);
+    final response = await productService.getProducts(pageRequest);
     products.addAll(response.content);
   }
 
