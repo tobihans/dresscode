@@ -26,7 +26,6 @@ class OwnAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: <Widget>[
-        // Research Button Icon
         Transform.translate(
           offset: const Offset(0, 0),
           child: IconButton(
@@ -47,9 +46,11 @@ class OwnAppBar extends StatelessWidget implements PreferredSizeWidget {
                 maxHeight: 1,
                 anchors: [0, 0.5, 1],
                 context: context,
-                builder: (BuildContext context,
-                    ScrollController scrollController,
-                    double bottomSheetOffset) {
+                builder: (
+                  BuildContext context,
+                  ScrollController scrollController,
+                  double bottomSheetOffset,
+                ) {
                   return const SafeArea(
                     child: Material(
                       child: NotificationsWidget(),

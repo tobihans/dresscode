@@ -1,4 +1,3 @@
-import 'package:dresscode/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/routes.dart';
@@ -17,44 +16,47 @@ class HomeHero extends StatelessWidget {
     return SizedBox(
       height: size.height * 0.275,
       child: Container(
-        child: Stack(children: [
-          Container(
-            decoration: BoxDecoration(
-              color: const Color(0XFF000000).withOpacity(0.55),
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: const Color(0XFF000000).withOpacity(0.55),
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+              ),
             ),
-          ),
-          Container(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                text,
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 25.0),
-                              )),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          text,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25.0,
+                          ),
                         ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, Routes.shop);
-                          },
-                          icon: const Icon(Icons.arrow_circle_right_outlined),
-                          color: Theme.of(context).colorScheme.primary,
-                        )
-                      ]),
-                ],
-              ))
-        ]),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.shop);
+                      },
+                      icon: const Icon(Icons.arrow_circle_right_outlined),
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ],
+                ),
+              ],
+            )
+          ],
+        ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.0),
           image: const DecorationImage(
@@ -65,6 +67,4 @@ class HomeHero extends StatelessWidget {
       ),
     );
   }
-
-  void _heroButtonPressed() {}
 }

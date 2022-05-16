@@ -25,7 +25,7 @@ class DrawerAuthenticated extends StatelessWidget {
             currentAccountPicture: CircleAvatar(
               radius: 50.0,
               child: Text(
-                '${user.firstName[0]}${user.lastName[0]}',
+                user.initials,
                 style: const TextStyle(fontSize: 20),
               ),
             ),

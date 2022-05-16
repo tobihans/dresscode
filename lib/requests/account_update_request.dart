@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:dresscode/requests/body_request.dart';
 
 class AccountUpdateRequest extends BodyRequest {
-  final String firstName;
-  final String lastName;
-  final String phone;
+  late String firstName;
+  late String lastName;
+  late String phone;
 
-  const AccountUpdateRequest({
+  AccountUpdateRequest({
     required this.firstName,
     required this.lastName,
     required this.phone,

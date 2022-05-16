@@ -50,4 +50,6 @@ class User extends Serializable {
         'phone': phone,
         'code': code,
       };
+
+  String get initials => '${firstName[0]}${lastName[0]}';
 }
