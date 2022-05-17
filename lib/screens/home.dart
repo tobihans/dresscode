@@ -1,11 +1,16 @@
+import 'package:dresscode/api/services/category_service.dart';
 import 'package:dresscode/components/app_drawer.dart';
 import 'package:dresscode/models/category.dart';
+import 'package:dresscode/models/page.dart' as page;
+import 'package:dresscode/requests/page_request.dart';
 import 'package:flutter/material.dart';
 import 'package:dresscode/components/app_bar.dart';
 import 'package:dresscode/components/floating_btn.dart';
 import 'package:dresscode/components/home_hero.dart';
 import 'package:dresscode/components/category_widget.dart';
 import 'package:dresscode/components/top_model.dart';
+
+import '../api/services/product_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,6 +20,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  HomeViewModel homeViewModel = HomeViewModel(
+      productService: ProductService(), categoryService: CategoryService());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,27 +39,52 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               child: const HomeHero(
-                text: "Collection d'été 2021",
+                text: "Visiter notre collection",
               ),
             ),
-            Container(
-                padding: const EdgeInsets.symmetric(vertical: 6.0),
-                child: const Text('Categories')),
-            SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(vertical: 6.0),
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: List.generate(
-                  12,
-                  (i) => CategoryWidget(
-                    category: Category(
-                      name: 'Category $i',
-                      description: 'This is a description',
-                      url: "https://source.unsplash.com/random/1600x900?mode&clothe&dress&style&beautiful&sig=10",
-                    ),
-                  ),
-                ).toList(),
-              ),
+            FutureBuilder(
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    page.Page<Category> response = snapshot.data;
+                    return Container(
+                      padding: const EdgeInsets.symmetric(vertical: 6.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Text("Nos categories"),
+                          ),
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                for (Category category in response.content)
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                                    child: CategoryWidget(
+                                      category: category,
+                                    ),
+                                  )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Container();
+                  }
+                }
+                return const SizedBox();
+              },
+              future: homeViewModel.loadCategories(),
             ),
             Container(
                 padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -84,5 +117,18 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+}
+
+class HomeViewModel {
+  final ProductService productService;
+  final CategoryService categoryService;
+  PageRequest categoryParams = PageRequest(pageNumber: 0, pageSize: 10);
+  PageRequest productParams = PageRequest(pageNumber: 0, pageSize: 20);
+
+  HomeViewModel({required this.productService, required this.categoryService});
+
+  Future<page.Page<Category>> loadCategories() async {
+    return await categoryService.getCategories(categoryParams);
   }
 }

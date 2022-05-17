@@ -12,18 +12,6 @@ class DrawerAuthenticated extends StatelessWidget {
     required this.user,
   }) : super(key: key);
 
-  String _getUserInitials() {
-    final initialsBuilder = StringBuffer();
-    var isSpace = true;
-    for (final character in user.name.characters) {
-      if (isSpace && character != ' ') {
-        initialsBuilder.write(character);
-      }
-      isSpace = character == ' ';
-    }
-    return initialsBuilder.toString();
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -37,7 +25,7 @@ class DrawerAuthenticated extends StatelessWidget {
             currentAccountPicture: CircleAvatar(
               radius: 50.0,
               child: Text(
-                _getUserInitials(),
+                user.initials,
                 style: const TextStyle(fontSize: 20),
               ),
             ),

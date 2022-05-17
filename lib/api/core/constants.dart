@@ -8,6 +8,10 @@ class Constants {
   static const String wishlistUrl = '$apiUrl/wishlist';
   static const String cartUrl = '$apiUrl/cart';
   static const String currentUserUrl = '$apiUrl/auth/current';
+  static const String accountUpdateUrl = '$apiUrl/auth/update';
+  static const String accountPictureUpdateUrl = '$apiUrl/auth/update/picture';
+  static const String passwordUpdateUrl = '$apiUrl/auth/update/password';
+
 
   static const httpCodes = {
     200: 'OK',
