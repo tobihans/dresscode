@@ -1,3 +1,4 @@
+import 'package:dresscode/screens/checkout_screen.dart';
 import 'package:dresscode/screens/search_screen.dart';
 import 'package:dresscode/screens/home.dart';
 import 'package:dresscode/screens/login_screen.dart';
@@ -39,6 +40,7 @@ class App extends StatelessWidget {
         Routes.wishlist: (context) => const WishlistScreen(),
         Routes.profile: (context) => const ProfileScreen(),
         Routes.search: (context) => const SearchScreen(),
+        Routes.checkout: (context) => const CheckoutScreen(),
       },
     );
   }

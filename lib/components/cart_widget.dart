@@ -2,6 +2,7 @@ import 'package:dresscode/api/core/api_http_exception.dart';
 import 'package:dresscode/api/services/cart_service.dart';
 import 'package:dresscode/components/product_cart_widget.dart';
 import 'package:dresscode/models/product.dart';
+import 'package:dresscode/utils/routes.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
@@ -248,7 +249,9 @@ class _CartWidgetState extends State<CartWidget> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(Routes.checkout);
+                  },
                   child: const Text('Passer au paiement'),
                 ),
               ),
