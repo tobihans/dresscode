@@ -78,38 +78,52 @@ class ProfileScreenEntry extends StatelessWidget {
                                 topLeft: Radius.circular(40),
                                 topRight: Radius.circular(40),
                               ),
-                              child: Form(
-                                key: _formKey,
-                                child: SingleChildScrollView(
-                                  controller: scrollController,
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0,
-                                          horizontal: 10.0,
-                                        ),
-                                        child: TextFormField(
-                                          decoration: InputDecoration(
-                                            label: Text(label),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 10, left: 10, right: 10),
+                                child: Form(
+                                  key: _formKey,
+                                  child: SingleChildScrollView(
+                                    controller: scrollController,
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            vertical: 10.0,
+                                            horizontal: 10.0,
                                           ),
-                                          controller: _controller,
-                                          validator: validator,
-                                          autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
+                                          child: TextFormField(
+                                            decoration: InputDecoration(
+                                              label: Text(label),
+                                            ),
+                                            controller: _controller,
+                                            validator: validator,
+                                            autovalidateMode: AutovalidateMode
+                                                .onUserInteraction,
+                                          ),
                                         ),
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            _formKey.currentState!.save();
-                                            onValueChanged!(_controller.text);
-                                          }
-                                        },
-                                        child: const Text('Ok'),
-                                      ),
-                                    ],
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              minimumSize: const Size
+                                                      .fromHeight(
+                                                  40), // fromHeight use double.infinity as width and 40 is the height
+                                            ),
+                                            onPressed: () {
+                                              if (_formKey.currentState!
+                                                  .validate()) {
+                                                _formKey.currentState!.save();
+                                                onValueChanged!(
+                                                    _controller.text);
+                                              }
+                                            },
+                                            child: const Text('Ok'),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
