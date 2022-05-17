@@ -16,20 +16,20 @@ class WishlistButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      child: const Icon(Icons.bookmark_border),
-      style: ElevatedButton.styleFrom(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
-        ),
-        side: const BorderSide(
-          width: 2.0,
-          color: Colors.black,
-        ),
-        primary: isInWishlist ? background : foreground,
-        onPrimary: isInWishlist ? foreground : background,
-      ),
-    );
+    return SizedBox(
+        height: 36.0,
+        width: 36.0,
+        child: Container(
+          child: Expanded(
+              child: Center(
+                  child: IconButton(
+            onPressed: onPressed,
+            icon: Icon(isInWishlist ? Icons.bookmark : Icons.bookmark_border,
+                color: isInWishlist ? foreground : background),
+          ))),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: isInWishlist ? background : foreground),
+        ));
   }
 }

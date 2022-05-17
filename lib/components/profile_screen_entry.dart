@@ -61,6 +61,9 @@ class ProfileScreenEntry extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {
+                      if (!editable) {
+                        return;
+                      }
                       showFlexibleBottomSheet(
                         minHeight: 0,
                         initHeight: 0.3,
@@ -86,6 +89,8 @@ class ProfileScreenEntry extends StatelessWidget {
                                   child: SingleChildScrollView(
                                     controller: scrollController,
                                     child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         Container(
                                           padding: const EdgeInsets.symmetric(
@@ -105,12 +110,7 @@ class ProfileScreenEntry extends StatelessWidget {
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               left: 10, right: 10),
-                                          child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              minimumSize: const Size
-                                                      .fromHeight(
-                                                  40), // fromHeight use double.infinity as width and 40 is the height
-                                            ),
+                                          child: TextButton(
                                             onPressed: () {
                                               if (_formKey.currentState!
                                                   .validate()) {
@@ -119,7 +119,12 @@ class ProfileScreenEntry extends StatelessWidget {
                                                     _controller.text);
                                               }
                                             },
-                                            child: const Text('Ok'),
+                                            style: TextButton.styleFrom(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        0, 10, 0, 5)),
+                                            child: const Text('Ok',
+                                                style: TextStyle(fontSize: 17)),
                                           ),
                                         ),
                                       ],

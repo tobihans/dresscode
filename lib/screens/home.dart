@@ -57,10 +57,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.symmetric(vertical: 6.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text('Nos catégories'),
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: const Text('Nos catégories',
+                                style: TextStyle(fontSize: 18)),
                           ),
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
@@ -90,7 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
-              child: const Text('Les top modèles'),
+              child:
+                  const Text('Les top modèles', style: TextStyle(fontSize: 18)),
             ),
             SingleChildScrollView(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -108,7 +111,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
-              child: const Text('Les top modèles'),
+              child: const Text('Les articles phares',
+                  style: TextStyle(fontSize: 18)),
             ),
             SingleChildScrollView(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
