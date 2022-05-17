@@ -6,6 +6,8 @@ import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 
+typedef ProductAndQuantity = MapEntry<Product, int>;
+
 class CartWidget extends StatefulWidget {
   final ScrollController scrollController;
 
@@ -19,7 +21,7 @@ class CartWidget extends StatefulWidget {
 }
 
 class _CartWidgetState extends State<CartWidget> {
-  late Future<List<MapEntry<Product, int>>> _cartProductsFuture;
+  late Future<List<ProductAndQuantity>> _cartProductsFuture;
   CartService? _cartService;
   bool _loading = false;
 
@@ -36,19 +38,19 @@ class _CartWidgetState extends State<CartWidget> {
     });
   }
 
-  Future<List<MapEntry<Product, int>>> _initCartProducts() async {
+  Future<List<ProductAndQuantity>> _initCartProducts() async {
     _cartService ??= CartService(await TokenStorage.getToken());
     final cart = await _cartService!.getCart();
     final cartProducts = <Product, int>{};
     for (var product in cart) {
       cartProducts[product] = (cartProducts[product] ?? 0) + 1;
     }
-    return cartProducts.keys.map((e) => MapEntry(e, cartProducts[e]!)).toList();
+    return cartProducts.keys.map((e) => ProductAndQuantity(e, cartProducts[e]!)).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<MapEntry<Product, int>>>(
+    return FutureBuilder<List<ProductAndQuantity>>(
       future: _cartProductsFuture,
       builder: (ctx, snapshot) {
         if (snapshot.hasData) {
@@ -62,8 +64,8 @@ class _CartWidgetState extends State<CartWidget> {
             );
           }
 
-          final cartTotal = cartProductsList.fold(0, (previousValue, element) {
-            return (previousValue as int) + element.key.price * element.value;
+          final cartTotal = cartProductsList.fold(0, (int previousValue, element) {
+            return previousValue + element.key.price * element.value;
           });
 
           return Column(
@@ -178,6 +180,7 @@ class _CartWidgetState extends State<CartWidget> {
                                 ),
                               ),
                             );
+                            setState(() {});
                           } catch (_) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -201,6 +204,7 @@ class _CartWidgetState extends State<CartWidget> {
                                 ),
                               ),
                             );
+                            setState(() {});
                           } catch (_) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
@@ -239,6 +243,13 @@ class _CartWidgetState extends State<CartWidget> {
                   separatorBuilder: (ctx, idx) {
                     return const Divider();
                   },
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Passer au paiement'),
                 ),
               ),
             ],

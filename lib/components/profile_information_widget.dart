@@ -1,4 +1,5 @@
 import 'package:dresscode/api/services/auth_service.dart';
+import 'package:dresscode/components/profile_circle_avatar.dart';
 import 'package:dresscode/components/purchase_history_widget.dart';
 import 'package:dresscode/models/user.dart';
 import 'package:dresscode/requests/account_update_request.dart';
@@ -58,6 +59,10 @@ class _ProfileInformationWidgetState extends State<ProfileInformationWidget> {
     });
   }
 
+  Future<void> _onProfileImageUpdated(String imagePath) async {
+    // TODO
+  }
+
   void _onFirstNameChanged(String? value) {
     setState(() {
       _accountUpdateRequest.firstName =
@@ -99,176 +104,181 @@ class _ProfileInformationWidgetState extends State<ProfileInformationWidget> {
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
                   child: Center(
-                    child: CircleAvatar(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      radius: 50.0,
-                      child: Text(
-                        user!.initials,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
-                        ),
-                      ),
+                    child: ProfileCircleAvatar(
+                      user: user!,
+                      onPictureChanged: _onProfileImageUpdated,
                     ),
                   ),
                 ),
                 Center(
-                    child: Text(
-                  user.name,
-                  style: const TextStyle(fontSize: 20),
-                )),
+                  child: Text(
+                    user.name,
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                ),
                 Center(
-                    child: Text(
-                  user.email,
-                  style: const TextStyle(fontSize: 12),
-                )),
+                  child: Text(
+                    user.email,
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ),
                 Container(
                   padding: const EdgeInsets.only(left: 10, top: 30, right: 10),
-                  child: const TabBar(
+                  child: TabBar(
                     tabs: [
-                      Tab(text: "Mes Informations"),
-                      Tab(text: "Mes Achats"),
+                      Tab(
+                        child: Text(
+                          'Mes Informations',
+                          style: TextStyle(color: colorScheme.onBackground),
+                        ),
+                      ),
+                      Tab(
+                        child: Text(
+                          'Mes Achats',
+                          style: TextStyle(color: colorScheme.onBackground),
+                        ),
+                      ),
                     ],
                   ),
                 ),
                 SizedBox(
-                  //Add this to give height
                   height: MediaQuery.of(context).size.height * 0.6,
-                  child: TabBarView(children: [
-                    Column(
-                      children: [
-                        ProfileScreenEntry(
-                          icon: Icons.person,
-                          label: 'Nom',
-                          value: _accountUpdateRequest.lastName,
-                          validator: Validator.validateNotEmpty('Nom'),
-                          onValueChanged: _onLastNameChanged,
-                        ),
-                        ProfileScreenEntry(
-                          icon: Icons.person,
-                          label: 'Prénom(s)',
-                          value: _accountUpdateRequest.firstName,
-                          validator: Validator.validateNotEmpty('Prénom(s)'),
-                          onValueChanged: _onFirstNameChanged,
-                        ),
-                        ProfileScreenEntry(
-                          icon: Icons.phone,
-                          label: 'Téléphone',
-                          value: _accountUpdateRequest.phone,
-                          validator: Validator.validatePhone(),
-                          onValueChanged: _onPhoneChanged,
-                        ),
-                        ProfileScreenEntry(
-                          icon: Icons.email,
-                          label: 'Adresse mail',
-                          value: user.email,
-                          editable: false,
-                          validator: Validator.validateEmail(),
-                        ),
-                        // const ProfileScreenEntry(
-                        //   icon: Icons.lock,
-                        //   label: 'Mot de passe',
-                        //   value: '--------------------------------',
-                        // ),
-
-                        if (_wasModified)
-                          Container(
-                            margin: const EdgeInsets.only(top: 10),
-                            child: Center(
-                              child: Column(
-                                children: <Widget>[
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      minimumSize: const Size.fromHeight(
-                                          40), // fromHeight use double.infinity as width and 40 is the height
-                                    ),
-                                    onPressed: () async {
-                                      setState(() {
-                                        _isLoading = true;
-                                      });
-                                      try {
-                                        await _updateUser();
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Compte mis à jour',
-                                            ),
-                                          ),
-                                        );
-                                      } on Exception {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: const Text(
-                                              'Une erreur s\'est produite',
-                                            ),
-                                            backgroundColor: colorScheme.error,
-                                          ),
-                                        );
-                                      } finally {
+                  child: TabBarView(
+                    children: [
+                      Column(
+                        children: [
+                          ProfileScreenEntry(
+                            icon: Icons.person,
+                            label: 'Nom',
+                            value: _accountUpdateRequest.lastName,
+                            validator: Validator.validateNotEmpty('Nom'),
+                            onValueChanged: _onLastNameChanged,
+                          ),
+                          ProfileScreenEntry(
+                            icon: Icons.person,
+                            label: 'Prénom(s)',
+                            value: _accountUpdateRequest.firstName,
+                            validator: Validator.validateNotEmpty('Prénom(s)'),
+                            onValueChanged: _onFirstNameChanged,
+                          ),
+                          ProfileScreenEntry(
+                            icon: Icons.phone,
+                            label: 'Téléphone',
+                            value: _accountUpdateRequest.phone,
+                            validator: Validator.validatePhone(),
+                            onValueChanged: _onPhoneChanged,
+                          ),
+                          ProfileScreenEntry(
+                            icon: Icons.email,
+                            label: 'Adresse mail',
+                            value: user.email,
+                            editable: false,
+                            validator: Validator.validateEmail(),
+                          ),
+                          if (_wasModified)
+                            Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              child: Center(
+                                child: Column(
+                                  children: <Widget>[
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: const Size.fromHeight(
+                                          40,
+                                        ),
+                                      ),
+                                      onPressed: () async {
                                         setState(() {
-                                          _isLoading = false;
+                                          _isLoading = true;
                                         });
-                                      }
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.all(8),
-                                      child: _isLoading
-                                          ? const CircularProgressIndicator()
-                                          : const Text('Sauvegarder'),
+                                        try {
+                                          await _updateUser();
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                'Compte mis à jour',
+                                              ),
+                                            ),
+                                          );
+                                        } on Exception {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: const Text(
+                                                'Une erreur s\'est produite',
+                                              ),
+                                              backgroundColor:
+                                                  colorScheme.error,
+                                            ),
+                                          );
+                                        } finally {
+                                          setState(() {
+                                            _isLoading = false;
+                                          });
+                                        }
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.all(8),
+                                        child: _isLoading
+                                            ? const CircularProgressIndicator()
+                                            : const Text('Sauvegarder'),
+                                      ),
                                     ),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      setState(() {
-                                        _isLoading = true;
-                                      });
-                                      try {
-                                        await _cancelUpdate();
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Modifications annulées',
-                                            ),
-                                          ),
-                                        );
-                                      } on Exception {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: const Text(
-                                              'Une erreur s\'est produite',
-                                            ),
-                                            backgroundColor: colorScheme.error,
-                                          ),
-                                        );
-                                      } finally {
+                                    ElevatedButton(
+                                      onPressed: () async {
                                         setState(() {
-                                          _isLoading = false;
+                                          _isLoading = true;
                                         });
-                                      }
-                                    },
-                                    child: Container(
-                                      margin: const EdgeInsets.all(8),
-                                      child: _isLoading
-                                          ? const CircularProgressIndicator()
-                                          : const Text('Annuler'),
+                                        try {
+                                          await _cancelUpdate();
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            const SnackBar(
+                                              content: Text(
+                                                'Modifications annulées',
+                                              ),
+                                            ),
+                                          );
+                                        } on Exception {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: const Text(
+                                                'Une erreur s\'est produite',
+                                              ),
+                                              backgroundColor:
+                                                  colorScheme.error,
+                                            ),
+                                          );
+                                        } finally {
+                                          setState(() {
+                                            _isLoading = false;
+                                          });
+                                        }
+                                      },
+                                      child: Container(
+                                        margin: const EdgeInsets.all(8),
+                                        child: _isLoading
+                                            ? const CircularProgressIndicator()
+                                            : const Text('Annuler'),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: const Size.fromHeight(
+                                          40,
+                                        ),
+                                        primary: colorScheme.error,
+                                      ),
                                     ),
-                                    style: ElevatedButton.styleFrom(
-                                      minimumSize: const Size.fromHeight(
-                                          40), // fromHeight use double.infinity as width and 40 is the height
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          )
-                      ],
-                    ),
-                    const PurchaseHistoryWidget(),
-                  ]),
+                            )
+                        ],
+                      ),
+                      const PurchaseHistoryWidget(),
+                    ],
+                  ),
                 ),
               ],
             ),

@@ -72,6 +72,10 @@ class AuthService extends ApiBase {
     return jsonDecode(updatePasswordResponse)['content'] == 'Password changed';
   }
 
+  Future<void> updateUserPicture() async {
+    // TODO
+  }
+
   Future<void> logout() async {
     _currentUser = null;
   }

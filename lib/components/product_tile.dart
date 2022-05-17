@@ -7,13 +7,13 @@ import 'package:dresscode/screens/product_screen.dart';
 import 'package:dresscode/utils/list_extensions.dart';
 import 'package:flutter/material.dart';
 
-class SearchProductItem extends StatelessWidget {
+class ProductTile extends StatelessWidget {
   final Product product;
   final ProductService productService;
   final CartService cartService;
   final WishlistService wishlistService;
 
-  const SearchProductItem({
+  const ProductTile({
     Key? key,
     required this.product,
     required this.productService,
