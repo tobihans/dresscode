@@ -21,7 +21,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   HomeViewModel homeViewModel = HomeViewModel(
-      productService: ProductService(), categoryService: CategoryService());
+    productService: ProductService(),
+    categoryService: CategoryService(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               child: const HomeHero(
-                text: "Visiter notre collection",
+                text: 'Visiter notre collection',
               ),
             ),
             FutureBuilder(
@@ -58,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         children: [
                           const Padding(
                             padding: EdgeInsets.all(10),
-                            child: Text("Nos categories"),
+                            child: Text('Nos catégories'),
                           ),
                           SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
@@ -87,8 +89,9 @@ class _HomeScreenState extends State<HomeScreen> {
               future: homeViewModel.loadCategories(),
             ),
             Container(
-                padding: const EdgeInsets.symmetric(vertical: 6.0),
-                child: const Text('Les top modèles')),
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: const Text('Les top modèles'),
+            ),
             SingleChildScrollView(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               scrollDirection: Axis.horizontal,
@@ -96,16 +99,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: List.generate(
                   9,
                   (e) => TopModel(
-                    name: "Jan$e",
+                    name: 'Jan$e',
                     url:
-                        "https://source.unsplash.com/random/1600x900?mode&clothe&dress&style&beautiful&sig=10$e",
+                        'https://source.unsplash.com/random/1600x900?mode&clothe&dress&style&beautiful&sig=10$e',
                   ),
                 ).toList(),
               ),
             ),
             Container(
-                padding: const EdgeInsets.symmetric(vertical: 6.0),
-                child: const Text('Les top modèles')),
+              padding: const EdgeInsets.symmetric(vertical: 6.0),
+              child: const Text('Les top modèles'),
+            ),
             SingleChildScrollView(
               padding: const EdgeInsets.symmetric(vertical: 6.0),
               scrollDirection: Axis.horizontal,
@@ -123,10 +127,19 @@ class _HomeScreenState extends State<HomeScreen> {
 class HomeViewModel {
   final ProductService productService;
   final CategoryService categoryService;
-  PageRequest categoryParams = PageRequest(pageNumber: 0, pageSize: 10);
-  PageRequest productParams = PageRequest(pageNumber: 0, pageSize: 20);
+  PageRequest categoryParams = PageRequest(
+    pageNumber: 0,
+    pageSize: 10,
+  );
+  PageRequest productParams = PageRequest(
+    pageNumber: 0,
+    pageSize: 20,
+  );
 
-  HomeViewModel({required this.productService, required this.categoryService});
+  HomeViewModel({
+    required this.productService,
+    required this.categoryService,
+  });
 
   Future<page.Page<Category>> loadCategories() async {
     return await categoryService.getCategories(categoryParams);
