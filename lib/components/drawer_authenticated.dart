@@ -1,4 +1,5 @@
 import 'package:dresscode/api/services/auth_service.dart';
+import 'package:dresscode/components/copyright_widget.dart';
 import 'package:dresscode/models/user.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:dresscode/utils/token_storage.dart';
@@ -124,7 +125,7 @@ class DrawerAuthenticated extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(bottom: size.height / 40),
             child: const Center(
-              child: Text('Copyright © DressCode 2022'),
+              child: CopyrightWidget(),
             ),
           ),
         ],

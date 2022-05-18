@@ -1,3 +1,4 @@
+import 'package:dresscode/components/copyright_widget.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -48,7 +49,7 @@ class DrawerUnauthenticated extends StatelessWidget {
               alignment: FractionalOffset.bottomCenter,
               child: Container(
                 margin: EdgeInsets.only(bottom: size.height / 40),
-                child: const Text('Copyright © DressCode 2022'),
+                child: const CopyrightWidget(),
               ),
             ),
           ),
