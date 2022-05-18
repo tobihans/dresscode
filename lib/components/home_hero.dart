@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/routes.dart';
+import 'package:dresscode/utils/routes.dart';
 
 class HomeHero extends StatelessWidget {
   final String text;
@@ -11,7 +11,7 @@ class HomeHero extends StatelessWidget {
   Widget build(BuildContext context) {
     const url =
         'https://source.unsplash.com/random/1600x900?mode&clothe&dress&style&beautiful&sig=1';
-    var size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context).size;
 
     return SizedBox(
       height: size.height * 0.275,
