@@ -4,6 +4,7 @@ import 'package:dresscode/api/services/wishlist_service.dart';
 import 'package:dresscode/components/app_bar.dart';
 import 'package:dresscode/components/app_drawer.dart';
 import 'package:dresscode/components/cart_widget.dart';
+import 'package:dresscode/components/checkout_form.dart';
 import 'package:dresscode/components/product_tile.dart';
 import 'package:dresscode/models/product.dart';
 import 'package:dresscode/utils/token_storage.dart';
@@ -28,12 +29,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final products = cartProducts.keys
         .map((e) => ProductAndQuantity(e, cartProducts[e]!))
         .toList();
+    final cartTotal = products.fold(0, (int previousValue, element) {
+      return previousValue + element.key.price * element.value;
+    });
     return CheckoutViewModel(
-      productService: ProductService(),
-      cartService: cartService,
-      wishlistService: WishlistService(token),
-      cartProducts: products,
-    );
+        productService: ProductService(),
+        cartService: cartService,
+        wishlistService: WishlistService(token),
+        cartProducts: products,
+        totalPrice: cartTotal);
   }
 
   @override
@@ -53,23 +57,64 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             final checkoutViewModel = snapshot.data!;
             return ListView(
               children: <Widget>[
-                const Text('Paiement'),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10.0),
+                  child: Center(
+                    child: Text(
+                      'Paiement',
+                      style: TextStyle(fontSize: 17),
+                    ),
+                  ),
+                ),
                 Column(
-                  children: <Widget>[
-                    for (final p in checkoutViewModel.cartProducts)
-                      Row(
-                        children: [
-                          ProductTile(
-                            product: p.key,
-                            productService: checkoutViewModel.productService,
-                            wishlistService: checkoutViewModel.wishlistService,
-                            cartService: checkoutViewModel.cartService,
+                  children: checkoutViewModel.cartProducts
+                      .map(
+                        (p) => Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: ProductTile(
+                                  product: p.key,
+                                  productService:
+                                      checkoutViewModel.productService,
+                                  wishlistService:
+                                      checkoutViewModel.wishlistService,
+                                  cartService: checkoutViewModel.cartService,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 5.0,
+                                ),
+                                child: Text(
+                                  '(${p.value})',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
-                          Text(p.value.toString())
-                        ],
-                      ),
-                    // TODO finish this screen
+                        ),
+                      )
+                      .toList(),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Total : ${checkoutViewModel.totalPrice} XOF',
+                      style: const TextStyle(fontSize: 17),
+                    ),
                   ],
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 25,
+                  ),
+                  child: CheckoutForm(onCheckout: (_, __, ___) async {}),
                 ),
               ],
             );
@@ -107,11 +152,13 @@ class CheckoutViewModel {
   final CartService cartService;
   final WishlistService wishlistService;
   final List<ProductAndQuantity> cartProducts;
+  final int totalPrice;
 
   CheckoutViewModel({
     required this.productService,
     required this.cartService,
     required this.wishlistService,
     required this.cartProducts,
+    required this.totalPrice,
   });
 }

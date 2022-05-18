@@ -80,7 +80,10 @@ class ProfileScreenEntry extends StatelessWidget {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 10, left: 10, right: 10),
+                                  top: 10,
+                                  left: 10,
+                                  right: 10,
+                                ),
                                 child: Form(
                                   key: _formKey,
                                   child: SingleChildScrollView(
@@ -104,19 +107,21 @@ class ProfileScreenEntry extends StatelessWidget {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 10, right: 10),
+                                            left: 10,
+                                            right: 10,
+                                          ),
                                           child: ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              minimumSize: const Size
-                                                      .fromHeight(
-                                                  40), // fromHeight use double.infinity as width and 40 is the height
+                                            style: TextButton.styleFrom(
+                                              minimumSize:
+                                                  const Size.fromHeight(40),
                                             ),
                                             onPressed: () {
                                               if (_formKey.currentState!
                                                   .validate()) {
                                                 _formKey.currentState!.save();
                                                 onValueChanged!(
-                                                    _controller.text);
+                                                  _controller.text,
+                                                );
                                               }
                                             },
                                             child: const Text('Ok'),
