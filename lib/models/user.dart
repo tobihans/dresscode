@@ -9,6 +9,7 @@ class User extends Serializable {
   final String email;
   final String phone;
   final String? code;
+  final String? picture;
 
   const User({
     required this.name,
@@ -17,6 +18,7 @@ class User extends Serializable {
     required this.email,
     required this.phone,
     this.code,
+    this.picture,
   });
 
   @override
@@ -26,7 +28,8 @@ class User extends Serializable {
         lastName = map['lastName'] as String,
         email = map['email'] as String,
         phone = map['phone'] as String,
-        code = map['code'] as String?;
+        code = map['code'] as String?,
+        picture = map['picture'] as String?;
 
   @override
   factory User.fromJson(final String json) {
@@ -38,6 +41,7 @@ class User extends Serializable {
       email: userData['email'] as String,
       phone: userData['phone'] as String,
       code: userData['code'] as String?,
+      picture: userData['picture'] as String?,
     );
   }
 
@@ -49,6 +53,7 @@ class User extends Serializable {
         'email': email,
         'phone': phone,
         'code': code,
+        'picture': picture,
       };
 
   String get initials => '${firstName[0]}${lastName[0]}';

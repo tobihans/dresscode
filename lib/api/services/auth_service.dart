@@ -7,6 +7,7 @@ import 'package:dresscode/models/user.dart';
 import 'package:dresscode/requests/account_update_request.dart';
 import 'package:dresscode/requests/login_request.dart';
 import 'package:dresscode/requests/password_update_request.dart';
+import 'package:dresscode/requests/picture_request.dart';
 import 'package:dresscode/requests/register_request.dart';
 import 'package:dresscode/utils/token_storage.dart';
 
@@ -55,9 +56,9 @@ class AuthService extends ApiBase {
       AccountUpdateRequest accountUpdateRequest, String token) async {
     final updateResponse = await put(Uri.parse(Constants.accountUpdateUrl),
         data: accountUpdateRequest.toJson(), token: token);
-    final user =
-        User.fromJson(jsonEncode(jsonDecode(updateResponse)['content']));
-    _currentUser = user;
+    _currentUser = User.fromJson(
+      jsonEncode(jsonDecode(updateResponse)['content']),
+    );
   }
 
   Future<bool> updateUserPassword(
@@ -70,6 +71,20 @@ class AuthService extends ApiBase {
       token: token,
     );
     return jsonDecode(updatePasswordResponse)['content'] == 'Password changed';
+  }
+
+  Future<void> updateUserPicture(
+    PictureRequest pictureRequest,
+    String token,
+  ) async {
+    final updateResponse = await put(
+      Uri.parse(Constants.accountPictureUpdateUrl),
+      data: pictureRequest.image,
+      token: token,
+    );
+    _currentUser = User.fromJson(
+      jsonEncode(jsonDecode(updateResponse)['content']),
+    );
   }
 
   Future<void> logout() async {

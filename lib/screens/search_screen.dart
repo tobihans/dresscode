@@ -1,7 +1,7 @@
 import 'package:dresscode/api/services/cart_service.dart';
 import 'package:dresscode/api/services/product_service.dart';
 import 'package:dresscode/api/services/wishlist_service.dart';
-import 'package:dresscode/components/search_product_item.dart';
+import 'package:dresscode/components/product_tile.dart';
 import 'package:dresscode/models/product.dart';
 import 'package:dresscode/models/page.dart' as page;
 import 'package:dresscode/requests/page_request.dart';
@@ -146,7 +146,7 @@ class _SearchPage extends State<SearchScreen> {
                         final product = productPage.content[index];
                         return Container(
                           margin: const EdgeInsets.symmetric(vertical: 10.0),
-                          child: SearchProductItem(
+                          child: ProductTile(
                             product: product,
                             productService: _productService,
                             cartService: CartService(token),

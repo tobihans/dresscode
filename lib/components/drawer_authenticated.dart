@@ -24,10 +24,37 @@ class DrawerAuthenticated extends StatelessWidget {
             ),
             currentAccountPicture: CircleAvatar(
               radius: 50.0,
-              child: Text(
-                user.initials,
-                style: const TextStyle(fontSize: 20),
-              ),
+              child: user.picture == null
+                  ? Text(
+                      user.initials,
+                      style: const TextStyle(fontSize: 20),
+                    )
+                  : null,
+              backgroundImage: user.picture != null
+                  ? FadeInImage(
+                      placeholder: Image.asset(
+                        'assets/loading.gif',
+                        fit: BoxFit.fill,
+                      ).image,
+                      imageErrorBuilder: (_, __, ___) {
+                        return Image.asset(
+                          'assets/placeholder.png',
+                          fit: BoxFit.fill,
+                        );
+                      },
+                      image: Image.network(
+                        user.picture!,
+                        fit: BoxFit.fill,
+                        errorBuilder: (ctx, obj, stack) {
+                          return Image.asset(
+                            'assets/placeholder.png',
+                            fit: BoxFit.fill,
+                          );
+                        },
+                      ).image,
+                      fit: BoxFit.cover,
+                    ).image
+                  : null,
             ),
             accountEmail: Text(user.email),
             accountName: Text(user.name),

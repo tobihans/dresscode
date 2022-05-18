@@ -83,7 +83,10 @@ class ProfileScreenEntry extends StatelessWidget {
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 10, left: 10, right: 10),
+                                  top: 10,
+                                  left: 10,
+                                  right: 10,
+                                ),
                                 child: Form(
                                   key: _formKey,
                                   child: SingleChildScrollView(
@@ -109,22 +112,24 @@ class ProfileScreenEntry extends StatelessWidget {
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.only(
-                                              left: 10, right: 10),
-                                          child: TextButton(
+                                            left: 10,
+                                            right: 10,
+                                          ),
+                                          child: ElevatedButton(
+                                            style: TextButton.styleFrom(
+                                              minimumSize:
+                                                  const Size.fromHeight(40),
+                                            ),
                                             onPressed: () {
                                               if (_formKey.currentState!
                                                   .validate()) {
                                                 _formKey.currentState!.save();
                                                 onValueChanged!(
-                                                    _controller.text);
+                                                  _controller.text,
+                                                );
                                               }
                                             },
-                                            style: TextButton.styleFrom(
-                                                padding:
-                                                    const EdgeInsets.fromLTRB(
-                                                        0, 10, 0, 5)),
-                                            child: const Text('Ok',
-                                                style: TextStyle(fontSize: 17)),
+                                            child: const Text('Ok'),
                                           ),
                                         ),
                                       ],

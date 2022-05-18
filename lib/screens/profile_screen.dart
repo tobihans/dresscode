@@ -1,7 +1,6 @@
 import 'package:dresscode/components/app_bar.dart';
 import 'package:dresscode/components/app_drawer.dart';
 import 'package:dresscode/components/profile_information_widget.dart';
-import 'package:dresscode/components/purchase_history_widget.dart';
 
 import 'package:flutter/material.dart';
 
