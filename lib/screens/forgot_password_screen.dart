@@ -1,42 +1,28 @@
-import 'package:dresscode/api/services/auth_service.dart';
-import 'package:dresscode/components/form_input_borders.dart' as fib;
-import 'package:dresscode/requests/login_request.dart';
 import 'package:dresscode/utils/routes.dart';
-import 'package:dresscode/utils/token_storage.dart';
 import 'package:dresscode/utils/validator.dart';
+import 'package:dresscode/components/form_input_borders.dart' as fib;
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class ForgotPasswordScreen extends StatefulWidget {
+  const ForgotPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _authService = AuthService();
-  bool _isObscure = true;
   bool _isLoading = false;
+
+  Future<void> submit() async {
+    throw Exception();
+  }
 
   @override
   void dispose() {
     _emailController.dispose();
-    _passwordController.dispose();
     super.dispose();
-  }
-
-  Future<void> login() async {
-    final loginRequest = LoginRequest(
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
-    final token = await _authService.login(loginRequest);
-    // Trick to load the user in memory
-    await _authService.getCurrentUser(token);
-    await TokenStorage.saveToken(token);
   }
 
   @override
@@ -44,7 +30,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final topMargin = MediaQuery.of(context).size.height / 5;
     final primaryColor = Theme.of(context).colorScheme.primary;
     const allProperties = MaterialStateProperty.all;
-
     return Scaffold(
       body: Form(
         key: _formKey,
@@ -59,11 +44,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   margin: const EdgeInsets.only(bottom: 50),
                   child: const Center(
-                    child: Text(
-                      'Connexion',
-                      style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.bold,
+                    child: Tooltip(
+                      message:
+                          'Une fois ce formulaire rempli, votre de récupération vous sera envoyé par mail',
+                      child: Text(
+                        'Mot de passe oublié',
+                        style: TextStyle(
+                          fontSize: 21,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -75,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: <Widget>[
                       Container(
                         child: const Text(
-                          'Email',
+                          'Adresse mail',
                           style: TextStyle(fontSize: 16),
                         ),
                         margin: const EdgeInsets.only(left: 5, bottom: 5),
@@ -91,44 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         keyboardType: TextInputType.emailAddress,
                         validator: Validator.validateEmail(),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 15, bottom: 30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        child: const Text(
-                          'Mot de passe',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        margin: const EdgeInsets.only(left: 5, bottom: 5),
-                      ),
-                      TextFormField(
-                        obscureText: _isObscure,
-                        controller: _passwordController,
-                        decoration: InputDecoration(
-                          enabledBorder: fib.enabledBorder(),
-                          focusedBorder: fib.focusedBorder(primaryColor),
-                          errorBorder: fib.errorBorder(),
-                          focusedErrorBorder: fib.focusedErrorBorder(),
-                          suffixIcon: IconButton(
-                            onPressed: () {
-                              setState(() => _isObscure = !_isObscure);
-                            },
-                            icon: Icon(
-                              _isObscure
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                            ),
-                          ),
-                        ),
-                        keyboardType: TextInputType.visiblePassword,
-                        validator: Validator.validateNotEmpty('Mot de passe'),
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -152,29 +104,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         ? null
                         : () async {
                             if (_formKey.currentState!.validate()) {
-                              _formKey.currentState!.save();
                               setState(() {
                                 _isLoading = true;
                               });
                               try {
-                                await login();
-                                Navigator.pushNamedAndRemoveUntil(
-                                  context,
-                                  Routes.home,
-                                  (r) => false,
-                                );
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Connexion réussie',
-                                    ),
-                                  ),
-                                );
+                                await submit();
                               } on Exception {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Identifiants invalides'),
-                                    backgroundColor: Colors.red,
+                                  SnackBar(
+                                    content: const Text(
+                                      'Une erreur s\'est produite',
+                                    ),
+                                    backgroundColor:
+                                        Theme.of(context).colorScheme.error,
                                   ),
                                 );
                               } finally {
@@ -189,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.white,
                           )
                         : const Text(
-                            'Connexion',
+                            'Envoyer le code',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -213,23 +155,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Center(
                     child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, Routes.home);
-                      },
-                      child: const Text('Continuer sans compte'),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  child: Center(
-                    child: TextButton(
-                      onPressed: () {
                         Navigator.pushNamed(
                           context,
-                          Routes.forgotPassword,
+                          Routes.passwordReset,
                         );
                       },
-                      child: const Text('Mot de passe oublié ?'),
+                      child: const Text('Code déjà envoyé ?'),
                     ),
                   ),
                 ),

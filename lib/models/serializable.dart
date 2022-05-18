@@ -7,6 +7,7 @@ import 'package:dresscode/models/notification.dart';
 import 'package:dresscode/models/product.dart';
 import 'package:dresscode/models/user.dart';
 
+/// Base class for all our models
 abstract class Serializable {
   const Serializable();
 
@@ -21,8 +22,10 @@ abstract class Serializable {
   String toJson() => jsonEncode(toMap());
 }
 
+/// Factory to help (de)serialization while keeping (strong) typing
+/// We don't have the choice because it is not possible to use reflection/introspection
 class SerializableFactory {
-  static final Map<Type, Function> _serializableFactories = <Type, Function>{
+  static final Map<Type, Function> _serializableFactories = {
     Category: (final Map<String, dynamic> map) => Category.fromMap(map),
     Product: (final Map<String, dynamic> map) => Product.fromMap(map),
     Image: (final Map<String, dynamic> map) => Image.fromMap(map),

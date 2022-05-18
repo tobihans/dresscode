@@ -5,11 +5,9 @@ class Validator {
   static const _infinityIsInt = double.infinity is int;
   static const _maxInt = _infinityIsInt ? double.infinity as int : ~_minInt;
   static const _minInt = _infinityIsInt ? -double.infinity as int : (-1 << 63);
-  static const _emailRegex =
-      r"^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$";
+  static const _emailRegex = r"[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+";
   static const _pwdRegex = r"(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[^a-zA-Z]).{6,}";
   static const _phoneRegex = r"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$";
-
 
   static GenericValidatorFunc validateNotNull(String name) {
     return <T>(T? value) {

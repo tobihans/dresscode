@@ -59,13 +59,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final topMargin = MediaQuery.of(context).size.height / 7;
+    final topMargin = MediaQuery.of(context).size.height / 10;
     final primaryColor = Theme.of(context).colorScheme.primary;
     const allProperties = MaterialStateProperty.all;
 
     return Scaffold(
       body: Form(
         key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         child: SingleChildScrollView(
           child: Container(
             margin: EdgeInsets.only(left: 15, right: 15, top: topMargin),
@@ -98,7 +99,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         margin: const EdgeInsets.only(left: 5, bottom: 5),
                       ),
                       TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _firstNameController,
                         decoration: InputDecoration(
                           enabledBorder: fib.enabledBorder(),
@@ -126,7 +126,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         margin: const EdgeInsets.only(left: 5, bottom: 5),
                       ),
                       TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _lastNameController,
                         decoration: InputDecoration(
                           enabledBorder: fib.enabledBorder(),
@@ -154,7 +153,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         margin: const EdgeInsets.only(left: 5, bottom: 5),
                       ),
                       TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _phoneController,
                         decoration: InputDecoration(
                           enabledBorder: fib.enabledBorder(),
@@ -182,7 +180,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         margin: const EdgeInsets.only(left: 5, bottom: 5),
                       ),
                       TextFormField(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _emailController,
                         decoration: InputDecoration(
                           enabledBorder: fib.enabledBorder(),
@@ -211,7 +208,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       TextFormField(
                         obscureText: _isObscure,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _passwordController,
                         decoration: InputDecoration(
                           enabledBorder: fib.enabledBorder(),

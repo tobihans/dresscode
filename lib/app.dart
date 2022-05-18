@@ -1,4 +1,6 @@
 import 'package:dresscode/screens/checkout_screen.dart';
+import 'package:dresscode/screens/forgot_password_screen.dart';
+import 'package:dresscode/screens/password_reset_screen.dart';
 import 'package:dresscode/screens/search_screen.dart';
 import 'package:dresscode/screens/home.dart';
 import 'package:dresscode/screens/login_screen.dart';
@@ -17,7 +19,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'DressCode',
+      title: 'Dresscode',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: lightColorScheme,
@@ -32,7 +34,7 @@ class App extends StatelessWidget {
         ),
       ),
       themeMode: ThemeMode.system,
-      routes: <String, Widget Function(BuildContext)>{
+      routes: {
         Routes.home: (context) => const HomeScreen(),
         Routes.shop: (context) => const ShopScreen(),
         Routes.login: (context) => const LoginScreen(),
@@ -41,6 +43,8 @@ class App extends StatelessWidget {
         Routes.profile: (context) => const ProfileScreen(),
         Routes.search: (context) => const SearchScreen(),
         Routes.checkout: (context) => const CheckoutScreen(),
+        Routes.forgotPassword: (context) => const ForgotPasswordScreen(),
+        Routes.passwordReset: (context) => const PasswordResetScreen(),
       },
     );
   }
