@@ -231,7 +231,7 @@ class HomeViewModel {
   final List<Category> categories;
   final List<Product> bestProducts;
 
-  HomeViewModel({
+  const HomeViewModel({
     required this.productService,
     required this.cartService,
     required this.wishlistService,

@@ -23,7 +23,7 @@ class _ProfileCircleAvatarState extends State<ProfileCircleAvatar> {
     return Stack(
       children: <Widget>[
         CircleAvatar(
-          backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: colorScheme.primary,
           radius: 50.0,
           child: widget.user.picture == null
               ? Text(
@@ -66,10 +66,10 @@ class _ProfileCircleAvatarState extends State<ProfileCircleAvatar> {
           child: RawMaterialButton(
             fillColor: colorScheme.onBackground,
             onPressed: () async {
-              final filePickerResult = await FilePicker.platform
-                  .pickFiles(type: FileType.image);
+              final filePickerResult =
+                  await FilePicker.platform.pickFiles(type: FileType.image);
               final file = filePickerResult?.files.single.path;
-              if(file != null) {
+              if (file != null) {
                 widget.onPictureChanged(file);
               }
             },

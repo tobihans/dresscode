@@ -32,24 +32,28 @@ abstract class ApiBase {
       );
       if (code >= 400) {
         logger.severe(responseContent);
-        throw ApiHttpException(httpCode: code, message: Constants.httpCodes[code]!);
+        throw ApiHttpException(
+            httpCode: code, message: Constants.httpCodes[code]!);
       }
       return responseContent;
-    } on Exception catch (e,s) {
-      logger.severe('Exception of type : ${e.runtimeType.toString()}\n Stacktrace : ($s)');
+    } on Exception catch (e, s) {
+      logger.severe(
+          'Exception of type : ${e.runtimeType.toString()}\n Stacktrace : ($s)');
       rethrow;
     }
   }
 
-  Future<String> get(final Uri uri,
-      {final Map<String, String> queryParams = Constants.emptyMap,
-      final String data = '',
-      String token = ''}) {
+  Future<String> get(
+    final Uri uri, {
+    final Map<String, String> queryParams = Constants.emptyMap,
+    final String data = '',
+    String token = '',
+  }) {
     if (queryParams.isEmpty) {
       return callUrl(uri, HttpMethod.get, data, token);
     } else {
-      final queryString =
-          queryParams.entries.map((e) => '${e.key}=${e.value}').join('&');
+      final queryString = queryParams.entries
+          .map((e) => '${e.key}=${e.value}').join('&');
       final uriToCall = Uri.parse(uri.toString() + '?$queryString');
       return callUrl(uriToCall, HttpMethod.get, data, token);
     }

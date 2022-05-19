@@ -14,7 +14,9 @@ class CommentService extends ApiBase {
   CommentService(this._token);
 
   Future<Page<Comment>> getComments(
-      PageRequest pageRequest, Product product) async {
+    PageRequest pageRequest,
+    Product product,
+  ) async {
     final apiResponse = await get(
       Uri.parse('${Constants.commentsUrl}/${product.code}/comments'),
       queryParams: pageRequest.toMap(),

@@ -53,7 +53,9 @@ class AuthService extends ApiBase {
   }
 
   Future<void> updateUserAccount(
-      AccountUpdateRequest accountUpdateRequest, String token) async {
+    AccountUpdateRequest accountUpdateRequest,
+    String token,
+  ) async {
     final updateResponse = await put(Uri.parse(Constants.accountUpdateUrl),
         data: accountUpdateRequest.toJson(), token: token);
     _currentUser = User.fromJson(

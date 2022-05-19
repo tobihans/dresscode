@@ -41,6 +41,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: const OwnAppBar(),
       drawer: const AppDrawer(),
@@ -107,14 +108,14 @@ class _WishlistScreenState extends State<WishlistScreen> {
                                                 'Une erreur s\'est produite',
                                               ),
                                               backgroundColor:
-                                                  Theme.of(context).errorColor,
+                                                  colorScheme.error,
                                             ),
                                           );
                                         }
                                       },
                                       icon: Icon(
                                         Icons.delete,
-                                        color: Theme.of(context).primaryColor,
+                                        color: colorScheme.primary,
                                       ),
                                     ),
                                   ),
@@ -145,7 +146,7 @@ class WishlistScreenViewModel {
   final WishlistService wishlistService;
   final List<Product> wishlist;
 
-  WishlistScreenViewModel({
+  const WishlistScreenViewModel({
     required this.productService,
     required this.cartService,
     required this.wishlistService,

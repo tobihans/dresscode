@@ -26,6 +26,7 @@ class ProfileScreenEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -143,14 +144,14 @@ class ProfileScreenEntry extends StatelessWidget {
                       );
                     },
                     icon: Icon(editable ? Icons.edit : null),
-                    color: Theme.of(context).colorScheme.primary,
+                    color: colorScheme.primary,
                   ),
                 ],
               ),
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: Theme.of(context).colorScheme.onBackground,
+                    color: colorScheme.onBackground,
                   ),
                 ),
               ),

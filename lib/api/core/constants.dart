@@ -12,7 +12,6 @@ class Constants {
   static const String accountPictureUpdateUrl = '$apiUrl/auth/update/picture';
   static const String passwordUpdateUrl = '$apiUrl/auth/update/password';
 
-
   static const httpCodes = {
     200: 'OK',
     201: 'Created',

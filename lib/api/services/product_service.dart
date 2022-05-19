@@ -20,7 +20,9 @@ class ProductService extends ApiBase {
   }
 
   Future<List<Product>> getRelatedProducts(
-      PageRequest pageRequest, Product product) async {
+    PageRequest pageRequest,
+    Product product,
+  ) async {
     final apiResponse = await get(
       Uri.parse('${Constants.productsUrl}/${product.code}/related'),
       queryParams: pageRequest.toMap(),
@@ -30,7 +32,9 @@ class ProductService extends ApiBase {
   }
 
   Future<Page<Product>> findProductsByName(
-      PageRequest pageRequest, String name) async {
+    PageRequest pageRequest,
+    String name,
+  ) async {
     final apiResponse = await get(
       Uri.parse('${Constants.productsUrl}/search/$name'),
       queryParams: pageRequest.toMap(),
@@ -40,7 +44,9 @@ class ProductService extends ApiBase {
   }
 
   Future<Page<Product>> findProductsByCategory(
-      PageRequest pageRequest, Category category) async {
+    PageRequest pageRequest,
+    Category category,
+  ) async {
     final apiResponse = await get(
       Uri.parse('${Constants.productsUrl}/category/${category.name}'),
       queryParams: pageRequest.toMap(),

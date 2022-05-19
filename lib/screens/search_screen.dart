@@ -32,9 +32,10 @@ class _SearchPage extends State<SearchScreen> {
   }
 
   void onClear() {
-    _search = '';
     _searchController.clear();
-    setState(() {});
+    setState(() {
+      _search = '';
+    });
   }
 
   Future<void> previous() async {
@@ -155,7 +156,8 @@ class _SearchPage extends State<SearchScreen> {
                         );
                       },
                     ),
-                    if (productPage.number < productPage.totalPages - 1)
+                    if (productPage.number < productPage.totalPages - 1 ||
+                        productPage.number > 0)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[

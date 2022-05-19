@@ -126,7 +126,7 @@ class _ShopScreenState extends State<ShopScreen> {
                                   padding: EdgeInsets.all(20),
                                   child: CircularProgressIndicator(),
                                 ),
-                              )
+                              ),
                           ],
                         )
                       : const Center(

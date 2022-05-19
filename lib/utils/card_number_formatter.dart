@@ -11,7 +11,6 @@ class CardNumberFormatter extends TextInputFormatter {
     if (newValue.selection.baseOffset == 0) {
       return newValue;
     }
-
     final StringBuffer bufferString = StringBuffer();
     for (int i = 0; i < inputText.length; i++) {
       bufferString.write(inputText[i]);
