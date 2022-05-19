@@ -11,6 +11,7 @@ class PaymentItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO
     return Text(payment.toJson());
   }
 }
