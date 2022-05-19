@@ -1,4 +1,6 @@
 class Constants {
+  Constants._();
+
   static const String apiUrl = 'https://dresscode-backend.herokuapp.com';
   static const String registerUrl = '$apiUrl/auth/user/register';
   static const String loginUrl = '$apiUrl/auth/login';
@@ -11,6 +13,8 @@ class Constants {
   static const String accountUpdateUrl = '$apiUrl/auth/update';
   static const String accountPictureUpdateUrl = '$apiUrl/auth/update/picture';
   static const String passwordUpdateUrl = '$apiUrl/auth/update/password';
+  static const String clientPaymentsUrl = '$apiUrl/payment/client';
+  static const String paymentSubmissionUrl = '$apiUrl/payment/submit';
 
   static const httpCodes = {
     200: 'OK',

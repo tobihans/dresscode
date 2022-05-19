@@ -56,7 +56,9 @@ class ProductCard extends StatelessWidget {
                   );
                 },
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(8.0),
+                  ),
                   child: FadeInImage(
                     placeholder: Image.asset(
                       'assets/loading.gif',

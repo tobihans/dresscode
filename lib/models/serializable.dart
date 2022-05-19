@@ -4,6 +4,7 @@ import 'package:dresscode/models/category.dart';
 import 'package:dresscode/models/comment.dart';
 import 'package:dresscode/models/image.dart';
 import 'package:dresscode/models/notification.dart';
+import 'package:dresscode/models/payment.dart';
 import 'package:dresscode/models/product.dart';
 import 'package:dresscode/models/user.dart';
 
@@ -32,6 +33,7 @@ class SerializableFactory {
     User: (final Map<String, dynamic> map) => User.fromMap(map),
     Comment: (final Map<String, dynamic> map) => Comment.fromMap(map),
     Notification: (final Map<String, dynamic> map) => Notification.fromMap(map),
+    Payment: (final Map<String, dynamic> map) => Payment.fromMap(map),
   };
 
   static T fromMap<T extends Serializable>(final Map<String, dynamic> map) {

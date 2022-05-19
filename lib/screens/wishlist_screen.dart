@@ -28,6 +28,12 @@ class _WishlistScreenState extends State<WishlistScreen> {
     super.initState();
   }
 
+  Future<void> _refresh() async {
+    setState(() {
+      _wishlistScreenViewModelFuture = WishlistScreenViewModel.init();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -36,11 +42,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
       drawer: const AppDrawer(),
       floatingActionButton: const FloatingBtn(),
       body: RefreshIndicator(
-        onRefresh: () async {
-          setState(() {
-            _wishlistScreenViewModelFuture = WishlistScreenViewModel.init();
-          });
-        },
+        onRefresh: _refresh,
         child: FutureBuilder<WishlistScreenViewModel>(
           future: _wishlistScreenViewModelFuture,
           builder: (context, snapshot) {
@@ -50,15 +52,16 @@ class _WishlistScreenState extends State<WishlistScreen> {
               );
             }
             if (snapshot.hasData) {
+              final viewModel = snapshot.data!;
               return SingleChildScrollView(
                 padding: const EdgeInsets.all(10),
-                child: (snapshot.data?.wishlist.isNotEmpty ?? false)
+                child: (viewModel.wishlist.isNotEmpty)
                     ? StaggeredGrid.count(
                         crossAxisCount: 2,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
                         children: [
-                          for (Product p in snapshot.data!.wishlist)
+                          for (Product p in viewModel.wishlist)
                             Card(
                               elevation: 10,
                               borderOnForeground: true,
@@ -66,18 +69,15 @@ class _WishlistScreenState extends State<WishlistScreen> {
                                 children: [
                                   ProductCard(
                                     product: p,
-                                    productService:
-                                        snapshot.data!.productService,
-                                    cartService: snapshot.data!.cartService,
-                                    wishlistService:
-                                        snapshot.data!.wishlistService,
+                                    productService: viewModel.productService,
+                                    cartService: viewModel.cartService,
+                                    wishlistService: viewModel.wishlistService,
                                     width: double.infinity,
                                     trailing: IconButton(
                                       onPressed: () async {
                                         try {
-                                          await snapshot.data!.wishlistService
+                                          await viewModel.wishlistService
                                               .removeFromWishlist(p);
-                                          setState(() {});
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             const SnackBar(
@@ -86,6 +86,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                                               ),
                                             ),
                                           );
+                                          await _refresh();
                                         } on Exception {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
@@ -93,8 +94,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                                               content: const Text(
                                                 'Une erreur s\'est produite',
                                               ),
-                                              backgroundColor:
-                                                  colorScheme.error,
+                                              backgroundColor: colorScheme.error,
                                             ),
                                           );
                                         }
