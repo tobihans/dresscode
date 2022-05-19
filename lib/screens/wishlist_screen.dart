@@ -20,22 +20,11 @@ class WishlistScreen extends StatefulWidget {
 }
 
 class _WishlistScreenState extends State<WishlistScreen> {
-  Future<WishlistScreenViewModel> _initData() async {
-    final token = await TokenStorage.getToken();
-    final productService = ProductService();
-    final wishlistService = WishlistService(token);
-    final cartService = CartService(token);
-    final wishlist = await wishlistService.getWishlist();
-    return WishlistScreenViewModel(
-      productService: productService,
-      cartService: cartService,
-      wishlistService: wishlistService,
-      wishlist: wishlist,
-    );
-  }
+  late Future<WishlistScreenViewModel> _wishlistScreenViewModelFuture;
 
   @override
   void initState() {
+    _wishlistScreenViewModelFuture = WishlistScreenViewModel.init();
     super.initState();
   }
 
@@ -48,22 +37,19 @@ class _WishlistScreenState extends State<WishlistScreen> {
       floatingActionButton: const FloatingBtn(),
       body: RefreshIndicator(
         onRefresh: () async {
-          setState(() {});
+          setState(() {
+            _wishlistScreenViewModelFuture = WishlistScreenViewModel.init();
+          });
         },
-        child: FutureBuilder(
-          future: _initData(),
-          builder: (context, AsyncSnapshot<WishlistScreenViewModel> snapshot) {
+        child: FutureBuilder<WishlistScreenViewModel>(
+          future: _wishlistScreenViewModelFuture,
+          builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
             }
-            if (snapshot.hasError) {
-              return const Center(
-                child: Text('Une erreur est survenue'),
-              );
-            }
-            if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasData) {
               return SingleChildScrollView(
                 padding: const EdgeInsets.all(10),
                 child: (snapshot.data?.wishlist.isNotEmpty ?? false)
@@ -132,7 +118,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       ),
               );
             }
-            return Container();
+            return const Center(
+              child: Text('Une erreur s\'est produite'),
+            );
           },
         ),
       ),
@@ -152,4 +140,18 @@ class WishlistScreenViewModel {
     required this.wishlistService,
     required this.wishlist,
   });
+
+  static Future<WishlistScreenViewModel> init() async {
+    final token = await TokenStorage.getToken();
+    final productService = ProductService();
+    final wishlistService = WishlistService(token);
+    final cartService = CartService(token);
+    final wishlist = await wishlistService.getWishlist();
+    return WishlistScreenViewModel(
+      productService: productService,
+      cartService: cartService,
+      wishlistService: wishlistService,
+      wishlist: wishlist,
+    );
+  }
 }

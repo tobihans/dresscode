@@ -25,39 +25,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<HomeViewModel> viewModelFuture;
+  late Future<HomeViewModel> _homeViewModelFuture;
 
   @override
   void initState() {
-    viewModelFuture = init();
+    _homeViewModelFuture = HomeViewModel.init();
     super.initState();
-  }
-
-  Future<HomeViewModel> init() async {
-    final token = await TokenStorage.getToken();
-    final wishlistService = WishlistService(token);
-    final cartService = CartService(token);
-    final categoryService = CategoryService();
-    final categoriesPage = await categoryService.getCategories(
-      PageRequest(
-        pageNumber: 0,
-        pageSize: 35,
-      ),
-    );
-    final productService = ProductService();
-    final products = await productService.getProducts(
-      PageRequest(
-        pageNumber: 0,
-        pageSize: 20,
-      ),
-    );
-    return HomeViewModel(
-      productService: productService,
-      cartService: cartService,
-      wishlistService: wishlistService,
-      categories: categoriesPage.content,
-      bestProducts: products.content,
-    );
   }
 
   @override
@@ -81,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             FutureBuilder<HomeViewModel>(
-              future: viewModelFuture,
+              future: _homeViewModelFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -206,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: TextButton(
                       onPressed: () {
                         setState(() {
-                          viewModelFuture = init();
+                          _homeViewModelFuture = HomeViewModel.init();
                         });
                       },
                       child: const Text(
@@ -238,4 +211,31 @@ class HomeViewModel {
     required this.bestProducts,
     required this.categories,
   });
+
+  static Future<HomeViewModel> init() async {
+    final token = await TokenStorage.getToken();
+    final wishlistService = WishlistService(token);
+    final cartService = CartService(token);
+    final categoryService = CategoryService();
+    final categoriesPage = await categoryService.getCategories(
+      PageRequest(
+        pageNumber: 0,
+        pageSize: 35,
+      ),
+    );
+    final productService = ProductService();
+    final products = await productService.getProducts(
+      PageRequest(
+        pageNumber: 0,
+        pageSize: 20,
+      ),
+    );
+    return HomeViewModel(
+      productService: productService,
+      cartService: cartService,
+      wishlistService: wishlistService,
+      categories: categoriesPage.content,
+      bestProducts: products.content,
+    );
+  }
 }

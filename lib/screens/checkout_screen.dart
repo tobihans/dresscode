@@ -18,26 +18,12 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
-  Future<CheckoutViewModel> init() async {
-    final token = await TokenStorage.getToken();
-    final cartService = CartService(token);
-    final cart = await cartService.getCart();
-    final cartProducts = <Product, int>{};
-    for (var product in cart) {
-      cartProducts[product] = (cartProducts[product] ?? 0) + 1;
-    }
-    final products = cartProducts.keys
-        .map((e) => ProductAndQuantity(e, cartProducts[e]!))
-        .toList();
-    final cartTotal = products.fold(0, (int previousValue, element) {
-      return previousValue + element.key.price * element.value;
-    });
-    return CheckoutViewModel(
-        productService: ProductService(),
-        cartService: cartService,
-        wishlistService: WishlistService(token),
-        cartProducts: products,
-        totalPrice: cartTotal);
+  late Future<CheckoutViewModel> _checkoutViewModelFuture;
+
+  @override
+  void initState() {
+    _checkoutViewModelFuture = CheckoutViewModel.init();
+    super.initState();
   }
 
   @override
@@ -45,103 +31,110 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     return Scaffold(
       appBar: const OwnAppBar(),
       drawer: const AppDrawer(),
-      body: FutureBuilder<CheckoutViewModel>(
-        future: init(),
-        builder: (_, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.hasData) {
-            final checkoutViewModel = snapshot.data!;
-            return ListView(
-              children: <Widget>[
-                const Padding(
-                  padding: EdgeInsets.only(top: 10.0),
-                  child: Center(
-                    child: Text(
-                      'Paiement',
-                      style: TextStyle(fontSize: 17),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          _checkoutViewModelFuture = CheckoutViewModel.init();
+        },
+        child: FutureBuilder<CheckoutViewModel>(
+          future: _checkoutViewModelFuture,
+          builder: (_, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.hasData) {
+              final checkoutViewModel = snapshot.data!;
+              return ListView(
+                children: <Widget>[
+                  const Padding(
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: Center(
+                      child: Text(
+                        'Paiement',
+                        style: TextStyle(fontSize: 17),
+                      ),
                     ),
                   ),
-                ),
-                Column(
-                  children: checkoutViewModel.cartProducts
-                      .map(
-                        (p) => Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: ProductTile(
-                                  product: p.key,
-                                  productService:
-                                      checkoutViewModel.productService,
-                                  wishlistService:
-                                      checkoutViewModel.wishlistService,
-                                  cartService: checkoutViewModel.cartService,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 5.0,
-                                ),
-                                child: Text(
-                                  '(${p.value})',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
+                  Column(
+                    children: checkoutViewModel.cartProducts
+                        .map(
+                          (p) => Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: ProductTile(
+                                    product: p.key,
+                                    productService:
+                                        checkoutViewModel.productService,
+                                    wishlistService:
+                                        checkoutViewModel.wishlistService,
+                                    cartService: checkoutViewModel.cartService,
                                   ),
                                 ),
-                              )
-                            ],
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 5.0,
+                                  ),
+                                  child: Text(
+                                    '(${p.value})',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      )
-                      .toList(),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Total : ${checkoutViewModel.totalPrice} XOF',
-                      style: const TextStyle(fontSize: 17),
-                    ),
-                  ],
-                ),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 25,
+                        )
+                        .toList(),
                   ),
-                  child: CheckoutForm(onCheckout: (_, __, ___) async {}),
-                ),
-              ],
-            );
-          } else {
-            return Container(
-              margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height / 3,
-              ),
-              child: Center(
-                child: Column(
-                  children: <Widget>[
-                    const Text(
-                      'Une erreur s\'est produite',
-                      style: TextStyle(fontSize: 17),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Total : ${checkoutViewModel.totalPrice} XOF',
+                        style: const TextStyle(fontSize: 17),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 25,
                     ),
-                    TextButton(
-                      onPressed: () {
-                        setState(() {});
-                      },
-                      child: const Text('Réessayer'),
+                    child: CheckoutForm(
+                      onCheckout: (_, __, ___) async {},
                     ),
-                  ],
+                  ),
+                ],
+              );
+            } else {
+              return Container(
+                margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height / 3,
                 ),
-              ),
-            );
-          }
-        },
+                child: Center(
+                  child: Column(
+                    children: <Widget>[
+                      const Text(
+                        'Une erreur s\'est produite',
+                        style: TextStyle(fontSize: 17),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          setState(() {});
+                        },
+                        child: const Text('Réessayer'),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+          },
+        ),
       ),
     );
   }
@@ -154,11 +147,34 @@ class CheckoutViewModel {
   final List<ProductAndQuantity> cartProducts;
   final int totalPrice;
 
-  CheckoutViewModel({
+  const CheckoutViewModel({
     required this.productService,
     required this.cartService,
     required this.wishlistService,
     required this.cartProducts,
     required this.totalPrice,
   });
+
+  static Future<CheckoutViewModel> init() async {
+    final token = await TokenStorage.getToken();
+    final cartService = CartService(token);
+    final cart = await cartService.getCart();
+    final cartProducts = <Product, int>{};
+    for (final product in cart) {
+      cartProducts[product] = (cartProducts[product] ?? 0) + 1;
+    }
+    final products = cartProducts.keys
+        .map((e) => ProductAndQuantity(e, cartProducts[e]!))
+        .toList();
+    final cartTotal = products.fold(0, (int previousValue, element) {
+      return previousValue + element.key.price * element.value;
+    });
+    return CheckoutViewModel(
+      productService: ProductService(),
+      cartService: cartService,
+      wishlistService: WishlistService(token),
+      cartProducts: products,
+      totalPrice: cartTotal,
+    );
+  }
 }

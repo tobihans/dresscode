@@ -36,9 +36,10 @@ class _ProductScreenState extends State<ProductScreen> {
   late CartService _cartService;
   late WishlistService _wishlistService;
   late Future<bool> _isInWishlistFuture;
+  late Future<List<Product>> _relatedProductsFuture;
   bool _isLoading = false;
 
-  Future<void> addToCart(Product product) async {
+  Future<void> addToCart() async {
     await _cartService.addProductToCart(widget.product);
   }
 
@@ -61,6 +62,7 @@ class _ProductScreenState extends State<ProductScreen> {
     _cartService = widget.cartService;
     _wishlistService = widget.wishlistService;
     _isInWishlistFuture = _wishlistService.isInWishlist(widget.product);
+    _relatedProductsFuture = getRelatedProducts();
     super.initState();
   }
 
@@ -103,7 +105,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     _isLoading = true;
                   });
                   try {
-                    await addToCart(widget.product);
+                    await addToCart();
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Produit ajouté au panier'),
@@ -112,25 +114,26 @@ class _ProductScreenState extends State<ProductScreen> {
                   } on ApiHttpException catch (e) {
                     if (e.isAuthException) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                              'Vous devez être authentifié pour réaliser cette action'),
-                          backgroundColor: Colors.red,
+                        SnackBar(
+                          content: const Text(
+                            'Vous devez être authentifié pour réaliser cette action',
+                          ),
+                          backgroundColor: colorScheme.error,
                         ),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Une erreur s\'est produite'),
-                          backgroundColor: Colors.red,
+                        SnackBar(
+                          content: const Text('Une erreur s\'est produite'),
+                          backgroundColor: colorScheme.error,
                         ),
                       );
                     }
                   } on Exception {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Une erreur s\'est produite'),
-                        backgroundColor: Colors.red,
+                      SnackBar(
+                        content: const Text('Une erreur s\'est produite'),
+                        backgroundColor: colorScheme.error,
                       ),
                     );
                   } finally {
@@ -219,7 +222,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     onPressed: fresh,
                   );
                 },
-              )
+              ),
             ],
           ),
           const Padding(
@@ -248,7 +251,7 @@ class _ProductScreenState extends State<ProductScreen> {
           Container(
             margin: const EdgeInsets.only(bottom: 30),
             child: FutureBuilder<List<Product>>(
-              future: getRelatedProducts(),
+              future: _relatedProductsFuture,
               builder: (ctx, snapshot) {
                 if (snapshot.hasError) {
                   return const Center(
