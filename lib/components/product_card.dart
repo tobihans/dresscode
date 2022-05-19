@@ -60,7 +60,9 @@ class ProductCard extends StatelessWidget {
                   child: FadeInImage(
                     placeholder: Image.asset(
                       'assets/loading.gif',
-                      fit: BoxFit.fill,
+                      fit: BoxFit.fitWidth,
+                      width: 30,
+                      height: 30,
                     ).image,
                     imageErrorBuilder: (_, __, ___) {
                       return Image.asset(

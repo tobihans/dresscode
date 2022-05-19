@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 OutlineInputBorder enabledBorder() {
   return OutlineInputBorder(
     borderSide: const BorderSide(
-      width: 3,
+      width: 2,
       color: Colors.black,
     ),
     borderRadius: BorderRadius.circular(15),
@@ -16,7 +16,7 @@ OutlineInputBorder enabledBorder() {
 OutlineInputBorder focusedBorder(Color primaryColor) {
   return OutlineInputBorder(
     borderSide: BorderSide(
-      width: 3,
+      width: 2,
       color: primaryColor,
     ),
     borderRadius: BorderRadius.circular(15),
@@ -26,7 +26,7 @@ OutlineInputBorder focusedBorder(Color primaryColor) {
 OutlineInputBorder errorBorder() {
   return OutlineInputBorder(
     borderSide: const BorderSide(
-      width: 3,
+      width: 2,
       color: Colors.red,
     ),
     borderRadius: BorderRadius.circular(15),
@@ -36,7 +36,7 @@ OutlineInputBorder errorBorder() {
 OutlineInputBorder focusedErrorBorder() {
   return OutlineInputBorder(
     borderSide: const BorderSide(
-      width: 3,
+      width: 2,
       color: Colors.red,
     ),
     borderRadius: BorderRadius.circular(15),

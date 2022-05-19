@@ -102,7 +102,7 @@ class _SearchPage extends State<SearchScreen> {
           ),
           child: TextField(
             controller: _searchController,
-            onChanged: onSearch,
+            onSubmitted: onSearch,
             decoration: InputDecoration(
               hintText: 'Recherche ...',
               prefixIcon: const Icon(Icons.search),

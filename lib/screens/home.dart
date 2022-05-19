@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return Column(
                     children: <Widget>[
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        margin: const EdgeInsets.only(top: 14.0,bottom: 10),
                         child: const Text(
                           'Les catégories',
                           style: TextStyle(fontSize: 18),
@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        margin: const EdgeInsets.only(top: 20.0,bottom: 10),
                         child: const Text(
                           'Les top modèles',
                           style: TextStyle(fontSize: 18),
@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        margin: const EdgeInsets.only(top: 20.0,bottom: 10),
                         child: const Text(
                           'Les articles phares',
                           style: TextStyle(fontSize: 18),

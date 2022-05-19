@@ -44,6 +44,7 @@ class _ImageWidgetGalleryState extends State<ImageWidgetGallery> {
                     ? null
                     : () => setState(() => currentIndex = idx),
                 child: Container(
+                  padding: EdgeInsets.zero,
                   margin: const EdgeInsets.all(5),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
@@ -65,10 +66,10 @@ class _ImageWidgetGalleryState extends State<ImageWidgetGallery> {
                     border: currentIndex == idx
                         ? Border.all(
                             color: Colors.red,
-                            width: 4.0,
+                            width: 2.0,
                           )
                         : null,
-                    borderRadius: BorderRadius.circular(15),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
               );
