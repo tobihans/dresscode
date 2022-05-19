@@ -2,6 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logging/logging.dart';
 
 class TokenStorage {
+  TokenStorage._();
   static String? _token;
   static const String _tokenKey = 'token';
   static const FlutterSecureStorage _storage = FlutterSecureStorage();

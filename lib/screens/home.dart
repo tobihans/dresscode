@@ -29,8 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _homeViewModelFuture = HomeViewModel.init();
     super.initState();
+    _homeViewModelFuture = HomeViewModel.init();
   }
 
   @override
@@ -42,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: const FloatingBtn(),
       body: RefreshIndicator(
         onRefresh: () async {
-          setState(() {});
+          initState();
         },
         child: ListView(
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 12.0),
