@@ -46,7 +46,9 @@ class _CartWidgetState extends State<CartWidget> {
     for (var product in cart) {
       cartProducts[product] = (cartProducts[product] ?? 0) + 1;
     }
-    return cartProducts.keys.map((e) => ProductAndQuantity(e, cartProducts[e]!)).toList();
+    return cartProducts.keys
+        .map((e) => ProductAndQuantity(e, cartProducts[e]!))
+        .toList();
   }
 
   @override
@@ -65,7 +67,8 @@ class _CartWidgetState extends State<CartWidget> {
             );
           }
 
-          final cartTotal = cartProductsList.fold(0, (int previousValue, element) {
+          final cartTotal =
+              cartProductsList.fold(0, (int previousValue, element) {
             return previousValue + element.key.price * element.value;
           });
 
@@ -247,7 +250,7 @@ class _CartWidgetState extends State<CartWidget> {
                 ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.9,
                 child: ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pushNamed(Routes.checkout);

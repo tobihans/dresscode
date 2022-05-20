@@ -1,14 +1,15 @@
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:dresscode/api/services/cart_service.dart';
 import 'package:dresscode/api/services/product_service.dart';
 import 'package:dresscode/api/services/wishlist_service.dart';
 import 'package:dresscode/components/app_bar.dart';
 import 'package:dresscode/components/app_drawer.dart';
 import 'package:dresscode/components/cart_widget.dart';
-import 'package:dresscode/components/checkout_form.dart';
 import 'package:dresscode/components/product_tile.dart';
 import 'package:dresscode/models/product.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({Key? key}) : super(key: key);
@@ -45,68 +46,307 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             }
             if (snapshot.hasData) {
               final checkoutViewModel = snapshot.data!;
-              return ListView(
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10.0),
-                    child: Center(
-                      child: Text(
-                        'Paiement',
-                        style: TextStyle(fontSize: 17),
-                      ),
-                    ),
-                  ),
                   Column(
-                    children: checkoutViewModel.cartProducts
-                        .map(
-                          (p) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: ProductTile(
-                                    product: p.key,
-                                    productService:
-                                        checkoutViewModel.productService,
-                                    wishlistService:
-                                        checkoutViewModel.wishlistService,
-                                    cartService: checkoutViewModel.cartService,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 5.0,
-                                  ),
-                                  child: Text(
-                                    '(${p.value})',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 10.0, left: 20),
+                        child: Text(
+                          'Proceed to checkout',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: checkoutViewModel.cartProducts
+                            .map(
+                              (p) => Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: ProductTile(
+                                        product: p.key,
+                                        productService:
+                                            checkoutViewModel.productService,
+                                        wishlistService:
+                                            checkoutViewModel.wishlistService,
+                                        cartService:
+                                            checkoutViewModel.cartService,
+                                      ),
                                     ),
-                                  ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 5.0,
+                                      ),
+                                      child: Text(
+                                        '(${p.value})',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
+                            )
+                            .toList(),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 20),
+                            child: Text(
+                              'Total : ${checkoutViewModel.totalPrice} XOF',
+                              style: const TextStyle(fontSize: 17),
                             ),
                           ),
-                        )
-                        .toList(),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Text(
-                        'Total : ${checkoutViewModel.totalPrice} XOF',
-                        style: const TextStyle(fontSize: 17),
+                        ],
                       ),
                     ],
                   ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 25,
+                  //Button fill width
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
                     ),
-                    child: CheckoutForm(
-                      onCheckout: (_, __, ___) async {},
-                    ),
+                    onPressed: () {
+                      showFlexibleBottomSheet(
+                        minHeight: 0,
+                        initHeight: 0.5,
+                        maxHeight: 0.75,
+                        context: context,
+                        builder: (BuildContext context,
+                            ScrollController scrollController,
+                            double bottomSheetOffset) {
+                          return SafeArea(
+                            child: Material(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                  ),
+                                ),
+                                padding: const EdgeInsets.only(
+                                    left: 10.0, right: 10.0, bottom: 10.0),
+                                child: ListView(
+                                  controller: scrollController,
+                                  children: [
+                                    Container(
+                                      padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 10,
+                                        top: 10,
+                                        bottom: 10,
+                                      ),
+                                      alignment: Alignment.centerLeft,
+                                      child: const Text(
+                                        'INFORMATIONS',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0,
+                                        vertical: 10,
+                                      ),
+                                      child: TextFormField(
+                                        controller:
+                                            checkoutViewModel.nameController,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Name',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter your name';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0,
+                                        vertical: 10,
+                                      ),
+                                      child: TextFormField(
+                                        controller:
+                                            checkoutViewModel.emailController,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Email',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter your email';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0,
+                                        vertical: 10,
+                                      ),
+                                      child: TextFormField(
+                                        controller:
+                                            checkoutViewModel.addressController,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Address',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter your address';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0,
+                                        vertical: 10,
+                                      ),
+                                      child: TextFormField(
+                                        controller: checkoutViewModel
+                                            .addressZipController,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Address Zip Code',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter your address';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0,
+                                        vertical: 10,
+                                      ),
+                                      child: TextFormField(
+                                        controller:
+                                            checkoutViewModel.phoneController,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Phone',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter your phone';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0,
+                                        vertical: 10,
+                                      ),
+                                      child: TextFormField(
+                                        controller:
+                                            checkoutViewModel.countryController,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Country',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        validator: (value) {
+                                          if (value!.isEmpty) {
+                                            return 'Please enter your country';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.centerLeft,
+                                      margin: const EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 25,
+                                      ),
+                                      child: const Text(
+                                        'PAYMENT METHOD -- CARD',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          //uppercase: true,
+                                        ),
+                                        //upperCase: true,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0,
+                                        vertical: 10,
+                                      ),
+                                      child: stripe.CardField(
+                                        decoration: const InputDecoration(
+                                          labelText: 'Card Number',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        controller: checkoutViewModel
+                                            .stripeCardController,
+                                        onCardChanged: (card) {
+                                          setState(() {
+                                            checkoutViewModel.card = card;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 18,
+                                        vertical: 10,
+                                      ),
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          minimumSize:
+                                              const Size.fromHeight(50),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                        onPressed: () async {
+                                          checkoutViewModel.initPayment();
+                                        },
+                                        child: checkoutViewModel.card != null
+                                            ? const Text('Proceed to checkout')
+                                            : const Text('Fill card details'),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: const Text('Proceed to checkout'),
                   ),
                 ],
               );
@@ -146,6 +386,17 @@ class CheckoutViewModel {
   final WishlistService wishlistService;
   final List<ProductAndQuantity> cartProducts;
   final int totalPrice;
+  stripe.CardFieldInputDetails? card;
+
+  //controllers
+  final stripeCardController = stripe.CardEditController();
+  //name controller, email controller, phone controller,address controller, adress zip, country controller
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final addressController = TextEditingController();
+  final addressZipController = TextEditingController();
+  final countryController = TextEditingController();
 
   CheckoutViewModel({
     required this.productService,
@@ -178,5 +429,8 @@ class CheckoutViewModel {
     );
   }
 
-  createPaymentCard() {}
+  initPayment() async {
+    final paymentMethod = await stripe.Stripe.instance
+        .createPaymentMethod(const stripe.PaymentMethodParams.card());
+  }
 }
