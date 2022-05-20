@@ -3,6 +3,7 @@ import 'package:dresscode/utils/notification_service.dart';
 import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:logging/logging.dart';
 import 'package:dresscode/app.dart';
 
@@ -25,9 +26,12 @@ Future<void> initAuth() async {
 }
 
 Future<void> main() async {
+  Stripe.publishableKey =
+      "pk_test_51Kv24qCChyL9hOISBZ842XIzYLi5KcVPk5W2Lf8z54zFyW2Tu7XkMcU2B7p9O76q9oF16ZWlX8q6AhajPJjAlEpq00mzJknZsu";
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService.initDatabase();
   configureLogger();
   await initAuth();
+
   runApp(const App());
 }

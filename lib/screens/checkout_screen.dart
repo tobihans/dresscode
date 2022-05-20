@@ -147,7 +147,7 @@ class CheckoutViewModel {
   final List<ProductAndQuantity> cartProducts;
   final int totalPrice;
 
-  const CheckoutViewModel({
+  CheckoutViewModel({
     required this.productService,
     required this.cartService,
     required this.wishlistService,
@@ -177,4 +177,6 @@ class CheckoutViewModel {
       totalPrice: cartTotal,
     );
   }
+
+  createPaymentCard() {}
 }
