@@ -34,7 +34,7 @@ class Payment extends Serializable {
   @override
   Map<String, dynamic> toMap() => {
         'code': code,
-        'createdAt': createdAt,
+        'createdAt': createdAt.toString(),
         'price': price,
         'products': products,
       };

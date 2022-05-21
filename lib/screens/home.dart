@@ -13,7 +13,6 @@ import 'package:dresscode/components/app_bar.dart';
 import 'package:dresscode/components/floating_btn.dart';
 import 'package:dresscode/components/home_hero.dart';
 import 'package:dresscode/components/category_widget.dart';
-import 'package:dresscode/components/top_model.dart';
 
 import 'package:dresscode/api/services/product_service.dart';
 
@@ -85,28 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             );
                           },
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(top: 20.0,bottom: 10),
-                        child: const Text(
-                          'Les top modèles',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      ),
-                      SingleChildScrollView(
-                        padding: const EdgeInsets.symmetric(vertical: 6.0),
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          // TODO: Bon faut faire qq chose de ce trc sinon ça gicle
-                          children: List.generate(
-                            9,
-                            (e) => TopModel(
-                              name: 'Jan$e',
-                              url:
-                                  'https://source.unsplash.com/random/1600x900?mode&clothe&dress&style&beautiful&sig=10$e',
-                            ),
-                          ).toList(),
                         ),
                       ),
                       Container(

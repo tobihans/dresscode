@@ -86,7 +86,7 @@ class PurchaseHistoryViewModel {
       result = await paymentService.getPayments(pageRequest);
       payments.addAll(result.content);
       pageRequest.pageNumber++;
-    } while (result.content.isNotEmpty);
+    } while (payments.length < result.totalElements);
     return PurchaseHistoryViewModel(payments: payments);
   }
 }

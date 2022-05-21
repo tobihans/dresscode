@@ -1,3 +1,5 @@
+import 'package:dresscode/api/services/password_recuperation_service.dart';
+import 'package:dresscode/requests/password_reset_request.dart';
 import 'package:flutter/material.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:dresscode/utils/validator.dart';
@@ -14,6 +16,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
   final _formKey = GlobalKey<FormState>();
   final _codeController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _passwordRecuperationService = PasswordRecuperationService();
   bool _isLoading = false;
   bool _isObscure = true;
 
@@ -24,7 +27,10 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
   }
 
   Future<void> submit() async {
-    throw Exception();
+    await _passwordRecuperationService.resetUserPassword(PasswordResetRequest(
+      token: _codeController.text,
+      password: _passwordController.text,
+    ));
   }
 
   @override

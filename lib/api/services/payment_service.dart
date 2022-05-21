@@ -5,6 +5,7 @@ import 'package:dresscode/api/core/constants.dart';
 import 'package:dresscode/models/page.dart';
 import 'package:dresscode/models/payment.dart';
 import 'package:dresscode/requests/page_request.dart';
+import 'package:dresscode/requests/payment_request.dart';
 
 class PaymentService extends ApiBase {
   final String _token;
@@ -19,5 +20,13 @@ class PaymentService extends ApiBase {
     );
     final content = jsonEncode(jsonDecode(apiResponse)['content']);
     return Page<Payment>.fromJson(content);
+  }
+
+  Future<void> makePayment(PaymentRequest paymentRequest) async {
+    await post(
+      Uri.parse(Constants.paymentSubmissionUrl),
+      data: paymentRequest.toJson(),
+      token: _token
+    );
   }
 }

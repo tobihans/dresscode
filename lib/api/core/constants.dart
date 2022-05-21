@@ -15,6 +15,8 @@ class Constants {
   static const String passwordUpdateUrl = '$apiUrl/auth/update/password';
   static const String clientPaymentsUrl = '$apiUrl/payment/client';
   static const String paymentSubmissionUrl = '$apiUrl/payment/submit';
+  static const String forgotPasswordUrl = '$apiUrl/auth/forgot';
+  static const String passwordResetUrl = '$apiUrl/auth/reset';
 
   static const httpCodes = {
     200: 'OK',

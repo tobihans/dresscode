@@ -9,32 +9,34 @@ import 'package:flutter/material.dart';
 
 class ProductTile extends StatelessWidget {
   final Product product;
-  final ProductService productService;
-  final CartService cartService;
-  final WishlistService wishlistService;
+  final ProductService? productService;
+  final CartService? cartService;
+  final WishlistService? wishlistService;
 
   const ProductTile({
     Key? key,
     required this.product,
-    required this.productService,
-    required this.cartService,
-    required this.wishlistService,
+    this.productService,
+    this.cartService,
+    this.wishlistService,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ProductScreen(
-              product: product,
-              productService: productService,
-              wishlistService: wishlistService,
-              cartService: cartService,
+        if(productService != null && wishlistService != null && cartService != null) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ProductScreen(
+                product: product,
+                productService: productService!,
+                wishlistService: wishlistService!,
+                cartService: cartService!,
+              ),
             ),
-          ),
-        );
+          );
+        }
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
@@ -74,9 +76,12 @@ class ProductTile extends StatelessWidget {
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width / 12,
+                    left: MediaQuery.of(context).size.width / 20,
                   ),
-                  child: Text(product.name),
+                  child: Text(
+                    product.name,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),

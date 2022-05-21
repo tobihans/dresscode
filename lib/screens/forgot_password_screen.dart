@@ -1,3 +1,5 @@
+import 'package:dresscode/api/services/password_recuperation_service.dart';
+import 'package:dresscode/requests/forgot_password_request.dart';
 import 'package:dresscode/utils/routes.dart';
 import 'package:dresscode/utils/validator.dart';
 import 'package:dresscode/components/form_input_borders.dart' as fib;
@@ -13,10 +15,15 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final _passwordRecuperationService = PasswordRecuperationService();
   bool _isLoading = false;
 
   Future<void> submit() async {
-    throw Exception();
+    await _passwordRecuperationService.startPasswordResetProcess(
+      ForgotPasswordRequest(
+        email: _emailController.text,
+      ),
+    );
   }
 
   @override
