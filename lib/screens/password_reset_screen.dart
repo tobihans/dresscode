@@ -26,8 +26,9 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
     });
   }
 
-  Future<void> submit() async {
-    await _passwordRecuperationService.resetUserPassword(PasswordResetRequest(
+  Future<bool> submit() async {
+    return await _passwordRecuperationService
+        .resetUserPassword(PasswordResetRequest(
       token: _codeController.text,
       password: _passwordController.text,
     ));
@@ -43,7 +44,9 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
   @override
   Widget build(BuildContext context) {
     final topMargin = MediaQuery.of(context).size.height / 5;
-    final primaryColor = Theme.of(context).colorScheme.primary;
+    final colorScheme = Theme.of(context).colorScheme;
+    final primaryColor = colorScheme.primary;
+    final errorColor = colorScheme.error;
     const allProperties = MaterialStateProperty.all;
     return Scaffold(
       body: Form(
@@ -158,15 +161,33 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                                 _isLoading = true;
                               });
                               try {
-                                await submit();
+                                final wasSuccessfull = await submit();
+                                if (wasSuccessfull) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Code vérifié. Veuillez vous connecter',
+                                      ),
+                                    ),
+                                  );
+                                  Navigator.pushNamed(context, Routes.login);
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: const Text(
+                                        'Code invalide ou expiré',
+                                      ),
+                                      backgroundColor: errorColor,
+                                    ),
+                                  );
+                                }
                               } on Exception {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: const Text(
                                       'Une erreur s\'est produite',
                                     ),
-                                    backgroundColor:
-                                        Theme.of(context).colorScheme.error,
+                                    backgroundColor: errorColor,
                                   ),
                                 );
                               } finally {
