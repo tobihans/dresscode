@@ -19,53 +19,55 @@ class _PaymentItemState extends State<PaymentItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 15),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.onBackground,
-          width: 2,
+    return Card(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 15),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.onBackground,
+            width: 2,
+          ),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Container(
-            margin: const EdgeInsets.all(5),
-            child: Text(
-              '${widget.payment.code}',
-              style: const TextStyle(fontWeight: FontWeight.bold),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              margin: const EdgeInsets.all(5),
+              child: Text(
+                '${widget.payment.code}',
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          Center(
-            child: Text(
-              'Effectué le ${widget.payment.createdAt.toString().substring(0, 10)}',
+            Center(
+              child: Text(
+                'Effectué le ${widget.payment.createdAt.toString().substring(0, 10)}',
+              ),
             ),
-          ),
-          Center(
-            child: Text(
-              'Montant total : ${widget.payment.price} XOF',
-              textAlign: TextAlign.end,
+            Center(
+              child: Text(
+                'Montant total : ${widget.payment.price} XOF',
+                textAlign: TextAlign.end,
+              ),
             ),
-          ),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                _expanded = !_expanded;
-              });
-            },
-            child: Icon(
-              _expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _expanded = !_expanded;
+                });
+              },
+              child: Icon(
+                _expanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+              ),
             ),
-          ),
-          if (_expanded)
-            Column(
-              children: widget.payment.products
-                  .map((p) => ProductTile(product: p))
-                  .toList(),
-            )
-        ],
+            if (_expanded)
+              Column(
+                children: widget.payment.products
+                    .map((p) => ProductTile(product: p))
+                    .toList(),
+              )
+          ],
+        ),
       ),
     );
   }
