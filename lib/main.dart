@@ -1,11 +1,11 @@
 import 'package:dresscode/api/services/auth_service.dart';
 import 'package:dresscode/utils/notification_service.dart';
-import 'package:dresscode/utils/token_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:logging/logging.dart';
 import 'package:dresscode/app.dart';
+import 'package:dresscode/.env.dart';
 
 void configureLogger() {
   Logger.root.level = Level.ALL;
@@ -16,18 +16,15 @@ void configureLogger() {
   });
 }
 
+/// Util method to load the user data and the token if existing
 Future<void> initAuth() async {
-  final token = await TokenStorage.getToken();
   try {
-    await AuthService().getCurrentUser(token);
-  } on Exception {
-    // Nothing because we just wanted to load the user if there was one
-  }
+    await AuthService.getUserFromTokenStorage();
+  } catch (_) {}
 }
 
 Future<void> main() async {
-  Stripe.publishableKey =
-      "pk_test_51Kv24qCChyL9hOISBZ842XIzYLi5KcVPk5W2Lf8z54zFyW2Tu7XkMcU2B7p9O76q9oF16ZWlX8q6AhajPJjAlEpq00mzJknZsu";
+  Stripe.publishableKey = stripePublishableKey;
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService.initDatabase();
   configureLogger();
