@@ -1,1 +1,1 @@
-static const String stripePublishableKey = 'pk_test_51Kv24qCChyL9hOISBZ842XIzYLi5KcVPk5W2Lf8z54zFyW2Tu7XkMcU2B7p9O76q9oF16ZWlX8q6AhajPJjAlEpq00mzJknZsu';
+const String stripePublishableKey = 'pk_test_51Kv24qCChyL9hOISBZ842XIzYLi5KcVPk5W2Lf8z54zFyW2Tu7XkMcU2B7p9O76q9oF16ZWlX8q6AhajPJjAlEpq00mzJknZsu';
